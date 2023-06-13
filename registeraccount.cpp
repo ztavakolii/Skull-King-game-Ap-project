@@ -6,6 +6,12 @@ RegisterAccount::RegisterAccount(QWidget *parent) :
     ui(new Ui::RegisterAccount)
 {
     ui->setupUi(this);
+
+    QIcon windowsIcon(":/new/image/gamename.png");
+    this->setWindowIcon(windowsIcon);
+    this->setWindowTitle("Register Account");
+
+
 }
 
 RegisterAccount::~RegisterAccount()

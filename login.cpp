@@ -8,11 +8,17 @@
 #include <windows.h>
 
 
-login::login(QWidget *parent) :
+login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::login)
 {
     ui->setupUi(this);
+
+    preWindow=previousWindow;
+
+    QIcon windowsIcon(":/new/image/gamename.png");
+    this->setWindowIcon(windowsIcon);
+    this->setWindowTitle("Login");
 
     personalWindow=new PersonalWindow;
 
@@ -52,6 +58,10 @@ login::login(QWidget *parent) :
     ui->newPasswordLineEdit->hide();
 
     ui->statusBar->hide();
+
+    ui->backButton->setIcon(QIcon(":/new/image/icons8-back-48.png"));
+    ui->backButton->setStyleSheet("border:none");
+    connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
 
     ui->loginButton->setEnabled(false);
     connect(ui->passwordLineEdit,SIGNAL(textChanged(QString)),this,SLOT(enableLoginButton()));
@@ -154,6 +164,12 @@ void login::changePasswordAndShowPersonalWindow()
 {
     // change password in file
     personalWindow->showMaximized();
+    this->close();
+}
+
+void login::backButtonClicked()
+{
+   preWindow->showMaximized();
     this->close();
 }
 

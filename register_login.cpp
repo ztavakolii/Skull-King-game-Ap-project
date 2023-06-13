@@ -8,6 +8,9 @@ register_login::register_login(QApplication*a,QWidget *parent)
 {
     ui->setupUi(this);
     showMaximized();
+    QIcon windowsIcon(":/new/image/gamename.png");
+    this->setWindowIcon(windowsIcon);
+    this->setWindowTitle("Welcome");
 
     ui->background->showFullScreen();
 
@@ -16,7 +19,7 @@ register_login::register_login(QApplication*a,QWidget *parent)
     registerAccountButton= ui->registerAccountButton;
     loginButton= ui->loginButton;
 
-    loginWindow=new login;
+    loginWindow=new login(this);
     registerAccountWindow=new RegisterAccount;
 
     loginButton->setStyleSheet("border:none");

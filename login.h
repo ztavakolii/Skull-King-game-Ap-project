@@ -14,15 +14,15 @@ class login : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit login(QWidget *parent = nullptr);
+    explicit login(QMainWindow*previousWindow,QWidget *parent = nullptr);
 
-   // void setHelloTextEdit();
 
     ~login();
 
 private:
     Ui::login *ui;
     PersonalWindow*personalWindow;
+    QMainWindow*preWindow;
 
 private slots:
     void changePasswordLineEditMode();
@@ -33,7 +33,7 @@ private slots:
     void checkMatchingUsernameandPhoneNumber();
     void enableNewPasswordOkButton();
     void changePasswordAndShowPersonalWindow();
-
+    void backButtonClicked();
 };
 
 #endif // LOGIN_H
