@@ -12,6 +12,7 @@ SOURCES += \
     game.cpp \
     login.cpp \
     main.cpp \
+    person.cpp \
     personalwindow.cpp \
     player.cpp \
     register_login.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     game.h \
     login.h \
+    person.h \
     personalwindow.h \
     player.h \
     register_login.h \
