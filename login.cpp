@@ -36,7 +36,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     ui->forgetPassWordTextEdit->hide();
     ui->skullKingLabel->hide();
 
-    QStringList countryPhoneCodes={"98","1","86","33","49","62","81","55","61","54","39","30","34","90","852","32","964","353","52"};
+    QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
     ui->comboBox->addItems(countryPhoneCodes);
     ui->phoneLineEdit->setValidator(new QIntValidator(ui->phoneLineEdit));
     ui->comboBox->hide();

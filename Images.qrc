@@ -74,5 +74,7 @@
         <file>icons8-ok-80.png</file>
         <file>game_arm.png</file>
         <file>icons8-back-48.png</file>
+        <file>10745659.jpg</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
