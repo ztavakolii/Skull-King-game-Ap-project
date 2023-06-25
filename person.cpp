@@ -117,52 +117,52 @@ int Person::add(){
 
     return 0;//the file has already exists
 }
-//int Person::match(int n){
-//     QString  file_name=user_name;
-//    if(!(QFile::exists(file_name)))//the file does not exist
-//        return 0;
+int Person::match(int n){
+     QString  file_name=user_name;
+    if(!(QFile::exists(file_name)))//the file does not exist
+        return 0;
 
-//    QString name,user_name,gender,password,phone_code,phone_number,address;
-//    int cup,coin;
+    QString name,user_name,gender,password,phone_code,phone_number,address;
+    int cup,coin;
 
-//    if(n==1){//check password
+    if(n==1){//check password
 
-//        QFile f(file_name);
-//        f.open(QIODevice::ReadOnly);
-//        QDataStream cin(&f);
-//        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
-//        f.close();
+        QFile f(file_name);
+        f.open(QIODevice::ReadOnly);
+        QDataStream cin(&f);
+        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+        f.close();
 
-//        if(this->password==password)//the password is true
-//            return 1;
+        if(this->password==password)//the password is true
+            return 1;
 
-//        else//the password is wrong
-//            return 0;
+        else//the password is wrong
+            return 0;
 
-//     }
-//    else if(n==2){//chack phone number
-//        QFile f(file_name);
-//        f.open(QIODevice::ReadOnly);
-//        QDataStream cin(&f);
-//        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
-//        f.close();
+     }
+    else if(n==2){//chack phone number
+        QFile f(file_name);
+        f.open(QIODevice::ReadOnly);
+        QDataStream cin(&f);
+        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+        f.close();
 
-//        if(this->phone_code==phone_code&&this->phone_number==phone_number){//the phone_number is true
-//            this->name=name;
-//            this->user_name=user_name;
-//            this->gender=gender;
-//            this->password=password;
-//            this->phone_code=phone_code;
-//            this->phone_number=phone_number;
-//            this->address=address;
-//            this->cup=cup;
-//            this->coin=coin;
-//            return 1;
-//        }
+        if(this->phone_code==phone_code&&this->phone_number==phone_number){//the phone_number is true
+            this->name=name;
+            this->user_name=user_name;
+            this->gender=gender;
+            this->password=password;
+            this->phone_code=phone_code;
+            this->phone_number=phone_number;
+            this->address=address;
+            this->cup=cup;
+            this->coin=coin;
+            return 1;
+        }
 
-//        else//the phone number is wrong
-//            return 0;
+        else//the phone number is wrong
+            return 0;
 
-//    }
+    }
 
-//}
+}
