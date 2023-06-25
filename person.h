@@ -8,6 +8,7 @@ private:
     QString name,user_name,gender,password,phone_code,phone_number,address;
     int coin,cup;
     bool in_game,server;
+
 public:
     Person(QString,QString,QString,QString,QString,QString,QString,int,int);
     QString get_name();
@@ -30,9 +31,9 @@ public:
     void set_address(QString);
     void set_cup(int);
     void set_coin(int);
-//    void edit(QString,QString,QString,QString,QString,QString,QString,int,int);//edit information
     void game(bool,bool);//the person is in the game
-//    int add();//add the information of person in to files
+    int add();//add the information of person in to files
+
 };
 
 #endif // PERSON_H
