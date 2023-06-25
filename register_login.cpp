@@ -14,7 +14,6 @@ register_login::register_login(QApplication*a,QWidget *parent)
 
     ui->background->showFullScreen();
 
-
     exitButton= ui->exitGameButton;
     registerAccountButton= ui->registerAccountButton;
     loginButton= ui->loginButton;
