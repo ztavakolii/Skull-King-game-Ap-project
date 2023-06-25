@@ -53,14 +53,26 @@ void RegisterAccount::on_back_button_clicked()
 
 void RegisterAccount::on_login_pushbutton_clicked()
 {
-    Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
-    if(user.add()==0){
-        QMessageBox::information(this,"Error","The information is invalid!");
+    if(ui->name_l->text().length()>0&&ui->user_name_l->text().length()>0&&ui->comboBox_2->currentText().length()>0&&ui->password_l->text().length()>0&&ui->comboBox->currentText().length()>0&&ui->phone_l->text().length()){
+        if(ui->password_l->text().length()<8)//invalid password
+            QMessageBox::information(this,"Error","The password should have at least 8 characters!");
+        else if(ui->phone_l->text().length()<10)
+            QMessageBox::information(this,"Error","The phone_number should have 10 characters!");
+        else{
+            Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
+            if(user.add()==0)//repetitious user_name
+                QMessageBox::information(this,"Error","Duplicate username or phone number!");
+
+            else{//finish create_account process
+                prewindow->showMaximized();
+                this->close();
+            }
+        }
+
     }
 
-    else{
-        prewindow->showMaximized();
-        this->close();
-    }
+    else//uncomplete form
+        QMessageBox::information(this,"Error","The form is not completely filled!");
+
 }
 

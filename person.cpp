@@ -102,18 +102,41 @@ void Person::game(bool game,bool is_server){
 }
 
 int Person::add(){
-    if(name.isNull()||user_name.isNull()||gender.isNull()||password.isNull()||phone_code.isNull()||phone_number.isNull()||address.isNull())
-        return 0;
+    QString  file_name1=user_name;
+    QString  file_name2=phone_code+phone_number;
 
-    QString  file_name=user_name;
-
-    if(!(QFile::exists(file_name))){
-    QFile f(file_name);
+    if(!(QFile::exists(file_name1))&&!(QFile::exists(file_name2))){
+    QFile f(file_name1);
     f.open(QIODevice::WriteOnly);
     QDataStream cout(&f);
     cout<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin;
+    f.close();
+    QFile f2(file_name2);
+    f2.open(QIODevice::WriteOnly);
+    QDataStream out(&f2);
+    cout<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin;
+    f2.close();
     return 1;
     }
 
     return 0;
 }
+//int Person::match(){
+//     QString  file_name=user_name;
+
+//    if(!(QFile::exists(file_name)))//the file does not exist
+//        return 0;
+
+//    QString name,user_name,gender,password,phone_code,phone_number,address;
+//    int cup,coin;
+//    QFile f(file_name);
+//    f.open(QIODevice::ReadOnly);
+//    QDataStream cin(&f);
+//    cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+//    f.close();
+//    if(this->password==password)
+//        return 1;
+//    else
+//        return 0;
+
+//}

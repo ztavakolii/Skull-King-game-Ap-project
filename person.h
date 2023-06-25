@@ -33,6 +33,7 @@ public:
     void set_coin(int);
     void game(bool,bool);//the person is in the game
     int add();//add the information of person in to files
+//    int match();//chack that the information is true or not
 
 };
 

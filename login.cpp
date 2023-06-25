@@ -107,12 +107,12 @@ void login::forgetPassword()
 
 void login::showPersonalWindow()
 {
-   // if( username and password are match)
+//    if()
     {
     personalWindow->showMaximized();
     this->close();
     }
-    //else
+//    else
 //    {
 //    ui->statusBar->show();
 //    ui->statusBar->showMessage(tr("Username and password do not match."));
