@@ -102,41 +102,67 @@ void Person::game(bool game,bool is_server){
 }
 
 int Person::add(){
-    QString  file_name1=user_name;
-    QString  file_name2=phone_code+phone_number;
+    QString  file_name=user_name;
 
-    if(!(QFile::exists(file_name1))&&!(QFile::exists(file_name2))){
-    QFile f(file_name1);
+    if(!(QFile::exists(file_name))){//create new file
+
+    QFile f(file_name);
     f.open(QIODevice::WriteOnly);
     QDataStream cout(&f);
     cout<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin;
     f.close();
-    QFile f2(file_name2);
-    f2.open(QIODevice::WriteOnly);
-    QDataStream out(&f2);
-    cout<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin;
-    f2.close();
     return 1;
+
     }
 
-    return 0;
+    return 0;//the file has already exists
 }
-//int Person::match(){
+//int Person::match(int n){
 //     QString  file_name=user_name;
-
 //    if(!(QFile::exists(file_name)))//the file does not exist
 //        return 0;
 
 //    QString name,user_name,gender,password,phone_code,phone_number,address;
 //    int cup,coin;
-//    QFile f(file_name);
-//    f.open(QIODevice::ReadOnly);
-//    QDataStream cin(&f);
-//    cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
-//    f.close();
-//    if(this->password==password)
-//        return 1;
-//    else
-//        return 0;
+
+//    if(n==1){//check password
+
+//        QFile f(file_name);
+//        f.open(QIODevice::ReadOnly);
+//        QDataStream cin(&f);
+//        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+//        f.close();
+
+//        if(this->password==password)//the password is true
+//            return 1;
+
+//        else//the password is wrong
+//            return 0;
+
+//     }
+//    else if(n==2){//chack phone number
+//        QFile f(file_name);
+//        f.open(QIODevice::ReadOnly);
+//        QDataStream cin(&f);
+//        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+//        f.close();
+
+//        if(this->phone_code==phone_code&&this->phone_number==phone_number){//the phone_number is true
+//            this->name=name;
+//            this->user_name=user_name;
+//            this->gender=gender;
+//            this->password=password;
+//            this->phone_code=phone_code;
+//            this->phone_number=phone_number;
+//            this->address=address;
+//            this->cup=cup;
+//            this->coin=coin;
+//            return 1;
+//        }
+
+//        else//the phone number is wrong
+//            return 0;
+
+//    }
 
 //}

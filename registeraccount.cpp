@@ -61,7 +61,7 @@ void RegisterAccount::on_login_pushbutton_clicked()
         else{
             Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
             if(user.add()==0)//repetitious user_name
-                QMessageBox::information(this,"Error","Duplicate username or phone number!");
+                QMessageBox::information(this,"Error","The account with this user_name has already exists!");
 
             else{//finish create_account process
                 prewindow->showMaximized();

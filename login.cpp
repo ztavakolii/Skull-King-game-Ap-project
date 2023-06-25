@@ -6,7 +6,7 @@
 #include <QImage>
 #include <QStatusBar>
 #include <windows.h>
-
+#include "person.h"
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -107,15 +107,18 @@ void login::forgetPassword()
 
 void login::showPersonalWindow()
 {
-//    if()
-    {
-    personalWindow->showMaximized();
-    this->close();
-    }
+//    QString s=NULL;
+//    Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
+//    if(user.match(1))
+//    {
+//    personalWindow->showMaximized();
+//    this->close();
+//    }
 //    else
 //    {
-//    ui->statusBar->show();
-//    ui->statusBar->showMessage(tr("Username and password do not match."));
+
+////    ui->statusBar->show();
+////    ui->statusBar->showMessage(tr("Username and password do not match."));
 //    }
 }
 
