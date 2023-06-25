@@ -34,7 +34,7 @@ public:
     void game(bool,bool);//the person is in the game
     int add();//add the information of person in to files
     int match(int);//chack that the information is true or not
-//   void edit(QString);
+   void edit_password(QString);//change the password
 
 };
 

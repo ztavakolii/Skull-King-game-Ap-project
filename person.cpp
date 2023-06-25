@@ -147,22 +147,24 @@ int Person::match(int n){
         cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
         f.close();
 
-        if(this->phone_code==phone_code&&this->phone_number==phone_number){//the phone_number is true
-            this->name=name;
-            this->user_name=user_name;
-            this->gender=gender;
-            this->password=password;
-            this->phone_code=phone_code;
-            this->phone_number=phone_number;
-            this->address=address;
-            this->cup=cup;
-            this->coin=coin;
+        if(this->phone_code==phone_code&&this->phone_number==phone_number)//the phone_number is true
             return 1;
-        }
 
         else//the phone number is wrong
             return 0;
 
     }
 
+}
+void Person::edit_password(QString new_password){//change password in file
+
+    QString  file_name=user_name;
+    QFile f(file_name);
+    f.open(QIODevice::ReadOnly);//read the previous file
+    QDataStream cin(&f);
+    cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+    f.close();
+    this->password=new_password;
+    if(f.remove())//remove the previous file & make new file with new password
+        this->add();
 }

@@ -7,6 +7,7 @@
 #include <QStatusBar>
 #include <windows.h>
 #include "person.h"
+#include "QMessageBox"
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -107,19 +108,19 @@ void login::forgetPassword()
 
 void login::showPersonalWindow()
 {
-//    QString s=NULL;
-//    Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
-//    if(user.match(1))
-//    {
-//    personalWindow->showMaximized();
-//    this->close();
-//    }
-//    else
-//    {
-
-////    ui->statusBar->show();
-////    ui->statusBar->showMessage(tr("Username and password do not match."));
-//    }
+    QString s=NULL;
+    Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
+    if(user.match(1))
+    {
+        personalWindow->showMaximized();
+        this->close();
+    }
+    else
+    {
+        QMessageBox::information(this,"Error","Username and password do not match!");
+//    ui->statusBar->show();
+//    ui->statusBar->showMessage(tr("Username and password do not match."));
+    }
 }
 
 void login::enableLoginButton()
@@ -140,7 +141,10 @@ void login::enablePhoneOkButton()
 
 void login::checkMatchingUsernameandPhoneNumber()
 {
-    //if(phone number and username match)
+    QString s=NULL;
+    Person user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+
+    if(user.match(2))
     {
         ui->skullKing2Label->show();
         ui->newPasswordTextEdit->show();
@@ -149,11 +153,12 @@ void login::checkMatchingUsernameandPhoneNumber()
         ui->ok3Label->show();
         ui->ok4Label->show();
     }
-    //else
-//    {
+    else
+    {
+        QMessageBox::information(this,"Error","Username and phone number do not match!");
 //        ui->statusBar->show();
 //        ui->statusBar->showMessage(tr("Username and phone number do not match."));
-//    }
+    }
 }
 
 void login::enableNewPasswordOkButton()
@@ -166,6 +171,9 @@ void login::enableNewPasswordOkButton()
 void login::changePasswordAndShowPersonalWindow()
 {
     // change password in file
+    QString s=NULL;
+    Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+    user.edit_password(ui->newPasswordLineEdit->text());
     personalWindow->showMaximized();
     this->close();
 }
