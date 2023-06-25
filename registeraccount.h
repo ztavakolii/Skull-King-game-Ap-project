@@ -13,7 +13,7 @@ class RegisterAccount : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit RegisterAccount(QWidget *parent = nullptr);
+    explicit RegisterAccount(QMainWindow *prewindow,QWidget *parent = nullptr);
     ~RegisterAccount();
 
 private slots:
@@ -25,6 +25,7 @@ private slots:
 
 private:
     Ui::RegisterAccount *ui;
+    QMainWindow *prewindow;
 };
 
 #endif // REGISTERACCOUNT_H

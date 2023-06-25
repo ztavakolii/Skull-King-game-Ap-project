@@ -5,11 +5,11 @@
 class Person
 {
 private:
-    QString name,user_name,gender,password,phone_code,phone_number,address,power;
-    int coin;
+    QString name,user_name,gender,password,phone_code,phone_number,address;
+    int coin,cup;
     bool in_game,server;
 public:
-    Person(QString,QString,QString,QString,QString,QString,QString,QString,int);
+    Person(QString,QString,QString,QString,QString,QString,QString,int,int);
     QString get_name();
     QString get_user_name();
     QString get_gender();
@@ -17,12 +17,22 @@ public:
     QString get_phone_code();
     QString get_phone_number();
     QString get_address();
-    QString get_power();
+    int get_cup();
     int get_coin();
     bool get_isserver();
     bool get_in_game();
-    void edit(QString,QString,QString,QString,QString,QString,QString,QString,int);//edit information
+    void set_name(QString);
+    void set_user_name(QString);
+    void set_gender(QString);
+    void set_password(QString);
+    void set_phone_code(QString);
+    void set_phone_number(QString);
+    void set_address(QString);
+    void set_cup(int);
+    void set_coin(int);
+//    void edit(QString,QString,QString,QString,QString,QString,QString,int,int);//edit information
     void game(bool,bool);//the person is in the game
+//    int add();//add the information of person in to files
 };
 
 #endif // PERSON_H
