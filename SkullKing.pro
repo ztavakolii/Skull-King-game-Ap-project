@@ -9,27 +9,36 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    editprofilewindow.cpp \
     game.cpp \
+    historywindow.cpp \
     login.cpp \
     main.cpp \
     personalwindow.cpp \
     player.cpp \
     register_login.cpp \
-    registeraccount.cpp
+    registeraccount.cpp \
+    serverorclientwindow.cpp
 
 HEADERS += \
+    editprofilewindow.h \
     game.h \
+    historywindow.h \
     login.h \
     personalwindow.h \
     player.h \
     register_login.h \
-    registeraccount.h
+    registeraccount.h \
+    serverorclientwindow.h
 
 FORMS += \
+    editprofilewindow.ui \
+    historywindow.ui \
     login.ui \
     personalwindow.ui \
     register_login.ui \
-    registeraccount.ui
+    registeraccount.ui \
+    serverorclientwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -20,7 +20,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Login");
 
-    personalWindow=new PersonalWindow;
+    personalWindow=new PersonalWindow(preWindow);
 
     ui->background->showFullScreen();
 
