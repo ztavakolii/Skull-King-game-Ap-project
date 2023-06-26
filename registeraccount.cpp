@@ -12,6 +12,9 @@ RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->prewindow=prewindow;
+    //i must past the prewindow pointer to personal window constructor
+    personalwindow=new PersonalWindow;
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Register Account");
@@ -64,7 +67,7 @@ void RegisterAccount::on_login_pushbutton_clicked()
                 QMessageBox::information(this,"Error","The account with this user_name has already exists!");
 
             else{//finish create_account process
-                prewindow->showMaximized();
+                personalwindow->show();
                 this->close();
             }
         }

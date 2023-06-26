@@ -257,19 +257,6 @@
      </font>
     </property>
    </widget>
-   <widget class="QPushButton" name="eye_p">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>320</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="label5">
     <property name="geometry">
      <rect>
@@ -468,6 +455,22 @@
     </property>
     <property name="text">
      <string>Log in</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="eye_p">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>330</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

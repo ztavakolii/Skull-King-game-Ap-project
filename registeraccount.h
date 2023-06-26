@@ -2,7 +2,7 @@
 #define REGISTERACCOUNT_H
 
 #include <QMainWindow>
-
+#include <personalwindow.h>
 
 namespace Ui {
 class RegisterAccount;
@@ -26,6 +26,7 @@ private slots:
 private:
     Ui::RegisterAccount *ui;
     QMainWindow *prewindow;
+    PersonalWindow *personalwindow;
 };
 
 #endif // REGISTERACCOUNT_H

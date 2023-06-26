@@ -171,11 +171,18 @@ void login::enableNewPasswordOkButton()
 void login::changePasswordAndShowPersonalWindow()
 {
     // change password in file
-    QString s=NULL;
-    Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
-    user.edit_password(ui->newPasswordLineEdit->text());
-    personalWindow->showMaximized();
-    this->close();
+    if(ui->newPasswordLineEdit->text().length()<8)//invalid password
+        QMessageBox::information(this,"Error","The password should have at least 8 characters!");
+
+    else{
+
+        QString s=NULL;
+        Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+        user.edit_password(ui->newPasswordLineEdit->text());
+        personalWindow->showMaximized();
+        this->close();
+
+    }
 }
 
 void login::backButtonClicked()
