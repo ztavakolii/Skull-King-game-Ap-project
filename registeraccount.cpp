@@ -2,10 +2,13 @@
 #include "register_login.h"
 #include "ui_register_login.h"
 #include "ui_registeraccount.h"
-#include "person.h"
+#include "person2.h"
 #include <windows.h>
 #include "QMessageBox"
 using namespace std;
+
+extern Person2 User;
+
 RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RegisterAccount)
@@ -58,15 +61,18 @@ void RegisterAccount::on_login_pushbutton_clicked()
 {
     if(ui->name_l->text().length()>0&&ui->user_name_l->text().length()>0&&ui->comboBox_2->currentText().length()>0&&ui->password_l->text().length()>0&&ui->comboBox->currentText().length()>0&&ui->phone_l->text().length()){
         if(ui->password_l->text().length()<8)//invalid password
-            QMessageBox::information(this,"Error","The password should have at least 8 characters!");
+            QMessageBox::critical(this,"Error","The password should have at least 8 characters!");
         else if(ui->phone_l->text().length()<10)
-            QMessageBox::information(this,"Error","The phonenumber should have 10 characters!");
+            QMessageBox::critical(this,"Error","The phonenumber should have 10 digits!");
         else{
-            Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
+            Person2 user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
             if(user.add()==0)//repetitious user_name
-                QMessageBox::information(this,"Error","The account with this username has already exists!");
+                QMessageBox::critical(this,"Error","The account with this username has already exists!");
 
             else{//finish create_account process
+
+                User.set_user_name(user.get_user_name());
+                User.read_information_from_file();
                 personalwindow->showMaximized();
                 this->close();
             }
@@ -75,7 +81,7 @@ void RegisterAccount::on_login_pushbutton_clicked()
     }
 
     else//uncomplete form
-        QMessageBox::information(this,"Error","The form is not completely filled!");
+        QMessageBox::critical(this,"Error","The form is not completely filled!");
 
 }
 

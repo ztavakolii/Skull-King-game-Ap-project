@@ -2,6 +2,11 @@
 
 #include <QApplication>
 
+#include "person2.h"
+
+
+Person2 User("","","","","","","",0,0);
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

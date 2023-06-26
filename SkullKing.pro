@@ -16,7 +16,7 @@ SOURCES += \
     historywindow.cpp \
     login.cpp \
     main.cpp \
-    person.cpp \
+    person2.cpp \
     personalwindow.cpp \
     player.cpp \
     register_login.cpp \
@@ -31,7 +31,7 @@ HEADERS += \
     game.h \
     historywindow.h \
     login.h \
-    person.h \
+    person2.h \
     personalwindow.h \
     player.h \
     register_login.h \
@@ -45,6 +45,7 @@ FORMS += \
     historywindow.ui \
     buy.ui \
     login.ui \
+    person2.ui \
     personalwindow.ui \
     register_login.ui \
     registeraccount.ui \

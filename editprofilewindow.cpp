@@ -2,6 +2,10 @@
 #include "ui_editprofilewindow.h"
 
 #include <QMessageBox>
+#include <QFile>
+#include "person2.h"
+
+extern Person2 User;
 
 EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +19,25 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Edit profile");
 
+    if(User.get_gender()=="Male"){
+        ui->addressTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->countryPhoneCodesComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->genderComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->nameLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->passwordLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->phoneNumberLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->usernameLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+    }
+    else if(User.get_gender()=="Female"){
+        ui->addressTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->countryPhoneCodesComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->genderComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->nameLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->passwordLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->phoneNumberLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->usernameLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+    }
+
     ui->background->showFullScreen();
 
     ui->backButton->setStyleSheet("border:none");
@@ -27,21 +50,32 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     ui->editProfileImageButton->setIconSize(QSize(30,30));
     //connect editProfileButton to a slot
 
+
+    ui->addressTextEdit->setText(User.get_address());
+    ui->nameLineEdit->setText(User.get_name());
+    ui->passwordLineEdit->setText(User.get_password());
+    ui->profileImageLabel->setPixmap(User.get_profile_picture());
+    ui->usernameLineEdit->setText(User.get_user_name());
+
     QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
     ui->countryPhoneCodesComboBox->addItems(countryPhoneCodes);
     ui->phoneNumberLineEdit->setValidator(new QIntValidator(ui->phoneNumberLineEdit));
+    ui->countryPhoneCodesComboBox->setCurrentText(User.get_phone_code());
+    ui->phoneNumberLineEdit->setText(User.get_phone_number());
+
 
     QStringList genderList={"Male","Female"};
     ui->genderComboBox->addItems(genderList);
+    ui->genderComboBox->setCurrentText(User.get_gender());
 
     ui->eyeButton->setStyleSheet("border:none");
     connect(ui->eyeButton,SIGNAL(clicked(bool)),this,SLOT(changePasswordLineEditMode()));
 
     ui->editButton->setStyleSheet("border:none");
-    // connect edit button to a slot
+    connect(ui->editButton,SIGNAL(clicked(bool)),this,SLOT(editButtonClicked()));
 
     ui->cancelButton->setStyleSheet("border:none");
-    //connect cancel button to a slot
+    connect(ui->cancelButton,SIGNAL(clicked(bool)),this,SLOT(cancelButtonClicked()));
 
     ui->deleteAccountButton->setStyleSheet("border:none");
     connect(ui->deleteAccountButton,SIGNAL(clicked(bool)),this,SLOT(deleteAccountButtonClicked()));
@@ -94,4 +128,72 @@ void EditProfileWindow::confirmDeleteAccountClicked()
 
     register_loginWindow->show();
     this->close();
+}
+
+void EditProfileWindow::editButtonClicked()
+{
+    if(ui->addressTextEdit->toPlainText().length()>0
+        && ui->countryPhoneCodesComboBox->currentText().length()>0
+        && ui->genderComboBox->currentText().length()>0
+        && ui->nameLineEdit->text().length()>0
+        && ui->passwordLineEdit->text().length()>0
+        && ui->phoneNumberLineEdit->text().length()>0
+        && ui->usernameLineEdit->text().length()>0){
+
+        QString fileName=ui->usernameLineEdit->text();
+        if(!QFile::exists(fileName)){
+            if(ui->passwordLineEdit->text().length()>=8){ // Here is better that password security be checked with regex
+                if(ui->phoneNumberLineEdit->text().length()>=10){ //this condition may be inappropriate
+                    fileName=User.get_user_name();
+                    QFile f(fileName);
+                    f.remove();
+
+                     User.set_address(ui->addressTextEdit->toPlainText());
+                     User.set_gender(ui->genderComboBox->currentText());
+                     User.set_name(ui->nameLineEdit->text());
+                     User.set_password(ui->passwordLineEdit->text());
+                     User.set_phone_code(ui->countryPhoneCodesComboBox->currentText());
+                     User.set_phone_number(ui->phoneNumberLineEdit->text());
+                     User.set_profile_picture(ui->profileImageLabel->pixmap());
+                     User.set_user_name(ui->usernameLineEdit->text());
+
+                     User.write_information_in_file();
+                }
+                else{
+    QMessageBox*message=new QMessageBox(this);
+                message->critical(this,"Edit Profile","The phonenumber should have 10 digits!");
+                     // chenge the style sheet of this message box
+                }
+            }
+            else{
+    QMessageBox*message=new QMessageBox(this);
+                message->critical(this,"Edit Profile","The password should have at least 8 characters!");
+                // chenge the style sheet of this message box
+            }
+
+    }
+        else{
+    QMessageBox*message=new QMessageBox(this);
+            message->critical(this,"Edit Profile","The account with this username has already exists!");
+    // chenge the style sheet of this message box
+        }
+    }
+    else {
+    QMessageBox*message=new QMessageBox(this);
+        message->critical(this,"Edit Profile","The form is not completely filled!");
+        // chenge the style sheet of this message box
+    }
+
+}
+
+void EditProfileWindow::cancelButtonClicked()
+{
+    ui->addressTextEdit->setText(User.get_address());
+    ui->countryPhoneCodesComboBox->setCurrentText(User.get_phone_code());
+    ui->genderComboBox->setCurrentText(User.get_gender());
+    ui->nameLineEdit->setText(User.get_name());
+    ui->passwordLineEdit->setText(User.get_password());
+    ui->usernameLineEdit->setText(User.get_user_name());
+    ui->profileImageLabel->setPixmap(User.get_profile_picture());
+    ui->phoneNumberLineEdit->setText(User.get_phone_number());
 }

@@ -1,5 +1,8 @@
 #include "serverorclientwindow.h"
 #include "ui_serverorclientwindow.h"
+#include "person2.h"
+
+extern Person2 User;
 
 ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -22,11 +25,11 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
     ui->backButton->setIconSize(QSize(40,40));
     connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
 
-    //if(gender == male)
+    if(User.get_gender()=="Male")
     {
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    //else if(gender == female)
+    else if(User.get_gender()=="Female")
     {
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
     }

@@ -5,8 +5,10 @@
 #include <QImage>
 #include <QStatusBar>
 #include <windows.h>
-#include "person.h"
+#include "person2.h"
 #include "QMessageBox"
+
+extern Person2 User;
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -108,15 +110,17 @@ void login::forgetPassword()
 void login::showPersonalWindow()
 {
     QString s=NULL;
-    Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
+    Person2 user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
     if(user.match(1))
     {
+        User.set_user_name(user.get_user_name());
+        User.read_information_from_file();
         personalWindow->showMaximized();
         this->close();
     }
     else
     {
-        QMessageBox::information(this,"Error","Username and password do not match!");
+        QMessageBox::critical(this,"Error","Username and password do not match!");
 //    ui->statusBar->show();
 //    ui->statusBar->showMessage(tr("Username and password do not match."));
     }
@@ -141,7 +145,7 @@ void login::enablePhoneOkButton()
 void login::checkMatchingUsernameandPhoneNumber()
 {
     QString s=NULL;
-    Person user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+    Person2 user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
 
     if(user.match(2))
     {
@@ -154,7 +158,7 @@ void login::checkMatchingUsernameandPhoneNumber()
     }
     else
     {
-        QMessageBox::information(this,"Error","Username and phone number do not match!");
+        QMessageBox::critical(this,"Error","Username and phone number do not match!");
 //        ui->statusBar->show();
 //        ui->statusBar->showMessage(tr("Username and phone number do not match."));
     }
@@ -171,13 +175,15 @@ void login::changePasswordAndShowPersonalWindow()
 {
     // change password in file
     if(ui->newPasswordLineEdit->text().length()<8)//invalid password
-        QMessageBox::information(this,"Error","The password should have at least 8 characters!");
+        QMessageBox::critical(this,"Error","The password should have at least 8 characters!");
 
     else{
 
         QString s=NULL;
-        Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+        Person2 user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
         user.edit_password(ui->newPasswordLineEdit->text());
+        User.set_user_name(user.get_user_name());
+        User.read_information_from_file();
         personalWindow->showMaximized();
         this->close();
 
