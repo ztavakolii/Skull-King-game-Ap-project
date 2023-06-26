@@ -11,10 +11,12 @@ CONFIG += c++17
 SOURCES += \
     client.cpp \
     editprofilewindow.cpp \
+    buy.cpp \
     game.cpp \
     historywindow.cpp \
     login.cpp \
     main.cpp \
+    person.cpp \
     personalwindow.cpp \
     player.cpp \
     register_login.cpp \
@@ -25,9 +27,11 @@ SOURCES += \
 HEADERS += \
     client.h \
     editprofilewindow.h \
+    buy.h \
     game.h \
     historywindow.h \
     login.h \
+    person.h \
     personalwindow.h \
     player.h \
     register_login.h \
@@ -39,6 +43,7 @@ FORMS += \
     client.ui \
     editprofilewindow.ui \
     historywindow.ui \
+    buy.ui \
     login.ui \
     personalwindow.ui \
     register_login.ui \
