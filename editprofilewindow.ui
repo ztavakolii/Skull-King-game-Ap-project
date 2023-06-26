@@ -687,23 +687,6 @@ color: rgb(0, 170, 255);</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_17">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>150</y>
-      <width>37</width>
-      <height>12</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(236, 197, 119);
-color: rgb(0, 0, 0);</string>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
   </widget>
  </widget>
  <resources>

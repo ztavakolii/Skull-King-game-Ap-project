@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    client.cpp \
     editprofilewindow.cpp \
     game.cpp \
     historywindow.cpp \
@@ -18,9 +19,11 @@ SOURCES += \
     player.cpp \
     register_login.cpp \
     registeraccount.cpp \
+    server.cpp \
     serverorclientwindow.cpp
 
 HEADERS += \
+    client.h \
     editprofilewindow.h \
     game.h \
     historywindow.h \
@@ -29,15 +32,18 @@ HEADERS += \
     player.h \
     register_login.h \
     registeraccount.h \
+    server.h \
     serverorclientwindow.h
 
 FORMS += \
+    client.ui \
     editprofilewindow.ui \
     historywindow.ui \
     login.ui \
     personalwindow.ui \
     register_login.ui \
     registeraccount.ui \
+    server.ui \
     serverorclientwindow.ui
 
 # Default rules for deployment.

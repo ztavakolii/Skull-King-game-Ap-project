@@ -77,13 +77,13 @@ void EditProfileWindow::changePasswordLineEditMode()
 void EditProfileWindow::deleteAccountButtonClicked()
 {
     QMessageBox*message=new QMessageBox(this);
-    message->warning(this,"Delete Account","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
+    message->warning(this,"Delete Account","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?","Confirm","Cancel");
 
     //setStyleSheet doesn't work fix it
-   // message->setStyleSheet("background-color:rgb(236, 197, 119)");
-   message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
+    // message->setStyleSheet("background-color:rgb(236, 197, 119)");
+   //message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
 
-
+    //this connect doesn't work
     connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
 
 }

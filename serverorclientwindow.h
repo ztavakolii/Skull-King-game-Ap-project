@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "server.h"
+#include "client.h"
+
 namespace Ui {
 class ServerOrClientWindow;
 }
@@ -18,6 +21,13 @@ public:
 private:
     Ui::ServerOrClientWindow *ui;
     QMainWindow*preWindow;
+    Server*serverWindow;
+    Client*clientWindow;
+
+private slots:
+    void backButtonClicked();
+    void serverButtonClicked();
+    void clientButtonClicked();
 };
 
 #endif // SERVERORCLIENTWINDOW_H
