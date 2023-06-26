@@ -12,7 +12,7 @@ PersonalWindow::PersonalWindow(QMainWindow* prewindow,QWidget *parent) :
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Profile");
 
-
+    ui->background->showFullScreen();
 
 
     // I must allocate memory for store Window

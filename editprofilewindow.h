@@ -18,6 +18,10 @@ public:
 private:
     Ui::EditProfileWindow *ui;
     QMainWindow*preWindow;
+
+private slots:
+    void backButtonClicked();
+    void changePasswordLineEditMode();
 };
 
 #endif // EDITPROFILEWINDOW_H
