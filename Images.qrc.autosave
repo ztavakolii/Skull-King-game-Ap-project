@@ -74,14 +74,10 @@
         <file>icons8-ok-80.png</file>
         <file>game_arm.png</file>
         <file>icons8-back-48.png</file>
-<<<<<<< HEAD
         <file>CompressJPEG.online_1920x1080_image.jpg</file>
         <file>03_Copper_Bar_nobg.png</file>
         <file>Building_32-market-store.png</file>
         <file>profilebackground.png</file>
-=======
-        <file>10745659.jpg</file>
->>>>>>> vania
     </qresource>
     <qresource prefix="/"/>
 </RCC>

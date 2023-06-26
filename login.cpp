@@ -6,7 +6,8 @@
 #include <QImage>
 #include <QStatusBar>
 #include <windows.h>
-
+#include "person.h"
+#include "QMessageBox"
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -36,7 +37,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     ui->forgetPassWordTextEdit->hide();
     ui->skullKingLabel->hide();
 
-    QStringList countryPhoneCodes={"98","1","86","33","49","62","81","55","61","54","39","30","34","90","852","32","964","353","52"};
+    QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
     ui->comboBox->addItems(countryPhoneCodes);
     ui->phoneLineEdit->setValidator(new QIntValidator(ui->phoneLineEdit));
     ui->comboBox->hide();
@@ -107,16 +108,19 @@ void login::forgetPassword()
 
 void login::showPersonalWindow()
 {
-   // if( username and password are match)
+    QString s=NULL;
+    Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
+    if(user.match(1))
     {
-    personalWindow->showMaximized();
-    this->close();
+        personalWindow->showMaximized();
+        this->close();
     }
-    //else
-//    {
+    else
+    {
+        QMessageBox::information(this,"Error","Username and password do not match!");
 //    ui->statusBar->show();
 //    ui->statusBar->showMessage(tr("Username and password do not match."));
-//    }
+    }
 }
 
 void login::enableLoginButton()
@@ -137,7 +141,10 @@ void login::enablePhoneOkButton()
 
 void login::checkMatchingUsernameandPhoneNumber()
 {
-    //if(phone number and username match)
+    QString s=NULL;
+    Person user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+
+    if(user.match(2))
     {
         ui->skullKing2Label->show();
         ui->newPasswordTextEdit->show();
@@ -146,11 +153,12 @@ void login::checkMatchingUsernameandPhoneNumber()
         ui->ok3Label->show();
         ui->ok4Label->show();
     }
-    //else
-//    {
+    else
+    {
+        QMessageBox::information(this,"Error","Username and phone number do not match!");
 //        ui->statusBar->show();
 //        ui->statusBar->showMessage(tr("Username and phone number do not match."));
-//    }
+    }
 }
 
 void login::enableNewPasswordOkButton()
@@ -163,8 +171,18 @@ void login::enableNewPasswordOkButton()
 void login::changePasswordAndShowPersonalWindow()
 {
     // change password in file
-    personalWindow->showMaximized();
-    this->close();
+    if(ui->newPasswordLineEdit->text().length()<8)//invalid password
+        QMessageBox::information(this,"Error","The password should have at least 8 characters!");
+
+    else{
+
+        QString s=NULL;
+        Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+        user.edit_password(ui->newPasswordLineEdit->text());
+        personalWindow->showMaximized();
+        this->close();
+
+    }
 }
 
 void login::backButtonClicked()

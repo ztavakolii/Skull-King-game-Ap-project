@@ -19,7 +19,7 @@ register_login::register_login(QApplication*a,QWidget *parent)
     loginButton= ui->loginButton;
 
     loginWindow=new login(this);
-    registerAccountWindow=new RegisterAccount;
+    registerAccountWindow=new RegisterAccount(this);
 
     loginButton->setStyleSheet("border:none");
     registerAccountButton->setStyleSheet("border:none");
