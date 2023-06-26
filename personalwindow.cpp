@@ -18,7 +18,7 @@ PersonalWindow::PersonalWindow(QMainWindow* prewindow,QWidget *parent) :
     // I must allocate memory for store Window
     historyWindow=new HistoryWindow(this);
     serverOrClientWindow=new ServerOrClientWindow(this);
-    editProfileWindow=new EditProfileWindow(this);
+    editProfileWindow=new EditProfileWindow(preWindow,this);
 
 
 

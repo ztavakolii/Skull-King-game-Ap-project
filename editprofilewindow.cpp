@@ -1,12 +1,15 @@
 #include "editprofilewindow.h"
 #include "ui_editprofilewindow.h"
 
-EditProfileWindow::EditProfileWindow(QMainWindow*prewindow,QWidget *parent) :
+#include <QMessageBox>
+
+EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::EditProfileWindow)
 {
     ui->setupUi(this);
     preWindow=prewindow;
+    register_loginWindow=register_loginwindow;
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
@@ -35,6 +38,14 @@ EditProfileWindow::EditProfileWindow(QMainWindow*prewindow,QWidget *parent) :
     connect(ui->eyeButton,SIGNAL(clicked(bool)),this,SLOT(changePasswordLineEditMode()));
 
     ui->editButton->setStyleSheet("border:none");
+    // connect edit button to a slot
+
+    ui->cancelButton->setStyleSheet("border:none");
+    //connect cancel button to a slot
+
+    ui->deleteAccountButton->setStyleSheet("border:none");
+    connect(ui->deleteAccountButton,SIGNAL(clicked(bool)),this,SLOT(deleteAccountButtonClicked()));
+
 
 }
 
@@ -61,4 +72,26 @@ void EditProfileWindow::changePasswordLineEditMode()
         QPixmap p(":/new/image/icons8-eye-checked-50.png");
         ui->eyeLabel->setPixmap(p);
     }
+}
+
+void EditProfileWindow::deleteAccountButtonClicked()
+{
+    QMessageBox*message=new QMessageBox(this);
+    message->warning(this,"Delete Account","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
+
+    //setStyleSheet doesn't work fix it
+   // message->setStyleSheet("background-color:rgb(236, 197, 119)");
+   message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
+
+
+    connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
+
+}
+
+void EditProfileWindow::confirmDeleteAccountClicked()
+{
+    // delete all files of this player
+
+    register_loginWindow->show();
+    this->close();
 }
