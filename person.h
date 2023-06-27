@@ -2,6 +2,7 @@
 #define PERSON_H
 #include <QString>
 #include <QPixmap>
+#include "client.h"
 
 class Person
 {
@@ -16,6 +17,7 @@ public:
     QString get_phone_number();
     QString get_address();
 //    QPixmap get_profile_picture();
+    Client*get_client();
     int get_cup();
     int get_coin();
     bool get_isserver();
@@ -36,6 +38,7 @@ public:
     void edit_password(QString);//change the password
     void read_information_from_file();
     void write_information_in_file();
+    void set_client(QHostAddress serverIP);
 
 
 private:
@@ -43,6 +46,7 @@ private:
     int coin,cup;
     bool in_game,server;
    // QPixmap profile_picture;
+    Client*client;
 };
 
 #endif // PERSON_H

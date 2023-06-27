@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +11,8 @@ CONFIG += c++17
 
 SOURCES += \
     client.cpp \
+    clientwaitwindow.cpp \
+    clientwindow.cpp \
     editprofilewindow.cpp \
     buy.cpp \
     game.cpp \
@@ -26,6 +29,8 @@ SOURCES += \
 
 HEADERS += \
     client.h \
+    clientwaitwindow.h \
+    clientwindow.h \
     editprofilewindow.h \
     buy.h \
     game.h \
@@ -41,6 +46,8 @@ HEADERS += \
 
 FORMS += \
     client.ui \
+    clientwaitwindow.ui \
+    clientwindow.ui \
     editprofilewindow.ui \
     historywindow.ui \
     buy.ui \

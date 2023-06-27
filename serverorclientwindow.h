@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include "server.h"
-#include "client.h"
+#include "clientwindow.h"
 
 namespace Ui {
 class ServerOrClientWindow;
@@ -22,7 +22,7 @@ private:
     Ui::ServerOrClientWindow *ui;
     QMainWindow*preWindow;
     Server*serverWindow;
-    Client*clientWindow;
+    ClientWindow*clientWindow;
 
 private slots:
     void backButtonClicked();

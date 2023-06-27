@@ -16,7 +16,7 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
     this->setWindowTitle("Server or Client?");
 
     serverWindow=new Server(this);
-    clientWindow=new Client(this);
+    //clientWindow=new Client(this);
 
     ui->background->showFullScreen();
 
@@ -65,6 +65,7 @@ void ServerOrClientWindow::serverButtonClicked()
 
 void ServerOrClientWindow::clientButtonClicked()
 {
+    clientWindow=new ClientWindow(this);
     clientWindow->showMaximized();
     this->close();
 }

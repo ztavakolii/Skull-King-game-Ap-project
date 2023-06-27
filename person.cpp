@@ -212,3 +212,12 @@ void Person::write_information_in_file()
     }
 }
 
+void Person::set_client(QHostAddress serverIP)
+{
+    client=new Client(serverIP);
+}
+
+Client* Person::get_client(){
+    return client;
+}
+
