@@ -34,7 +34,7 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
     }
     ui->guideTextEdit->setReadOnly(true);
-    QString guide="I am glad that you accepted the command of our army in this war.Commander give your first order, everyone obeys.\nServer or client?\n\nskull king";
+    QString guide="I am glad that you accepted the command of our army in this war.Commander give your first order, everyone obeys.\nServer or client?\n\nSkull King";
     ui->guideTextEdit->setText(guide);
 
     ui->serverButton->setStyleSheet("border:none");

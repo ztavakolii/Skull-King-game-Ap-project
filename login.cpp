@@ -30,7 +30,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     ui->loginButton->setStyleSheet("border:none");
     ui->forgetPasssWordButton->setStyleSheet("border:none");
 
-    QString helloText="Hello my friend, the pirate war is coming. Log in, we need your command to win. Let's go, everyone is waiting for you...\n\nskull king";
+    QString helloText="Hello my friend, the pirate war is coming. Log in, we need your command to win. Let's go, everyone is waiting for you...\n\nSkull King";
     ui->helloTextEdit->setText(helloText);
 
     QString forgetPasswordText="Now enter your phone number to change your password.";

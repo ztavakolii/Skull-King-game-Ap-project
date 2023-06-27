@@ -34,6 +34,9 @@ RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QStringList genderes={"Female","Male"};
     ui->comboBox_2->addItems(genderes);
 
+    ui->guideTextEdit->setReadOnly(true);
+    ui->guideTextEdit->setText("Hello my friend, welcome to our army. Register that we need a good commander in wars.\n\nSkull King");
+
     ui->register_button->setStyleSheet("border:none");
 }
 
