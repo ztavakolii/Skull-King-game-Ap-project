@@ -24,8 +24,9 @@ public:
 private:
     Ui::PersonalWindow *ui;
     QMainWindow*preWindow;
-    QFrame*profileFrame;
-    QLabel*profileLabel;
+ //   QFrame*profileFrame;
+  //  QLabel*profileLabel;
+
     // we need a pointer to store window
     HistoryWindow*historyWindow;
     ServerOrClientWindow*serverOrClientWindow;

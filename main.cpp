@@ -1,11 +1,9 @@
 #include "register_login.h"
 
 #include <QApplication>
+#include "person.h"
 
-#include "person2.h"
 
-
-Person2 User("","","","","","","",0,0);
 
 int main(int argc, char *argv[])
 {

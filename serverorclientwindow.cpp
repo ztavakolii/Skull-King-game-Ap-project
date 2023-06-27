@@ -1,8 +1,8 @@
 #include "serverorclientwindow.h"
 #include "ui_serverorclientwindow.h"
-#include "person2.h"
+#include "person.h"
 
-extern Person2 User;
+extern Person User;
 
 ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),

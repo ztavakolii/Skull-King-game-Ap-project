@@ -5,10 +5,10 @@
 #include <QImage>
 #include <QStatusBar>
 #include <windows.h>
-#include "person2.h"
+#include "person.h"
 #include "QMessageBox"
 
-extern Person2 User;
+extern Person User;
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -22,7 +22,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Login");
 
-    personalWindow=new PersonalWindow(preWindow);
+    //personalWindow=new PersonalWindow(preWindow);
 
     ui->background->showFullScreen();
 
@@ -110,11 +110,12 @@ void login::forgetPassword()
 void login::showPersonalWindow()
 {
     QString s=NULL;
-    Person2 user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
+    Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
     if(user.match(1))
     {
         User.set_user_name(user.get_user_name());
         User.read_information_from_file();
+        personalWindow=new PersonalWindow(preWindow);
         personalWindow->showMaximized();
         this->close();
     }
@@ -145,7 +146,7 @@ void login::enablePhoneOkButton()
 void login::checkMatchingUsernameandPhoneNumber()
 {
     QString s=NULL;
-    Person2 user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+    Person user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
 
     if(user.match(2))
     {
@@ -180,10 +181,11 @@ void login::changePasswordAndShowPersonalWindow()
     else{
 
         QString s=NULL;
-        Person2 user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
+        Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
         user.edit_password(ui->newPasswordLineEdit->text());
         User.set_user_name(user.get_user_name());
         User.read_information_from_file();
+        personalWindow=new PersonalWindow(preWindow);
         personalWindow->showMaximized();
         this->close();
 

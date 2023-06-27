@@ -1,24 +1,13 @@
-#ifndef PERSON2_H
-#define PERSON2_H
-
-#include <QWidget>
+#ifndef PERSON_H
+#define PERSON_H
 #include <QString>
 #include <QPixmap>
-#include <QApplication>
 
-
-namespace Ui {
-class Person2;
-}
-
-class Person2 : public QWidget
+class Person
 {
-    Q_OBJECT
 
 public:
-    explicit Person2(QWidget *parent = nullptr);
-    ~Person2();
-    Person2(QString,QString,QString,QString,QString,QString,QString,int,int,QWidget *parent = nullptr);
+    Person(QString,QString,QString,QString,QString,QString,QString,int,int);
     QString get_name();
     QString get_user_name();
     QString get_gender();
@@ -26,7 +15,7 @@ public:
     QString get_phone_code();
     QString get_phone_number();
     QString get_address();
-    QPixmap get_profile_picture();
+//    QPixmap get_profile_picture();
     int get_cup();
     int get_coin();
     bool get_isserver();
@@ -40,7 +29,7 @@ public:
     void set_address(QString);
     void set_cup(int);
     void set_coin(int);
-    void set_profile_picture(QPixmap profile);
+  //  void set_profile_picture(QPixmap profile);
     void game(bool,bool);//the person is in the game
     int add();//add the information of person in to files
     int match(int);//chack that the information is true or not
@@ -48,13 +37,12 @@ public:
     void read_information_from_file();
     void write_information_in_file();
 
+
 private:
-    Ui::Person2 *ui;
     QString name,user_name,gender,password,phone_code,phone_number,address;
     int coin,cup;
     bool in_game,server;
-    QPixmap profile_picture;
-
+   // QPixmap profile_picture;
 };
 
-#endif // PERSON2_H
+#endif // PERSON_H

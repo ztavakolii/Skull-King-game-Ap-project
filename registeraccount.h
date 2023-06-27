@@ -21,7 +21,7 @@ private slots:
 
     void on_back_button_clicked();
 
-    void on_login_pushbutton_clicked();
+    void on_register_button_clicked(bool checked);
 
 private:
     Ui::RegisterAccount *ui;

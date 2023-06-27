@@ -3,9 +3,9 @@
 
 #include <QMessageBox>
 #include <QFile>
-#include "person2.h"
+#include "person.h"
 
-extern Person2 User;
+extern Person User;
 
 EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -28,7 +28,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
         ui->phoneNumberLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->usernameLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    else if(User.get_gender()=="Female"){
+    else if(User.get_gender()== "Female"){
         ui->addressTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->countryPhoneCodesComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->genderComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
@@ -54,7 +54,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     ui->addressTextEdit->setText(User.get_address());
     ui->nameLineEdit->setText(User.get_name());
     ui->passwordLineEdit->setText(User.get_password());
-    ui->profileImageLabel->setPixmap(User.get_profile_picture());
+   // ui->profileImageLabel->setPixmap(User.get_profile_picture());
     ui->usernameLineEdit->setText(User.get_user_name());
 
     QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
@@ -67,6 +67,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     QStringList genderList={"Male","Female"};
     ui->genderComboBox->addItems(genderList);
     ui->genderComboBox->setCurrentText(User.get_gender());
+
 
     ui->eyeButton->setStyleSheet("border:none");
     connect(ui->eyeButton,SIGNAL(clicked(bool)),this,SLOT(changePasswordLineEditMode()));
@@ -111,14 +112,15 @@ void EditProfileWindow::changePasswordLineEditMode()
 void EditProfileWindow::deleteAccountButtonClicked()
 {
     QMessageBox*message=new QMessageBox(this);
+    message->setStyleSheet("background-color: rgb(236, 197, 119);");
+    connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
     message->warning(this,"Delete Account","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?","Confirm","Cancel");
 
     //setStyleSheet doesn't work fix it
-    // message->setStyleSheet("background-color:rgb(236, 197, 119)");
-   //message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
+  // message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
 
     //this connect doesn't work
-    connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
+   // connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
 
 }
 
@@ -126,7 +128,7 @@ void EditProfileWindow::confirmDeleteAccountClicked()
 {
     // delete all files of this player
 
-    register_loginWindow->show();
+    register_loginWindow->showMaximized();
     this->close();
 }
 
@@ -141,7 +143,8 @@ void EditProfileWindow::editButtonClicked()
         && ui->usernameLineEdit->text().length()>0){
 
         QString fileName=ui->usernameLineEdit->text();
-        if(!QFile::exists(fileName)){
+        if((!QFile::exists(fileName) && fileName!=User.get_user_name())
+            || fileName==User.get_user_name()){
             if(ui->passwordLineEdit->text().length()>=8){ // Here is better that password security be checked with regex
                 if(ui->phoneNumberLineEdit->text().length()>=10){ //this condition may be inappropriate
                     fileName=User.get_user_name();
@@ -154,10 +157,12 @@ void EditProfileWindow::editButtonClicked()
                      User.set_password(ui->passwordLineEdit->text());
                      User.set_phone_code(ui->countryPhoneCodesComboBox->currentText());
                      User.set_phone_number(ui->phoneNumberLineEdit->text());
-                     User.set_profile_picture(ui->profileImageLabel->pixmap());
+               //      User.set_profile_picture(ui->profileImageLabel->pixmap());
                      User.set_user_name(ui->usernameLineEdit->text());
 
                      User.write_information_in_file();
+                     QMessageBox::information(this,"Edit Profile","Your personal information edited seccessfully.");
+
                 }
                 else{
     QMessageBox*message=new QMessageBox(this);
@@ -194,6 +199,6 @@ void EditProfileWindow::cancelButtonClicked()
     ui->nameLineEdit->setText(User.get_name());
     ui->passwordLineEdit->setText(User.get_password());
     ui->usernameLineEdit->setText(User.get_user_name());
-    ui->profileImageLabel->setPixmap(User.get_profile_picture());
+ //   ui->profileImageLabel->setPixmap(User.get_profile_picture());
     ui->phoneNumberLineEdit->setText(User.get_phone_number());
 }

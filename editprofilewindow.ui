@@ -150,29 +150,6 @@ color: rgb(0, 170, 255);</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QComboBox" name="genderComboBox">
-    <property name="geometry">
-     <rect>
-      <x>145</x>
-      <y>490</y>
-      <width>190</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 0, 0);
-color: rgb(0, 170, 255);</string>
-    </property>
-    <property name="placeholderText">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="passwordLineEdit">
     <property name="geometry">
      <rect>
@@ -535,7 +512,7 @@ color: rgb(0, 170, 255);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/new/image/pngwing.com (5).png</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/pngwing.com (5).png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -554,7 +531,7 @@ color: rgb(0, 170, 255);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/new/image/pngwing.com (3).png</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/pngwing.com (3).png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -573,7 +550,7 @@ color: rgb(0, 170, 255);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/new/image/pngwing.com (24).png</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/pngwing.com (24).png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -685,6 +662,25 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="flat">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="genderComboBox">
+    <property name="geometry">
+     <rect>
+      <x>145</x>
+      <y>490</y>
+      <width>190</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
    </widget>
   </widget>
