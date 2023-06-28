@@ -1,5 +1,6 @@
 #include "editprofilewindow.h"
 #include "ui_editprofilewindow.h"
+//#include "register_login.cpp"
 
 #include <QMessageBox>
 #include <QFile>
@@ -111,17 +112,12 @@ void EditProfileWindow::changePasswordLineEditMode()
 
 void EditProfileWindow::deleteAccountButtonClicked()
 {
-    QMessageBox*message=new QMessageBox(this);
-    message->setStyleSheet("background-color: rgb(236, 197, 119);");
-    connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
-    message->warning(this,"Delete Account","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?","Confirm","Cancel");
-
-    //setStyleSheet doesn't work fix it
-  // message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
-
-    //this connect doesn't work
-   // connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
-
+    QMessageBox::StandardButton reply=QMessageBox::question(this,"Warning","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?",QMessageBox::Yes|QMessageBox::No);
+    if(reply==QMessageBox::Yes){
+    this->close();
+    register_loginWindow->show();
+//    user.remove();
+    }
 }
 
 void EditProfileWindow::confirmDeleteAccountClicked()

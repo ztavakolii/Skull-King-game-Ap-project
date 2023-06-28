@@ -2,6 +2,9 @@
 #define SERVER_H
 
 #include <QMainWindow>
+#include "ui_server.h"
+#include "QTcpServer"
+//#include <channel.h>
 
 namespace Ui {
 class Server;
@@ -18,6 +21,8 @@ public:
 private:
     Ui::Server *ui;
     QMainWindow*preWindow;
+public:
+
 };
 
 #endif // SERVER_H

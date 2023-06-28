@@ -8,6 +8,10 @@ Server::Server(QMainWindow*prewindow,QWidget *parent) :
     ui->setupUi(this);
     preWindow=prewindow;
 
+//    myServer=new QTcpServer();
+//    myServer->listen(QHostAddress::any,80);
+//    if(!myServer->listen());//Qmessage
+//    else
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Become a Server");
