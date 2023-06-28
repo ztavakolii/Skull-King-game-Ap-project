@@ -5,19 +5,20 @@
 
 extern Person User;
 
-buy::buy(QWidget *parent) :
+buy::buy(QMainWindow *previousWindow,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::buy)
 {
     ui->setupUi(this);
 
+    prewindow=previousWindow;
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Store");
     if(ui->lock_2->isHidden())
-        ui->pushButton->setEnabled(false);
+        ui->back_button->setEnabled(false);
     else
-        ui->pushButton->setEnabled(true);
+        ui->back_button->setEnabled(true);
 }
 
 buy::~buy()
@@ -25,9 +26,16 @@ buy::~buy()
     delete ui;
 }
 
-void buy::on_pushButton_clicked()
+void buy::on_back_button_clicked()
 {
-    int price=ui->text_2->text().toInt();
+    prewindow->showMaximized();
+    this->close();
+}
+
+
+void buy::on_buy_2_clicked()
+{
+    int price=ui->label_26->text().toInt();
     if(User.buy(price)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
