@@ -19,6 +19,7 @@ public:
     QString get_address();
 //    QPixmap get_profile_picture();
     Client*get_client();
+    Server*get_server();
     int get_cup();
     int get_coin();
     bool get_isserver();
@@ -40,6 +41,7 @@ public:
     void read_information_from_file();
     void write_information_in_file();
     void set_client(QHostAddress serverIP);
+    void set_server(QString servername,int numberofclients);
 
 
 private:

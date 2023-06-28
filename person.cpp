@@ -217,7 +217,17 @@ void Person::set_client(QHostAddress serverIP)
     client=new Client(serverIP);
 }
 
+void Person::set_server(QString servername, int numberofclients)
+{
+    server2=new Server(servername,numberofclients);
+}
+
 Client* Person::get_client(){
     return client;
+}
+
+Server *Person::get_server()
+{
+    return server2;
 }
 

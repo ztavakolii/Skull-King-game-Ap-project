@@ -59,7 +59,7 @@ void ServerOrClientWindow::backButtonClicked()
 
 void ServerOrClientWindow::serverButtonClicked()
 {
-    serverWindow=new ServerWindow;
+    serverWindow=new ServerWindow(this,preWindow);
     serverWindow->showMaximized();
     this->close();
 }
