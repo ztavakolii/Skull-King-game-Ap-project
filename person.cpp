@@ -216,3 +216,13 @@ void Person::remove(){
     QFile f(file_name);
     f.remove();
 }
+int Person::buy(int price){
+    if(coin<price)//do not have enough money
+        return 0;
+    coin=coin-price;
+    QString file_name=user_name;
+    QFile f(file_name);
+    f.remove();
+    add();
+    return 1;
+}
