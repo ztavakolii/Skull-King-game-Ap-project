@@ -116,7 +116,7 @@ void EditProfileWindow::deleteAccountButtonClicked()
     if(reply==QMessageBox::Yes){
     this->close();
     register_loginWindow->show();
-//    user.remove();
+    User.remove();
     }
 }
 

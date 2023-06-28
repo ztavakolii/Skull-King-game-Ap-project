@@ -211,4 +211,8 @@ void Person::write_information_in_file()
         f.close();
     }
 }
-
+void Person::remove(){
+    QString file_name=user_name;
+    QFile f(file_name);
+    f.remove();
+}

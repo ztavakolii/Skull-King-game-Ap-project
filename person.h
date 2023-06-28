@@ -36,6 +36,7 @@ public:
     void edit_password(QString);//change the password
     void read_information_from_file();
     void write_information_in_file();
+    void remove();//remove the file
 
 
 private:
