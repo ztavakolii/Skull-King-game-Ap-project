@@ -13,13 +13,15 @@ class ClientWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ClientWindow(QMainWindow*prewindow,QWidget *parent = nullptr);
+    explicit ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent = nullptr);
     ~ClientWindow();
 
 private:
     Ui::ClientWindow *ui;
     QMainWindow*preWindow;
+    QMainWindow*personalWindow;
     ClientWaitWindow*clientWaitWindow;
+
 
 private slots:
     void backButtonClicked();

@@ -65,7 +65,7 @@ void ServerOrClientWindow::serverButtonClicked()
 
 void ServerOrClientWindow::clientButtonClicked()
 {
-    clientWindow=new ClientWindow(this);
+    clientWindow=new ClientWindow(preWindow,this);
     clientWindow->showMaximized();
     this->close();
 }

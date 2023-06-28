@@ -7,10 +7,17 @@ Client::Client(QHostAddress serverIP,QWidget *parent) :
 {
     ui->setupUi(this);
     socket=new QTcpSocket;
-    socket->connectToHost(serverIP,8080);
+
+    connectionStatus=false;
+    receiveStatus=false;
+    sendStatus=false;
+
     connect(socket,SIGNAL(connected()),this,SLOT(socketConnected()));
     connect(socket,SIGNAL(readyRead()),this,SLOT(socketReadyRead()));
+    connect(socket,SIGNAL(bytesWritten(qint64)),this,SLOT(socketWriteBytes()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(socketDisconnected()));
+
+    socket->connectToHost(serverIP,16000);
 
 }
 
@@ -34,6 +41,11 @@ void Client::socketDisconnected()
     connectionStatus=false;
 }
 
+void Client::socketWriteBytes()
+{
+    sendStatus=true;
+}
+
 void Client::writeInformation(QByteArray&information){
     socket->write(information);
 }
@@ -46,6 +58,22 @@ QByteArray Client::readInformation()
 
 void Client::closeSocket()
 {
-    socket->close();
+    socket->disconnectFromHost();
+    connectionStatus=false;
+}
+
+bool Client::getConnectionStatus()
+{
+    return connectionStatus;
+}
+
+bool Client::getReceiveStatus()
+{
+    return receiveStatus;
+}
+
+bool Client::getSendStatus()
+{
+    return sendStatus;
 }
 

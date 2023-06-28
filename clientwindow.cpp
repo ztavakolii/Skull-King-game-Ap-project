@@ -5,12 +5,13 @@
 
 extern Person User;
 
-ClientWindow::ClientWindow(QMainWindow*prewindow,QWidget *parent) :
+ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ClientWindow)
 {
     ui->setupUi(this);
     preWindow=prewindow;
+    personalWindow=personalwindow;
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
@@ -56,7 +57,7 @@ void ClientWindow::connectButtonClicked()
         //if(IP is correct)
         {
             User.set_client(QHostAddress(ui->serverIPLineEdit->text()));
-            clientWaitWindow=new ClientWaitWindow; // I must pass a pointer to personal window to ClientWaitWindow constructor
+            clientWaitWindow=new ClientWaitWindow(personalWindow,this);
             clientWaitWindow->showMaximized();
             this->close();
         }
