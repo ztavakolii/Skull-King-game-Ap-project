@@ -1,20 +1,164 @@
 #include "server.h"
 #include "ui_server.h"
+#include "person.h"
 
-Server::Server(QMainWindow*prewindow,QWidget *parent) :
+extern Person User;
+
+using namespace std;
+
+Server::Server(QString servername,int maxnumberofclients,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Server)
 {
     ui->setupUi(this);
-    preWindow=prewindow;
 
-    QIcon windowsIcon(":/new/image/gamename.png");
-    this->setWindowIcon(windowsIcon);
-    this->setWindowTitle("Become a Server");
+    Player serverPlayer;
+    serverPlayer.setName(User.get_name());
+    // serverPlayer.setProfile(User.set_profile_picture());
+    players.push_back(serverPlayer);
+
+    serverName=servername;
+    maxNumberOfClients=maxnumberofclients;
+    numberOfConnectedClients=0;
+
+    server=new QTcpServer;
+    server->listen(QHostAddress::Any,8080);
+    while(!server->isListening())
+        server->listen(QHostAddress::Any,8080);
+    connect(server,SIGNAL(newConnection()),this,SLOT(acceptNewConnection()));
 
 }
 
 Server::~Server()
 {
     delete ui;
+    for(vector<std::thread>::iterator it=readingFromPlayersSocketThreads.begin();
+         it!=readingFromPlayersSocketThreads.end();it++){
+        it->join();
+    }
+}
+
+void Server::setNumberOfConnectedClientsChangeStatus(bool status)
+{
+    unique_lock lck(mx);
+    numberOfConnectedClientsChangeStatus=status;
+}
+
+bool Server::getNumberOfConnectedClientsChangeStatus()
+{
+    return numberOfConnectedClientsChangeStatus;
+}
+
+QByteArray Server::readPlayersList()
+{
+    QByteArray information;
+    QDataStream out(information);
+    out<<players.size(); // the number of connected clients
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+        out<<(*it).getName()<<(*it).getCupsNumber()<<(*it).getProfile();
+    }
+    return information;
+}
+
+void Server::readFromPlayersocket(QTcpSocket* socket)
+{
+    char mainCode;
+    QString clientName;
+    int clientCupNumber;
+    QPixmap clientProfilePicture;
+
+    // mainCode         | Received information
+    //----------------------------------------------------------------------------------------
+    // 'a' "add"        | client name - client's cups number - client's profile picture
+    //----------------------------------------------------------------------------------------
+    // 'd' "delete"     | deleted client's name
+    //----------------------------------------------------------------------------------------
+
+    while(true){
+        while(!socket->waitForReadyRead(-1));
+        QByteArray receivedInformation;
+        QDataStream in(receivedInformation);
+        in>>mainCode;
+
+        QByteArray sentinformation;
+        QDataStream out(sentinformation);
+
+        switch(mainCode){
+
+        case 'a':
+
+            in>>clientName>>clientCupNumber/*>>clientProfilePicture*/;
+            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+                if(it->getSocket()==socket){
+                    it->setName(clientName);
+                    it->setcupsNumber(clientCupNumber);
+                   // it->setProfile(clientProfilePicture);
+                    break;
+                }
+            }
+
+            out<<'b'<<serverName<<maxNumberOfClients+1<<numberOfConnectedClients+1;
+            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+                out<<it->getName()<<it->getCupsNumber()/*<<it->getProfile()*/;
+            }
+            writeInPlayerSocket(sentinformation,socket);
+
+            sentinformation.clear();
+            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+                out<<'a'<<clientName<<clientCupNumber/*<<clientProfilePicture*/;
+                writeInPlayerSocket(sentinformation,it->getSocket());
+                sentinformation.clear();
+            }
+
+            break;
+
+        case 'd':
+            in>>clientName;
+            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+                if(it->getName()==clientName){
+                    players.erase(it);
+                    break;
+                }
+            }
+            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+                sentinformation.clear();
+                out<<'d'<<'c'<<clientName;
+                writeInPlayerSocket(sentinformation,it->getSocket());
+            }
+            unique_lock lck1(mx);
+            numberOfConnectedClientsChangeStatus=true;
+            unique_lock lck2(mx2);
+            numberOfConnectedClients--;
+            break;
+
+        }
+    }
+}
+
+void Server::writeInPlayerSocket(QByteArray &information, QTcpSocket *socket)
+{
+    socket->write(information);
+}
+
+void Server::acceptNewConnection()
+{
+    if(numberOfConnectedClients<maxNumberOfClients){
+    Player newPlayer;
+    newPlayer.setSocket(server->nextPendingConnection());
+    players.push_back(newPlayer);
+   // std::thread t(readFromPlayersocket,newPlayer.getSocket());
+    readingFromPlayersSocketThreads.push_back(std::thread(&Server::readFromPlayersocket,this,newPlayer.getSocket()));
+    unique_lock lck1(mx);
+    numberOfConnectedClientsChangeStatus=true;
+    unique_lock lck2(mx2);
+    numberOfConnectedClients++;
+    }
+    else {
+    QTcpSocket*socket=server->nextPendingConnection();
+    QByteArray information;
+    QDataStream out(information);
+    out<<'r';   // 'r' "reject"
+    writeInPlayerSocket(information,socket);
+    socket->disconnectFromHost();
+    }
 }

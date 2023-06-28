@@ -25,7 +25,9 @@ SOURCES += \
     register_login.cpp \
     registeraccount.cpp \
     server.cpp \
-    serverorclientwindow.cpp
+    serverorclientwindow.cpp \
+    serverwaitwindow.cpp \
+    serverwindow.cpp
 
 HEADERS += \
     client.h \
@@ -42,7 +44,9 @@ HEADERS += \
     register_login.h \
     registeraccount.h \
     server.h \
-    serverorclientwindow.h
+    serverorclientwindow.h \
+    serverwaitwindow.h \
+    serverwindow.h
 
 FORMS += \
     client.ui \
@@ -56,7 +60,9 @@ FORMS += \
     register_login.ui \
     registeraccount.ui \
     server.ui \
-    serverorclientwindow.ui
+    serverorclientwindow.ui \
+    serverwaitwindow.ui \
+    serverwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -98,6 +98,8 @@ void ClientWaitWindow::readInformationSentByServer()
     int serverCapacity,numberOfConnectedClients,clientCupNumber;
     QPixmap clientProfilePicture;
 
+    QMessageBox*message=new QMessageBox(this);
+
     char mainCode ,subCode;
 
     //mainCode        | Received Information
@@ -112,13 +114,22 @@ void ClientWaitWindow::readInformationSentByServer()
     //----------------------------------------------------------------------------------------------------------------
     // 'p' "play starts"
     //----------------------------------------------------------------------------------------------------------------
-
+    // 'r' "reject"
     while(true){
         if(User.get_client()->getReceiveStatus()==true){
             QByteArray receivedInformation=User.get_client()->readInformation();
             QDataStream in(receivedInformation);
             in>>mainCode;
             switch(mainCode){
+            case 'r':
+              //  QMessageBox*message=new QMessageBox(this);
+                // set the style sheet of this QMessageBox
+                message->critical(this,"Waiting for the server to complete","The server is complete.");
+                if(message->Ok){
+                    this->close();
+                    preWindow->showMaximized();
+                }
+                break;
 
             case 'b':
                 in>>serverName>>serverCapacity>>numberOfConnectedClients;
@@ -129,7 +140,7 @@ void ClientWaitWindow::readInformationSentByServer()
                     in>>clientName>>clientCupNumber/*>>clientProfilePicture*/;
                     addNewClientToList(clientName,clientCupNumber/*,clientProfilePicture*/);
                 }
-                addNewClientToList(User.get_name(),User.get_cup()/*,User.get_profile_picture()*/);
+            //    addNewClientToList(User.get_name(),User.get_cup()/*,User.get_profile_picture()*/);
                 break;
 
             case 'a':
@@ -193,7 +204,7 @@ void ClientWaitWindow::disconnectButtonClicked()
 {
     QByteArray information;
     QDataStream out(information);
-    out<<'d'; // d "delete" tells the server that client want to disconnect and server deleted it from its list
+    out<<'d'<<User.get_name(); // d "delete" tells the server that client want to disconnect and server deleted it from its list
     User.get_client()->writeInformation(information);
     while(User.get_client()->getSendStatus()==false);
     User.get_client()->closeSocket();

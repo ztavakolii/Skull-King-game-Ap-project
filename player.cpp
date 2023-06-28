@@ -1,22 +1,33 @@
 #include "player.h"
 
-Player::Player(QString s,QImage im)
+Player::Player()
 {
-    username=s;
+    score=0;
+    numberOfHandsSaidWon=0;
+    numberOfHandsWonInCurrentRound=0;
+    durationOfDisconnectFromServer=60;
+    whichRound=0;
+    cupsNumber=0;
+}
+
+Player::Player(QString s,QPixmap im,int cupsnumber) //this class must change
+{
+    Name=s;
     profile=im;
     score=0;
     numberOfHandsSaidWon=0;
     numberOfHandsWonInCurrentRound=0;
     durationOfDisconnectFromServer=60;
     whichRound=0;
+    cupsNumber=cupsnumber;
 }
 
-void Player::setUsername(QString s)
+void Player::setName(QString s)
 {
-    username=s;
+    Name=s;
 }
 
-void Player::setProfile(QImage picture)
+void Player::setProfile(QPixmap picture)
 {
     profile=picture;
 }
@@ -39,6 +50,11 @@ void Player::setNumberOfHandsWonInCurrentRoundTOZero()
 void Player::setNumberOfHandsWonInCurrentRoundIncreament()
 {
     numberOfHandsWonInCurrentRound+=1;
+}
+
+void Player::setcupsNumber(int number)
+{
+    cupsNumber=number;
 }
 
 void Player::increaseScoreAtEndEachRound()
@@ -65,12 +81,17 @@ void Player::setWhichRound(int numberOfRound)
     whichRound=numberOfRound;
 }
 
-QString Player::getUsername()
+void Player::setSocket(QTcpSocket *clientSocket)
 {
-    return username;
+    socket=clientSocket;
 }
 
-QImage Player::getProfile()
+QString Player::getName()
+{
+    return Name;
+}
+
+QPixmap Player::getProfile()
 {
     return profile;
 }
@@ -85,8 +106,18 @@ int Player::getNumberOfHandsSaidWon()
     return numberOfHandsSaidWon;
 }
 
+int Player::getCupsNumber()
+{
+    return cupsNumber;
+}
+
 std::vector<int> Player::getCasrdsSet()
 {
     return cards;
+}
+
+QTcpSocket *Player::getSocket()
+{
+    return socket;
 }
 

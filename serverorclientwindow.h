@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "server.h"
+#include "serverwindow.h"
 #include "clientwindow.h"
 
 namespace Ui {
@@ -21,7 +21,7 @@ public:
 private:
     Ui::ServerOrClientWindow *ui;
     QMainWindow*preWindow;
-    Server*serverWindow;
+    ServerWindow*serverWindow;
     ClientWindow*clientWindow;
 
 private slots:

@@ -57,9 +57,11 @@ void ClientWindow::connectButtonClicked()
         //if(IP is correct)
         {
             User.set_client(QHostAddress(ui->serverIPLineEdit->text()));
+            /*if(User.get_client()->getConnectionStatus()==true)*/{
             clientWaitWindow=new ClientWaitWindow(personalWindow,this);
             clientWaitWindow->showMaximized();
             this->close();
+            }
         }
         //else
 //        {

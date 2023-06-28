@@ -17,7 +17,7 @@ Client::Client(QHostAddress serverIP,QWidget *parent) :
     connect(socket,SIGNAL(bytesWritten(qint64)),this,SLOT(socketWriteBytes()));
     connect(socket,SIGNAL(disconnected()),this,SLOT(socketDisconnected()));
 
-    socket->connectToHost(serverIP,16000);
+    socket->connectToHost(serverIP,8080);
 
 }
 

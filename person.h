@@ -3,6 +3,7 @@
 #include <QString>
 #include <QPixmap>
 #include "client.h"
+#include "server.h"
 
 class Person
 {
@@ -47,6 +48,7 @@ private:
     bool in_game,server;
    // QPixmap profile_picture;
     Client*client;
+    Server*server2;
 };
 
 #endif // PERSON_H
