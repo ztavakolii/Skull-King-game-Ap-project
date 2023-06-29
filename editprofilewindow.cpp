@@ -5,7 +5,7 @@
 #include <QFile>
 #include "person.h"
 
-extern Person User;
+extern Person* User;
 
 EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -19,7 +19,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Edit profile");
 
-    if(User.get_gender()=="Male"){
+    if(User->get_gender()=="Male"){
         ui->addressTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->countryPhoneCodesComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->genderComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
@@ -28,7 +28,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
         ui->phoneNumberLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->usernameLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    else if(User.get_gender()== "Female"){
+    else if(User->get_gender()== "Female"){
         ui->addressTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->countryPhoneCodesComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->genderComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
@@ -51,22 +51,22 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     //connect editProfileButton to a slot
 
 
-    ui->addressTextEdit->setText(User.get_address());
-    ui->nameLineEdit->setText(User.get_name());
-    ui->passwordLineEdit->setText(User.get_password());
-   // ui->profileImageLabel->setPixmap(User.get_profile_picture());
-    ui->usernameLineEdit->setText(User.get_user_name());
+    ui->addressTextEdit->setText(User->get_address());
+    ui->nameLineEdit->setText(User->get_name());
+    ui->passwordLineEdit->setText(User->get_password());
+    ui->profileImageLabel->setPixmap(User->get_profile_picture());
+    ui->usernameLineEdit->setText(User->get_user_name());
 
     QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
     ui->countryPhoneCodesComboBox->addItems(countryPhoneCodes);
     ui->phoneNumberLineEdit->setValidator(new QIntValidator(ui->phoneNumberLineEdit));
-    ui->countryPhoneCodesComboBox->setCurrentText(User.get_phone_code());
-    ui->phoneNumberLineEdit->setText(User.get_phone_number());
+    ui->countryPhoneCodesComboBox->setCurrentText(User->get_phone_code());
+    ui->phoneNumberLineEdit->setText(User->get_phone_number());
 
 
     QStringList genderList={"Male","Female"};
     ui->genderComboBox->addItems(genderList);
-    ui->genderComboBox->setCurrentText(User.get_gender());
+    ui->genderComboBox->setCurrentText(User->get_gender());
 
 
     ui->eyeButton->setStyleSheet("border:none");
@@ -143,24 +143,24 @@ void EditProfileWindow::editButtonClicked()
         && ui->usernameLineEdit->text().length()>0){
 
         QString fileName=ui->usernameLineEdit->text();
-        if((!QFile::exists(fileName) && fileName!=User.get_user_name())
-            || fileName==User.get_user_name()){
+        if((!QFile::exists(fileName) && fileName!=User->get_user_name())
+            || fileName==User->get_user_name()){
             if(ui->passwordLineEdit->text().length()>=8){ // Here is better that password security be checked with regex
                 if(ui->phoneNumberLineEdit->text().length()>=10){ //this condition may be inappropriate
-                    fileName=User.get_user_name();
+                    fileName=User->get_user_name();
                     QFile f(fileName);
                     f.remove();
 
-                     User.set_address(ui->addressTextEdit->toPlainText());
-                     User.set_gender(ui->genderComboBox->currentText());
-                     User.set_name(ui->nameLineEdit->text());
-                     User.set_password(ui->passwordLineEdit->text());
-                     User.set_phone_code(ui->countryPhoneCodesComboBox->currentText());
-                     User.set_phone_number(ui->phoneNumberLineEdit->text());
-               //      User.set_profile_picture(ui->profileImageLabel->pixmap());
-                     User.set_user_name(ui->usernameLineEdit->text());
+                     User->set_address(ui->addressTextEdit->toPlainText());
+                     User->set_gender(ui->genderComboBox->currentText());
+                     User->set_name(ui->nameLineEdit->text());
+                     User->set_password(ui->passwordLineEdit->text());
+                     User->set_phone_code(ui->countryPhoneCodesComboBox->currentText());
+                     User->set_phone_number(ui->phoneNumberLineEdit->text());
+                     User->set_profile_picture(ui->profileImageLabel->pixmap());
+                     User->set_user_name(ui->usernameLineEdit->text());
 
-                     User.write_information_in_file();
+                     User->write_information_in_file();
                      QMessageBox::information(this,"Edit Profile","Your personal information edited seccessfully.");
 
                 }
@@ -193,12 +193,12 @@ void EditProfileWindow::editButtonClicked()
 
 void EditProfileWindow::cancelButtonClicked()
 {
-    ui->addressTextEdit->setText(User.get_address());
-    ui->countryPhoneCodesComboBox->setCurrentText(User.get_phone_code());
-    ui->genderComboBox->setCurrentText(User.get_gender());
-    ui->nameLineEdit->setText(User.get_name());
-    ui->passwordLineEdit->setText(User.get_password());
-    ui->usernameLineEdit->setText(User.get_user_name());
- //   ui->profileImageLabel->setPixmap(User.get_profile_picture());
-    ui->phoneNumberLineEdit->setText(User.get_phone_number());
+    ui->addressTextEdit->setText(User->get_address());
+    ui->countryPhoneCodesComboBox->setCurrentText(User->get_phone_code());
+    ui->genderComboBox->setCurrentText(User->get_gender());
+    ui->nameLineEdit->setText(User->get_name());
+    ui->passwordLineEdit->setText(User->get_password());
+    ui->usernameLineEdit->setText(User->get_user_name());
+    ui->profileImageLabel->setPixmap(User->get_profile_picture());
+    ui->phoneNumberLineEdit->setText(User->get_phone_number());
 }

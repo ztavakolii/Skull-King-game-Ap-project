@@ -172,7 +172,7 @@
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="placeholderText">
-     <string>?!</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">

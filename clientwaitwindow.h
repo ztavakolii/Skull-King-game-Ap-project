@@ -36,7 +36,7 @@ private:
 
     void sendPlayerInformationToServer();
     void readInformationSentByServer();
-    void addNewClientToList(QString clientName,int clientCupNumber/*,QPixmap clientProfilePicture*/);
+    void addNewClientToList(QString clientName,int clientCupNumber,QPixmap clientProfilePicture);
     void showClientListInGUI();
 
 private slots:

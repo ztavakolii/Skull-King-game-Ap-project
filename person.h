@@ -17,7 +17,7 @@ public:
     QString get_phone_code();
     QString get_phone_number();
     QString get_address();
-//    QPixmap get_profile_picture();
+    QPixmap get_profile_picture();
     Client*get_client();
     Server*get_server();
     int get_cup();
@@ -33,7 +33,7 @@ public:
     void set_address(QString);
     void set_cup(int);
     void set_coin(int);
-  //  void set_profile_picture(QPixmap profile);
+    void set_profile_picture(QPixmap profile);
     void game(bool,bool);//the person is in the game
     int add();//add the information of person in to files
     int match(int);//chack that the information is true or not
@@ -48,7 +48,7 @@ private:
     QString name,user_name,gender,password,phone_code,phone_number,address;
     int coin,cup;
     bool in_game,server;
-   // QPixmap profile_picture;
+    QPixmap profile_picture;
     Client*client;
     Server*server2;
 };

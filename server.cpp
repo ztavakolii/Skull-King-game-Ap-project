@@ -1,8 +1,9 @@
 #include "server.h"
 #include "ui_server.h"
+#include <QHostInfo>
 #include "person.h"
 
-extern Person User;
+extern Person* User;
 
 using namespace std;
 
@@ -13,13 +14,17 @@ Server::Server(QString servername,int maxnumberofclients,QWidget *parent) :
     ui->setupUi(this);
 
     Player serverPlayer;
-    serverPlayer.setName(User.get_name());
-    // serverPlayer.setProfile(User.set_profile_picture());
+    serverPlayer.setName(User->get_name());
+    serverPlayer.setProfile(User->get_profile_picture());
     players.push_back(serverPlayer);
 
     serverName=servername;
     maxNumberOfClients=maxnumberofclients;
     numberOfConnectedClients=0;
+    auto list=QHostInfo::fromName(QHostInfo::localHostName()).addresses();
+    // if the computer disconnect from internet in this line the program stops,
+    //then we must check connection to internet
+    serverIP=list[5]; // for laptop
 
     server=new QTcpServer;
     server->listen(QHostAddress::Any,8080);
@@ -46,7 +51,18 @@ void Server::setNumberOfConnectedClientsChangeStatus(bool status)
 
 bool Server::getNumberOfConnectedClientsChangeStatus()
 {
+    shared_lock lck(mx);
     return numberOfConnectedClientsChangeStatus;
+}
+
+int Server::getMaxNumberOfClients()
+{
+    return maxNumberOfClients;
+}
+
+QHostAddress Server::getServerIP()
+{
+    return serverIP;
 }
 
 QByteArray Server::readPlayersList()
@@ -58,6 +74,27 @@ QByteArray Server::readPlayersList()
         out<<(*it).getName()<<(*it).getCupsNumber()<<(*it).getProfile();
     }
     return information;
+}
+
+void Server::serverDeleted()
+{
+    QByteArray information;
+    QDataStream out(information);
+    out<<'d'<<'s';
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+        writeInPlayerSocket(information,it->getSocket());
+    }
+    server->close();
+}
+
+void Server::playStarted()
+{
+    QByteArray information;
+    QDataStream out(information);
+    out<<'p';
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+        writeInPlayerSocket(information,it->getSocket());
+    }
 }
 
 void Server::readFromPlayersocket(QTcpSocket* socket)
@@ -87,25 +124,25 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
 
         case 'a':
 
-            in>>clientName>>clientCupNumber/*>>clientProfilePicture*/;
+            in>>clientName>>clientCupNumber>>clientProfilePicture;
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
                 if(it->getSocket()==socket){
                     it->setName(clientName);
                     it->setcupsNumber(clientCupNumber);
-                   // it->setProfile(clientProfilePicture);
+                    it->setProfile(clientProfilePicture);
                     break;
                 }
             }
 
             out<<'b'<<serverName<<maxNumberOfClients+1<<numberOfConnectedClients+1;
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
-                out<<it->getName()<<it->getCupsNumber()/*<<it->getProfile()*/;
+                out<<it->getName()<<it->getCupsNumber()<<it->getProfile();
             }
             writeInPlayerSocket(sentinformation,socket);
 
             sentinformation.clear();
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
-                out<<'a'<<clientName<<clientCupNumber/*<<clientProfilePicture*/;
+                out<<'a'<<clientName<<clientCupNumber<<clientProfilePicture;
                 writeInPlayerSocket(sentinformation,it->getSocket());
                 sentinformation.clear();
             }

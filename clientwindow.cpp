@@ -3,7 +3,7 @@
 #include "person.h"
 #include <QMessageBox>
 
-extern Person User;
+extern Person *User;
 
 ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -22,11 +22,11 @@ ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWid
     ui->backButton->setIconSize(QSize(40,40));
     connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
 
-    if(User.get_gender()=="Male"){
+    if(User->get_gender()=="Male"){
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->serverIPLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    else if(User.get_gender()=="Female"){
+    else if(User->get_gender()=="Female"){
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->serverIPLineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
     }
@@ -56,8 +56,8 @@ void ClientWindow::connectButtonClicked()
          //IP permission must be checked with regex
         //if(IP is correct)
         {
-            User.set_client(QHostAddress(ui->serverIPLineEdit->text()));
-            /*if(User.get_client()->getConnectionStatus()==true)*/{
+            User->set_client(QHostAddress(ui->serverIPLineEdit->text()));
+            if(User->get_client()->getConnectionStatus()==true){
             clientWaitWindow=new ClientWaitWindow(personalWindow,this);
             clientWaitWindow->showMaximized();
             this->close();

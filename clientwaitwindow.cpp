@@ -84,7 +84,7 @@ void ClientWaitWindow::sendPlayerInformationToServer()
         QByteArray information;
         QDataStream out(information);
         // 'a' tell the server that "add" the clients to the list of connected clients
-        out<<'a'<<User.get_name()<<User.get_cup()/*<<User.get_profile_picture()*/;
+        out<<'a'<<User.get_name()<<User.get_cup()<<User.get_profile_picture();
         User.get_client()->writeInformation(information);
         if(User.get_client()->getSendStatus()==true){
             t=new std::thread(&ClientWaitWindow::readInformationSentByServer,this);
@@ -137,15 +137,15 @@ void ClientWaitWindow::readInformationSentByServer()
                                            +serverName+" server reaches "+QString::number(serverCapacity)
                                            +". After that, the war begins.\n\nSkull King");
                 for(int i=0;i<numberOfConnectedClients;i++){
-                    in>>clientName>>clientCupNumber/*>>clientProfilePicture*/;
-                    addNewClientToList(clientName,clientCupNumber/*,clientProfilePicture*/);
+                    in>>clientName>>clientCupNumber>>clientProfilePicture;
+                    addNewClientToList(clientName,clientCupNumber,clientProfilePicture);
                 }
             //    addNewClientToList(User.get_name(),User.get_cup()/*,User.get_profile_picture()*/);
                 break;
 
             case 'a':
-                in>>clientName>>clientCupNumber/*>>clientProfilePicture*/;
-                addNewClientToList(clientName,clientCupNumber/*,clientProfilePicture*/);
+                in>>clientName>>clientCupNumber>>clientProfilePicture;
+                addNewClientToList(clientName,clientCupNumber,clientProfilePicture);
                 break;
 
             case 'd':
@@ -213,12 +213,12 @@ void ClientWaitWindow::disconnectButtonClicked()
     this->close();
 }
 
-void ClientWaitWindow::addNewClientToList(QString clientName, int clientCupNumber/*,QPixmap clientProfilePicture*/)
+void ClientWaitWindow::addNewClientToList(QString clientName, int clientCupNumber,QPixmap clientProfilePicture)
 {
     ClientInformation newClient;
     newClient.name=clientName;
     newClient.cupNumber=clientCupNumber;
-  //  newClient.profilePicture=clientProfilePicture;
+    newClient.profilePicture=clientProfilePicture;
 
     connectedClientsToServerList.push_back(newClient);
 

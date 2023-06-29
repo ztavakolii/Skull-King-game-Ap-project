@@ -22,6 +22,7 @@ SOURCES += \
     person.cpp \
     personalwindow.cpp \
     player.cpp \
+    playwindow.cpp \
     register_login.cpp \
     registeraccount.cpp \
     server.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     person.h \
     personalwindow.h \
     player.h \
+    playwindow.h \
     register_login.h \
     registeraccount.h \
     server.h \
@@ -57,6 +59,7 @@ FORMS += \
     buy.ui \
     login.ui \
     personalwindow.ui \
+    playwindow.ui \
     register_login.ui \
     registeraccount.ui \
     server.ui \

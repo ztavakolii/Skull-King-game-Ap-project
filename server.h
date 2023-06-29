@@ -24,7 +24,11 @@ public:
     ~Server();
     void setNumberOfConnectedClientsChangeStatus(bool status);
     bool getNumberOfConnectedClientsChangeStatus();
+    int getMaxNumberOfClients();
+    QHostAddress getServerIP();
     QByteArray readPlayersList();
+    void serverDeleted();
+    void playStarted();
 
 
 private:
@@ -34,6 +38,7 @@ private:
     QString serverName;
     int maxNumberOfClients;//this is the number of clients that server accept
     int numberOfConnectedClients;
+    QHostAddress serverIP;
     std::vector<Player>players; //list of clients
     std::vector<std::thread> readingFromPlayersSocketThreads;
     bool numberOfConnectedClientsChangeStatus;

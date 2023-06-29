@@ -8,7 +8,7 @@
 #include "person.h"
 #include "QMessageBox"
 
-extern Person User;
+extern Person* User;
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -113,8 +113,8 @@ void login::showPersonalWindow()
     Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
     if(user.match(1))
     {
-        User.set_user_name(user.get_user_name());
-        User.read_information_from_file();
+        User->set_user_name(user.get_user_name());
+        User->read_information_from_file();
         personalWindow=new PersonalWindow(preWindow);
         personalWindow->showMaximized();
         this->close();
@@ -183,8 +183,8 @@ void login::changePasswordAndShowPersonalWindow()
         QString s=NULL;
         Person user(s,ui->usernameLineEdit->text(),s,ui->newPasswordLineEdit->text(),ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
         user.edit_password(ui->newPasswordLineEdit->text());
-        User.set_user_name(user.get_user_name());
-        User.read_information_from_file();
+        User->set_user_name(user.get_user_name());
+        User->read_information_from_file();
         personalWindow=new PersonalWindow(preWindow);
         personalWindow->showMaximized();
         this->close();

@@ -2,8 +2,9 @@
 #include "ui_serverwindow.h"
 #include <QMessageBox>
 #include "person.h"
+#include"serverwaitwindow.h"
 
-extern Person User;
+extern Person *User;
 
 ServerWindow::ServerWindow(QMainWindow*prewindow,QMainWindow*personalwindow,QWidget *parent) :
     QMainWindow(parent),
@@ -22,12 +23,12 @@ ServerWindow::ServerWindow(QMainWindow*prewindow,QMainWindow*personalwindow,QWid
     ui->backButton->setIconSize(QSize(40,40));
     connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
 
-    if(User.get_gender()=="Male"){
+    if(User->get_gender()=="Male"){
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->serverNamelineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
         ui->maxNumberOfClientsComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    else if(User.get_gender()=="Female"){
+    else if(User->get_gender()=="Female"){
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->serverNamelineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
         ui->maxNumberOfClientsComboBox->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
@@ -63,7 +64,7 @@ void ServerWindow::confirmButtonClicked()
         //set style sheet of this message
     }
     else{
-        User.set_server(ui->serverNamelineEdit->text(),ui->maxNumberOfClientsComboBox->currentText().toInt());
+        User->set_server(ui->serverNamelineEdit->text(),ui->maxNumberOfClientsComboBox->currentText().toInt());
         serverWaitWindow=new ServerWaitWindow(personalWindow);
         serverWaitWindow->showMaximized();
         this->close();
