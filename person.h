@@ -37,7 +37,7 @@ public:
     void read_information_from_file();
     void write_information_in_file();
     void remove();//remove the file
-    int buy(int);//for buy some item
+    int buy(int,int);//for buy some item
 
 
 private:

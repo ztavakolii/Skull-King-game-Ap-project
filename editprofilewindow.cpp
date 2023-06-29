@@ -115,17 +115,9 @@ void EditProfileWindow::deleteAccountButtonClicked()
     QMessageBox::StandardButton reply=QMessageBox::question(this,"Warning","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?",QMessageBox::Yes|QMessageBox::No);
     if(reply==QMessageBox::Yes){
     this->close();
-    register_loginWindow->show();
-    User.remove();
-    }
-}
-
-void EditProfileWindow::confirmDeleteAccountClicked()
-{
-    // delete all files of this player
-
     register_loginWindow->showMaximized();
-    this->close();
+    User.remove();//remove buy file and history file
+    }
 }
 
 void EditProfileWindow::editButtonClicked()

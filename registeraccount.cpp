@@ -5,9 +5,12 @@
 #include "person.h"
 #include <windows.h>
 #include "QMessageBox"
+
+#include <QFile>
+#include <QTextStream>
 using namespace std;
 
-Person User("","","","","","","",0,0);
+Person User("","","","","","","",0,1000);
 
 RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -74,7 +77,7 @@ void RegisterAccount::on_register_button_clicked(bool checked)
         else if(ui->phone_l->text().length()<10)
             QMessageBox::critical(this,"Error","The phone_number should have 10 digits!");
         else{
-            Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
+            Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,1000);
             if(user.add()==0)//repetitious user_name
                 QMessageBox::critical(this,"Error","The account with this username has already exists!");
 
@@ -82,6 +85,13 @@ void RegisterAccount::on_register_button_clicked(bool checked)
 
                 User.set_user_name(user.get_user_name());
                 User.read_information_from_file();
+                QString f_name=User.get_user_name()+"_buy";//build a file for items that will buy in future
+                QFile b(f_name);
+                b.open(QIODevice::WriteOnly);
+                QDataStream out1(&b);
+                for(int i=0;i<25;i++)
+                    out1<<"0";
+                b.close();
                 personalwindow=new PersonalWindow(prewindow);
                 personalwindow->showMaximized();
                 this->close();
