@@ -59,9 +59,12 @@ void ServerWindow::backButtonClicked()
 void ServerWindow::confirmButtonClicked()
 {
     if(ui->serverNamelineEdit->text().length()==0){
-        QMessageBox*message=new QMessageBox(this);
-        message->critical(this,"Become Server","You must Enter a Server name.");
-        //set style sheet of this message
+        QMessageBox message;
+        message.setText("You must Enter a Server name.");
+        message.setIcon(QMessageBox::Critical);
+        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+        message.setStyleSheet("background-color: rgb(236, 197, 119)");
+        message.exec();
     }
     else{
         User->set_server(ui->serverNamelineEdit->text(),ui->maxNumberOfClientsComboBox->currentText().toInt());

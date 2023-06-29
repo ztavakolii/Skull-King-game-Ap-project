@@ -2,8 +2,6 @@
 #include "ui_login.h"
 #include <QString>
 #include <QStringList>
-#include <QImage>
-#include <QStatusBar>
 #include <windows.h>
 #include "person.h"
 #include "QMessageBox"
@@ -21,8 +19,6 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Login");
-
-    //personalWindow=new PersonalWindow(preWindow);
 
     ui->background->showFullScreen();
 
@@ -121,9 +117,12 @@ void login::showPersonalWindow()
     }
     else
     {
-        QMessageBox::critical(this,"Error","Username and password do not match!");
-//    ui->statusBar->show();
-//    ui->statusBar->showMessage(tr("Username and password do not match."));
+        QMessageBox message;
+        message.setText("Username and password do not match!");
+        message.setIcon(QMessageBox::Critical);
+        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+        message.setStyleSheet("background-color: rgb(236, 197, 119)");
+        message.exec();
     }
 }
 
@@ -159,9 +158,12 @@ void login::checkMatchingUsernameandPhoneNumber()
     }
     else
     {
-        QMessageBox::critical(this,"Error","Username and phone number do not match!");
-//        ui->statusBar->show();
-//        ui->statusBar->showMessage(tr("Username and phone number do not match."));
+        QMessageBox message;
+        message.setText("Username and phone number do not match!");
+        message.setIcon(QMessageBox::Critical);
+        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+        message.setStyleSheet("background-color: rgb(236, 197, 119)");
+        message.exec();
     }
 }
 
@@ -176,8 +178,14 @@ void login::changePasswordAndShowPersonalWindow()
 {
     // change password in file
     if(ui->newPasswordLineEdit->text().length()<8)//invalid password
-        QMessageBox::critical(this,"Error","The password should have at least 8 characters!");
-
+    {
+        QMessageBox message;
+        message.setText("The password should have at least 8 characters!");
+        message.setIcon(QMessageBox::Critical);
+        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+        message.setStyleSheet("background-color: rgb(236, 197, 119)");
+        message.exec();
+    }
     else{
 
         QString s=NULL;

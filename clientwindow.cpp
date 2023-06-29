@@ -63,11 +63,14 @@ void ClientWindow::connectButtonClicked()
             this->close();
             }
         }
-        //else
-//        {
-//            QMessageBox*message=new QMessageBox(this);
-//            message->critical(this,"Become Client","The IP is invalid, enter a valid IP.");
-//            //set style sheet of this message
+//        else{
+//            QMessageBox message;
+//            message.setText("The IP is invalid, enter a valid IP.");
+//            message.setIcon(QMessageBox::Critical);
+//            message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+//            message.setStyleSheet("background-color: rgb(236, 197, 119)");
+//          //  message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+//            message.exec();
 //        }
     }
     else{

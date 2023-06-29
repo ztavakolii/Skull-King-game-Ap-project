@@ -111,25 +111,18 @@ void EditProfileWindow::changePasswordLineEditMode()
 
 void EditProfileWindow::deleteAccountButtonClicked()
 {
-    QMessageBox*message=new QMessageBox(this);
-    message->setStyleSheet("background-color: rgb(236, 197, 119);");
-    connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
-    message->warning(this,"Delete Account","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?","Confirm","Cancel");
-
-    //setStyleSheet doesn't work fix it
-  // message->setPalette(QPalette(QColor(0,0,0),QColor(236, 197, 119)));
-
-    //this connect doesn't work
-   // connect(message->defaultButton(),SIGNAL(clicked(bool)),this,SLOT(confirmDeleteAccountClicked()));
-
-}
-
-void EditProfileWindow::confirmDeleteAccountClicked()
-{
-    // delete all files of this player
-
-    register_loginWindow->showMaximized();
-    this->close();
+    QMessageBox message;
+    message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
+    message.setIcon(QMessageBox::Warning);
+    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+    message.setStyleSheet("background-color: rgb(236, 197, 119)");
+    message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+    message.exec();
+    if(message.Yes){
+        // delete all files
+        register_loginWindow->showMaximized();
+        this->close();
+    }
 }
 
 void EditProfileWindow::editButtonClicked()
@@ -161,32 +154,49 @@ void EditProfileWindow::editButtonClicked()
                      User->set_user_name(ui->usernameLineEdit->text());
 
                      User->write_information_in_file();
-                     QMessageBox::information(this,"Edit Profile","Your personal information edited seccessfully.");
 
+                     QMessageBox message;
+                     message.setText("Your personal information edited seccessfully.");
+                     message.setIcon(QMessageBox::Information);
+                     message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+                     message.setStyleSheet("background-color: rgb(236, 197, 119)");
+                     message.exec();
                 }
                 else{
-    QMessageBox*message=new QMessageBox(this);
-                message->critical(this,"Edit Profile","The phonenumber should have 10 digits!");
-                     // chenge the style sheet of this message box
+                QMessageBox message;
+                message.setText("The phonenumber should have 10 digits!");
+                message.setIcon(QMessageBox::Critical);
+                message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+                message.setStyleSheet("background-color: rgb(236, 197, 119)");
+                message.exec();
                 }
             }
             else{
-    QMessageBox*message=new QMessageBox(this);
-                message->critical(this,"Edit Profile","The password should have at least 8 characters!");
-                // chenge the style sheet of this message box
+                QMessageBox message;
+                message.setText("The password should have at least 8 characters!");
+                message.setIcon(QMessageBox::Critical);
+                message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+                message.setStyleSheet("background-color: rgb(236, 197, 119)");
+                message.exec();
             }
 
     }
         else{
-    QMessageBox*message=new QMessageBox(this);
-            message->critical(this,"Edit Profile","The account with this username has already exists!");
-    // chenge the style sheet of this message box
-        }
+            QMessageBox message;
+            message.setText("The account with this username has already exists!");
+            message.setIcon(QMessageBox::Critical);
+            message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+            message.setStyleSheet("background-color: rgb(236, 197, 119)");
+            message.exec();
+    }
     }
     else {
-    QMessageBox*message=new QMessageBox(this);
-        message->critical(this,"Edit Profile","The form is not completely filled!");
-        // chenge the style sheet of this message box
+        QMessageBox message;
+        message.setText("The form is not completely filled!");
+        message.setIcon(QMessageBox::Critical);
+        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+        message.setStyleSheet("background-color: rgb(236, 197, 119)");
+        message.exec();
     }
 
 }

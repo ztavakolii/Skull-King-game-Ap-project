@@ -88,9 +88,16 @@ void ServerWaitWindow::backButtonClicked()
 
 void ServerWaitWindow::deleteServerButtonClicked()
 {
-    QMessageBox::StandardButton reply=QMessageBox::question(this,"Waiting for the server to complete","Are you sure you want to delete your server?",QMessageBox::Yes|QMessageBox::No);
-    if(reply==QMessageBox::Yes)
+    QMessageBox message;
+    message.setText("Are you sure you want to delete your server?");
+    message.setIcon(QMessageBox::Warning);
+    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+    message.setStyleSheet("background-color: rgb(236, 197, 119)");
+    message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+    message.exec();
+    if(message.Yes){
         deleteServer();
+    }
 }
 
 void ServerWaitWindow::playButtonClicked()
