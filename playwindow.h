@@ -14,6 +14,7 @@ class PlayWindow : public QMainWindow
 public:
     explicit PlayWindow(QWidget *parent = nullptr);
     ~PlayWindow();
+    void startcountdown();
 
 private slots:
     void on_stop_button_clicked();
@@ -22,6 +23,7 @@ private slots:
 
 private:
     Ui::PlayWindow *ui;
+    QTimer* countdowntimer;
 };
 
 #endif // PLAYWINDOW_H

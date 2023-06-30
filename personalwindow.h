@@ -31,6 +31,7 @@ private:
     HistoryWindow*historyWindow;
     ServerOrClientWindow*serverOrClientWindow;
     EditProfileWindow*editProfileWindow;
+    PlayWindow*playwindow;
 
 
 
@@ -42,5 +43,6 @@ private slots:
     void editProfileButtonClicked();
 
 
+    void on_pushButton_clicked();
 };
 #endif // PERSONALWINDOW_H
