@@ -7,10 +7,12 @@
 #include "QTextStream"
 #include "person.h"
 #include "player.h"
+#include "thread"
 
 extern Person*User;
 Player* player;
 static int count=0;
+int number_of_player=2;
 
 PlayWindow::PlayWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,9 +28,14 @@ PlayWindow::PlayWindow(QWidget *parent) :
     ui->back_ground->showFullScreen();
     ui->stop_label->setPixmap(picture);
     ui->time_label->hide();
+    ui->bottle->hide();
+    ui->groupBox->hide();
+    ui->ok_button->setEnabled(false);
 
     ui->stop_button->setStyleSheet("border:none");
     ui->exit_button->setStyleSheet("border:none");
+     ui->exchange_button->setStyleSheet("border:none");
+     ui->ok_button->setStyleSheet("border:none");
     savedatetime();//save date time in file
     set_round_hand(1,1);
 
@@ -81,7 +88,8 @@ void PlayWindow::on_stop_button_clicked()
         count++;
         QPixmap p(":/new/image/icons8-play-button-96.png");
         ui->stop_label->setPixmap(p);
-        startcountdown(20);//call the function to start countdown timer
+        startcountdown(20);
+
     }
     else{
     QPixmap p(":/new/image/icons8-pause-button-96.png");
@@ -132,3 +140,36 @@ void PlayWindow::set_round_hand(int round, int hand)
     ui->round_label->setText(r);
     ui->hand_label->setText(h);
 }
+
+void PlayWindow::handle_loop(int loop)//for stop loop of the game
+{
+    if(loop==1)//start the stop loop
+        eventLoop.exec();
+    else//stop the loop
+        eventLoop.quit();
+}
+
+void PlayWindow::on_exchange_button_clicked()
+{
+    ui->groupBox->show();
+    ui->ok_button->setEnabled(true);
+    if(number_of_player==2){
+        ui->player2->hide();
+        ui->player3->hide();
+        ui->checkBox2->hide();
+        ui->checkBox3->hide();
+    }
+    else if(number_of_player==3){
+        ui->player3->hide();
+        ui->checkBox3->hide();
+    }
+}
+
+
+void PlayWindow::on_ok_button_clicked()
+{
+    //send to server
+    ui->groupBox->hide();
+    ui->ok_button->setEnabled(false);
+}
+
