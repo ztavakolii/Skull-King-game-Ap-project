@@ -2,6 +2,8 @@
 #define PLAYWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+#include "ui_playwindow.h"
 
 namespace Ui {
 class PlayWindow;

@@ -219,7 +219,6 @@ void Person::write_information_in_file()
         f.close();
     }
 }
-<<<<<<< HEAD
 
 void Person::set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP)
 {
@@ -240,7 +239,7 @@ Server *Person::get_server()
     return server2;
 }
 
-=======
+
 void Person::remove(){
     QString file_name=user_name;
     QFile f(file_name);
@@ -271,4 +270,4 @@ int Person::buy(int price,int number){
     }
     return 1;
 }
->>>>>>> Vania
+

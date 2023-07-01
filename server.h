@@ -2,7 +2,6 @@
 #define SERVER_H
 
 #include <QMainWindow>
-<<<<<<< HEAD
 #include <QTcpServer>
 #include <thread>
 #include <mutex>
@@ -12,11 +11,8 @@
 #include <QDataStream>
 #include "player.h"
 #include "serverwaitwindow.h"
-=======
 #include "ui_server.h"
-#include "QTcpServer"
-//#include <channel.h>
->>>>>>> Vania
+
 
 namespace Ui {
 class Server;
@@ -41,7 +37,6 @@ public:
 
 private:
     Ui::Server *ui;
-<<<<<<< HEAD
    // QMainWindow*preWindow;
     QTcpServer*server;
     QString serverName;
@@ -68,10 +63,6 @@ private slots:
     void readFromPlayersocket(QTcpSocket*socket);
     void writeInPlayerSocket(QByteArray information,QTcpSocket*socket);
     void readFromSocket(QByteArray* information,QTcpSocket*socket);
-=======
-    QMainWindow*preWindow;
-public:
->>>>>>> Vania
 
 };
 

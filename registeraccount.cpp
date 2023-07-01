@@ -4,19 +4,12 @@
 #include "ui_registeraccount.h"
 #include "person.h"
 #include "QMessageBox"
-
 #include <QFile>
 #include <QTextStream>
 using namespace std;
 
-<<<<<<< HEAD
-#include <QFile>
-#include <QTextStream>
-
 extern Person*User;
-=======
-Person User("","","","","","","",0,1000);
->>>>>>> Vania
+
 
 RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -79,7 +72,6 @@ void RegisterAccount::on_register_button_clicked(bool checked)
 {
     if(ui->name_l->text().length()>0&&ui->user_name_l->text().length()>0&&ui->comboBox_2->currentText().length()>0&&ui->password_l->text().length()>0&&ui->comboBox->currentText().length()>0&&ui->phone_l->text().length()){
         if(ui->password_l->text().length()<8)//invalid password
-<<<<<<< HEAD
         {
             QMessageBox message;
             message.setText("The password should have at least 8 characters!");
@@ -96,11 +88,6 @@ void RegisterAccount::on_register_button_clicked(bool checked)
         message.setStyleSheet("background-color: rgb(236, 197, 119)");
         message.exec();
         }
-=======
-            QMessageBox::critical(this,"Error","The password should have at least 8 characters!");
-        else if(ui->phone_l->text().length()<10)
-            QMessageBox::critical(this,"Error","The phone_number should have 10 digits!");
->>>>>>> Vania
         else{
             Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,1000);
             if(user.add()==0)//repetitious user_name
@@ -114,23 +101,16 @@ void RegisterAccount::on_register_button_clicked(bool checked)
             }
             else{//finish create_account process
 
-<<<<<<< HEAD
                 User->set_user_name(user.get_user_name());
                 User->read_information_from_file();
 
                 QString f_name=User->get_user_name()+"_buy";//build a file for items that will buy in future
-=======
-                User.set_user_name(user.get_user_name());
-                User.read_information_from_file();
-                QString f_name=User.get_user_name()+"_buy";//build a file for items that will buy in future
->>>>>>> Vania
                 QFile b(f_name);
                 b.open(QIODevice::WriteOnly);
                 QDataStream out1(&b);
                 for(int i=0;i<25;i++)
                     out1<<"0";
                 b.close();
-<<<<<<< HEAD
 
                 QString file_name=User->get_user_name()+"_history";//build a file for history
                 QFile h(file_name);
@@ -140,8 +120,6 @@ void RegisterAccount::on_register_button_clicked(bool checked)
                     out<<"";
                 h.close();
 
-=======
->>>>>>> Vania
                 personalwindow=new PersonalWindow(prewindow);
                 personalwindow->showMaximized();
                 this->close();

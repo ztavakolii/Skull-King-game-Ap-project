@@ -1,10 +1,6 @@
 QT       += core gui
-<<<<<<< HEAD
 QT       += network
 
-=======
-QT       +=network
->>>>>>> Vania
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
