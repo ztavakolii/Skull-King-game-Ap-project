@@ -1,12 +1,20 @@
 #include "client.h"
 #include "ui_client.h"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Vania
 Client::Client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Client)
 {
     ui->setupUi(this);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Vania
     clientWindow=clientwindow;
     personalWindow=personalwindow;
 

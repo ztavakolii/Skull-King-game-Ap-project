@@ -42,8 +42,13 @@ public:
     void edit();//edit information in file
     void read_information_from_file();
     void write_information_in_file();
+<<<<<<< HEAD
     void set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP);
     void set_server(ServerWaitWindow* waitwindow,QString servername,int numberofclients);
+=======
+    void remove();//remove the file
+    int buy(int,int);//for buy some item
+>>>>>>> Vania
 
 
 private:

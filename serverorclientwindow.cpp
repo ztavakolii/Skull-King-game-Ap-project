@@ -15,6 +15,12 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Server or Client?");
 
+<<<<<<< HEAD
+=======
+//    serverWindow=new Server(this);
+    clientWindow=new Client(this);
+
+>>>>>>> Vania
     ui->background->showFullScreen();
 
     ui->backButton->setStyleSheet("border:none");
@@ -56,7 +62,11 @@ void ServerOrClientWindow::backButtonClicked()
 
 void ServerOrClientWindow::serverButtonClicked()
 {
+<<<<<<< HEAD
     serverWindow=new ServerWindow(this,preWindow);
+=======
+   serverWindow= new Server(this);
+>>>>>>> Vania
     serverWindow->showMaximized();
     this->close();
 }

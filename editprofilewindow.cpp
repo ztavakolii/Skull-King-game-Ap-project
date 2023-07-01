@@ -1,5 +1,6 @@
 #include "editprofilewindow.h"
 #include "ui_editprofilewindow.h"
+//#include "register_login.cpp"
 
 #include <QMessageBox>
 #include <QFile>
@@ -111,6 +112,7 @@ void EditProfileWindow::changePasswordLineEditMode()
 
 void EditProfileWindow::deleteAccountButtonClicked()
 {
+<<<<<<< HEAD
     QMessageBox message;
     message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
     message.setIcon(QMessageBox::Warning);
@@ -122,6 +124,13 @@ void EditProfileWindow::deleteAccountButtonClicked()
         // delete all files
         register_loginWindow->showMaximized();
         this->close();
+=======
+    QMessageBox::StandardButton reply=QMessageBox::question(this,"Warning","By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?",QMessageBox::Yes|QMessageBox::No);
+    if(reply==QMessageBox::Yes){
+    this->close();
+    register_loginWindow->showMaximized();
+    User.remove();//remove buy file and history file
+>>>>>>> Vania
     }
 }
 

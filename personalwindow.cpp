@@ -92,7 +92,9 @@ void PersonalWindow::backButtonClicked()
 
 void PersonalWindow::storeButtonClicked()
 {
-
+    Buy=new buy(this);
+    Buy->showMaximized();
+    this->close();
 }
 
 void PersonalWindow::historyButtonClicked()

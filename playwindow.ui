@@ -27,7 +27,11 @@
      <string/>
     </property>
     <property name="pixmap">
+<<<<<<< HEAD
      <pixmap resource="Images.qrc">:/new/image/b428506e-7875-42da-aeb9-0e662cce7e32.jfif</pixmap>
+=======
+     <pixmap>:/new/image/b428506e-7875-42da-aeb9-0e662cce7e32.jfif</pixmap>
+>>>>>>> Vania
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -65,7 +69,11 @@
      <string/>
     </property>
     <property name="pixmap">
+<<<<<<< HEAD
      <pixmap resource="Images.qrc">:/new/image/icons8-logout-96.png</pixmap>
+=======
+     <pixmap>:/new/image/icons8-logout-96.png</pixmap>
+>>>>>>> Vania
     </property>
     <property name="scaledContents">
      <bool>true</bool>

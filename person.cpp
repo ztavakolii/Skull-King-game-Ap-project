@@ -219,6 +219,7 @@ void Person::write_information_in_file()
         f.close();
     }
 }
+<<<<<<< HEAD
 
 void Person::set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP)
 {
@@ -239,3 +240,35 @@ Server *Person::get_server()
     return server2;
 }
 
+=======
+void Person::remove(){
+    QString file_name=user_name;
+    QFile f(file_name);
+    f.remove();
+}
+int Person::buy(int price,int number){
+    if(coin<price)//do not have enough money
+        return 0;
+    coin=coin-price;
+    QString file_name=user_name;
+    QFile f(file_name);
+    f.remove();
+    add();
+    f.close();
+    QString f_name=file_name+"_buy";
+    QFile b1(f_name);
+    b1.remove();
+    QFile b(f_name);
+    if(b.open(QIODevice::WriteOnly)){
+        QDataStream out1(&b);
+        for(int i=0;i<25;i++){
+            if(i==number)
+                out1<<"1";
+            else
+                out1<<"0";
+        }
+        b.close();
+    }
+    return 1;
+}
+>>>>>>> Vania
