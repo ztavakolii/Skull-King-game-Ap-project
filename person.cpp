@@ -1,4 +1,5 @@
 #include "person.h"
+
 #include <QFile>
 #include <QTextStream>
 Person::Person(QString name,QString user_name,QString gender,QString password,QString phone_code,QString phone_number,QString address,int cup,int coin)
@@ -43,6 +44,11 @@ QString Person::get_phone_number(){
 QString Person::get_address(){
     return address;
 }
+
+//QPixmap Person::get_profile_picture()
+//{
+//    return profile_picture;
+//}
 
 int Person::get_cup(){
     return cup;
@@ -96,6 +102,11 @@ void Person::set_coin(int coin){
     this->coin=coin;
 }
 
+//void Person::set_profile_picture(QPixmap profile)
+//{
+//    profile_picture=profile;
+//}
+
 void Person::game(bool game,bool is_server){
     in_game=game;
     server=is_server;
@@ -106,19 +117,29 @@ int Person::add(){
 
     if(!(QFile::exists(file_name))){//create new file
 
-    QFile f(file_name);
-    f.open(QIODevice::WriteOnly);
-    QDataStream cout(&f);
-    cout<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin;
-    f.close();
-    return 1;
+        // assignment default profile picture to player
+        if(gender=="Male") {
+//            QPixmap p(":/new/image/icons8-boy-96.png");
+//            profile_picture=p;
+        }
+        else if(gender=="Female"){
+//            QPixmap p(":/new/image/icons8-girl-96.png");
+//            profile_picture=p;
+        }
+
+        QFile f(file_name);
+        f.open(QIODevice::WriteOnly);
+        QDataStream out(&f);
+        out<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin/*<<profile_picture*/;
+        f.close();
+        return 1;
 
     }
 
     return 0;//the file has already exists
 }
 int Person::match(int n){
-     QString  file_name=user_name;
+    QString  file_name=user_name;
     if(!(QFile::exists(file_name)))//the file does not exist
         return 0;
 
@@ -129,8 +150,8 @@ int Person::match(int n){
 
         QFile f(file_name);
         f.open(QIODevice::ReadOnly);
-        QDataStream cin(&f);
-        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+        QDataStream in(&f);
+        in>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin/*>>profile_picture*/;
         f.close();
 
         if(this->password==password)//the password is true
@@ -139,12 +160,12 @@ int Person::match(int n){
         else//the password is wrong
             return 0;
 
-     }
+    }
     else if(n==2){//chack phone number
         QFile f(file_name);
         f.open(QIODevice::ReadOnly);
-        QDataStream cin(&f);
-        cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+        QDataStream in(&f);
+        in>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin/*>>profile_picture*/;
         f.close();
 
         if(this->phone_code==phone_code&&this->phone_number==phone_number)//the phone_number is true
@@ -161,10 +182,62 @@ void Person::edit_password(QString new_password){//change password in file
     QString  file_name=user_name;
     QFile f(file_name);
     f.open(QIODevice::ReadOnly);//read the previous file
-    QDataStream cin(&f);
-    cin>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin;
+    QDataStream in(&f);
+    in>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin/*>>profile_picture*/;
     f.close();
     this->password=new_password;
     if(f.remove())//remove the previous file & make new file with new password
         this->add();
+}
+
+void Person::read_information_from_file()
+{
+    QString file_name=user_name;
+    QFile f(file_name);
+    if(f.open(QIODevice::ReadOnly)){
+        QDataStream in(&f);
+        in>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin/*>>profile_picture*/;
+        f.close();
+    }
+}
+
+void Person::write_information_in_file()
+{
+    QString file_name=user_name;
+    QFile f(file_name);
+    if(f.open(QIODevice::WriteOnly)){
+        QDataStream out(&f);
+        out<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin/*<<profile_picture*/;
+        f.close();
+    }
+}
+void Person::remove(){
+    QString file_name=user_name;
+    QFile f(file_name);
+    f.remove();
+}
+int Person::buy(int price,int number){
+    if(coin<price)//do not have enough money
+        return 0;
+    coin=coin-price;
+    QString file_name=user_name;
+    QFile f(file_name);
+    f.remove();
+    add();
+    f.close();
+    QString f_name=file_name+"_buy";
+    QFile b1(f_name);
+    b1.remove();
+    QFile b(f_name);
+    if(b.open(QIODevice::WriteOnly)){
+        QDataStream out1(&b);
+        for(int i=0;i<25;i++){
+            if(i==number)
+                out1<<"1";
+            else
+                out1<<"0";
+        }
+        b.close();
+    }
+    return 1;
 }

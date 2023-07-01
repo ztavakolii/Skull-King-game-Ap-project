@@ -1,6 +1,9 @@
 #include "register_login.h"
 
 #include <QApplication>
+#include "person.h"
+
+
 
 int main(int argc, char *argv[])
 {

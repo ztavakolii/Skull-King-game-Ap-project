@@ -14,13 +14,12 @@ register_login::register_login(QApplication*a,QWidget *parent)
 
     ui->background->showFullScreen();
 
-
     exitButton= ui->exitGameButton;
     registerAccountButton= ui->registerAccountButton;
     loginButton= ui->loginButton;
 
-    loginWindow=new login(this);
-    registerAccountWindow=new RegisterAccount(this);
+    //loginWindow=new login(this);
+   // registerAccountWindow=new RegisterAccount(this);
 
     loginButton->setStyleSheet("border:none");
     registerAccountButton->setStyleSheet("border:none");
@@ -41,12 +40,14 @@ register_login::~register_login()
 
 void register_login::showLoginWindow()
 {
+    loginWindow=new login(this);
     loginWindow->showMaximized();
     this->close();
 }
 
 void register_login::showRegisterAccountWindow()
 {
+    registerAccountWindow=new RegisterAccount(this);
     registerAccountWindow->showMaximized();
     this->close();
 }

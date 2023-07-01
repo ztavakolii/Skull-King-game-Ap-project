@@ -5,7 +5,13 @@
 #include "person.h"
 #include <windows.h>
 #include "QMessageBox"
+
+#include <QFile>
+#include <QTextStream>
 using namespace std;
+
+Person User("","","","","","","",0,1000);
+
 RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RegisterAccount)
@@ -13,18 +19,28 @@ RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     ui->setupUi(this);
 
     this->prewindow=prewindow;
-    //i must past the prewindow pointer to personal window constructor
-    personalwindow=new PersonalWindow;
+
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Register Account");
+
     ui->back_ground->showFullScreen();
+
+    ui->back_button->setStyleSheet("border:none");
+    ui->back_button->setIcon(QIcon(":/new/image/icons8-back-48.png"));
+    ui->back_button->setIconSize(QSize(40,40));
+
     ui->eye_p->setStyleSheet("border:none");
     QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
     ui->comboBox->addItems(countryPhoneCodes);
     ui->phone_l->setValidator(new QIntValidator(ui->phone_l));
     QStringList genderes={"Female","Male"};
     ui->comboBox_2->addItems(genderes);
+
+    ui->guideTextEdit->setReadOnly(true);
+    ui->guideTextEdit->setText("Hello my friend, welcome to our army. Register that we need a good commander in wars.\n\nSkull King");
+
+    ui->register_button->setStyleSheet("border:none");
 }
 
 RegisterAccount::~RegisterAccount()
@@ -53,21 +69,31 @@ void RegisterAccount::on_back_button_clicked()
     this->close();
 }
 
-
-void RegisterAccount::on_login_pushbutton_clicked()
+void RegisterAccount::on_register_button_clicked(bool checked)
 {
     if(ui->name_l->text().length()>0&&ui->user_name_l->text().length()>0&&ui->comboBox_2->currentText().length()>0&&ui->password_l->text().length()>0&&ui->comboBox->currentText().length()>0&&ui->phone_l->text().length()){
         if(ui->password_l->text().length()<8)//invalid password
-            QMessageBox::information(this,"Error","The password should have at least 8 characters!");
+            QMessageBox::critical(this,"Error","The password should have at least 8 characters!");
         else if(ui->phone_l->text().length()<10)
-            QMessageBox::information(this,"Error","The phone_number should have 10 characters!");
+            QMessageBox::critical(this,"Error","The phone_number should have 10 digits!");
         else{
-            Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,0);
+            Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,1000);
             if(user.add()==0)//repetitious user_name
-                QMessageBox::information(this,"Error","The account with this user_name has already exists!");
+                QMessageBox::critical(this,"Error","The account with this username has already exists!");
 
             else{//finish create_account process
-                personalwindow->show();
+
+                User.set_user_name(user.get_user_name());
+                User.read_information_from_file();
+                QString f_name=User.get_user_name()+"_buy";//build a file for items that will buy in future
+                QFile b(f_name);
+                b.open(QIODevice::WriteOnly);
+                QDataStream out1(&b);
+                for(int i=0;i<25;i++)
+                    out1<<"0";
+                b.close();
+                personalwindow=new PersonalWindow(prewindow);
+                personalwindow->showMaximized();
                 this->close();
             }
         }
@@ -75,7 +101,7 @@ void RegisterAccount::on_login_pushbutton_clicked()
     }
 
     else//uncomplete form
-        QMessageBox::information(this,"Error","The form is not completely filled!");
+        QMessageBox::critical(this,"Error","The form is not completely filled!");
 
 }
 

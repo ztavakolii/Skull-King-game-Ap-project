@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 10.0.1, 2023-06-26T12:12:24. -->
+<!-- Written by QtCreator 10.0.1, 2023-06-29T12:51:18. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -80,6 +80,10 @@
     <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
     <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ClangdSettings">
+    <value type="bool" key="blockIndexing">false</value>
+    <value type="bool" key="useGlobalSettings">true</value>
    </valuemap>
   </valuemap>
  </data>
@@ -236,8 +240,9 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/ASUS/Desktop/Project/Skull-King-game-Ap-project/SkullKing.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/ASUS/Desktop/Project/Skull-King-game-Ap-project/SkullKing.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">SkullKing2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/ASUS/Desktop/Pro_Project/Skull-King-game-Ap-project/SkullKing.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/ASUS/Desktop/Pro_Project/Skull-King-game-Ap-project/SkullKing.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>

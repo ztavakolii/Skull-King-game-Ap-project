@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1550</width>
+      <width>1600</width>
       <height>800</height>
      </rect>
     </property>
@@ -32,7 +32,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/10745659.jpg</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/pirate-background-00b7ldiwa469320d.jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -41,9 +41,9 @@
    <widget class="QLabel" name="label1">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>20</x>
       <y>150</y>
-      <width>111</width>
+      <width>160</width>
       <height>111</height>
      </rect>
     </property>
@@ -60,7 +60,7 @@
    <widget class="QLabel" name="name_label">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>75</x>
       <y>190</y>
       <width>61</width>
       <height>21</height>
@@ -79,9 +79,9 @@
    <widget class="QLabel" name="label2">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>220</y>
-      <width>131</width>
+      <x>20</x>
+      <y>205</y>
+      <width>160</width>
       <height>111</height>
      </rect>
     </property>
@@ -98,8 +98,8 @@
    <widget class="QLabel" name="user_name_label">
     <property name="geometry">
      <rect>
-      <x>365</x>
-      <y>245</y>
+      <x>62</x>
+      <y>230</y>
       <width>101</width>
       <height>51</height>
      </rect>
@@ -111,16 +111,16 @@
      </font>
     </property>
     <property name="text">
-     <string>User name</string>
+     <string>Username</string>
     </property>
    </widget>
    <widget class="QLabel" name="label3">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>290</y>
-      <width>131</width>
-      <height>101</height>
+      <x>20</x>
+      <y>260</y>
+      <width>160</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -136,8 +136,8 @@
    <widget class="QLabel" name="password_label">
     <property name="geometry">
      <rect>
-      <x>365</x>
-      <y>315</y>
+      <x>62</x>
+      <y>290</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -155,10 +155,10 @@
    <widget class="QLabel" name="label4">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>360</y>
-      <width>131</width>
-      <height>101</height>
+      <x>20</x>
+      <y>380</y>
+      <width>160</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -174,8 +174,8 @@
    <widget class="QLabel" name="address_label">
     <property name="geometry">
      <rect>
-      <x>375</x>
-      <y>390</y>
+      <x>70</x>
+      <y>415</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -193,75 +193,103 @@
    <widget class="QLineEdit" name="name_l">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>180</x>
       <y>190</y>
-      <width>113</width>
+      <width>190</width>
       <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>10</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(85, 170, 0);
+background-color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="placeholderText">
+     <string>......</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="user_name_l">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>258</y>
-      <width>113</width>
+      <x>180</x>
+      <y>245</y>
+      <width>190</width>
       <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>10</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
+    </property>
+    <property name="placeholderText">
+     <string>......</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="password_l">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>322</y>
-      <width>140</width>
+      <x>180</x>
+      <y>300</y>
+      <width>190</width>
       <height>30</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>10</pointsize>
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
+    </property>
     <property name="echoMode">
      <enum>QLineEdit::Password</enum>
+    </property>
+    <property name="placeholderText">
+     <string>......</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="address_t">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>380</y>
-      <width>241</width>
+      <x>180</x>
+      <y>408</y>
+      <width>190</width>
       <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>10</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
+    </property>
+    <property name="placeholderText">
+     <string>......</string>
     </property>
    </widget>
    <widget class="QLabel" name="label5">
     <property name="geometry">
      <rect>
-      <x>635</x>
-      <y>300</y>
+      <x>370</x>
+      <y>275</y>
       <width>41</width>
       <height>81</height>
      </rect>
@@ -279,10 +307,10 @@
    <widget class="QLabel" name="eye_label">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>330</y>
-      <width>31</width>
-      <height>21</height>
+      <x>378</x>
+      <y>303</y>
+      <width>25</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -298,9 +326,32 @@
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>460</y>
-      <width>51</width>
+      <x>180</x>
+      <y>360</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
+    </property>
+    <property name="placeholderText">
+     <string>country?</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="phone_l">
+    <property name="geometry">
+     <rect>
+      <x>245</x>
+      <y>360</y>
+      <width>125</width>
       <height>31</height>
      </rect>
     </property>
@@ -310,30 +361,21 @@
       <bold>true</bold>
      </font>
     </property>
-   </widget>
-   <widget class="QLineEdit" name="phone_l">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>460</y>
-      <width>141</width>
-      <height>31</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <bold>true</bold>
-     </font>
+    <property name="placeholderText">
+     <string>......</string>
     </property>
    </widget>
    <widget class="QLabel" name="label7">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>500</y>
-      <width>131</width>
-      <height>101</height>
+      <x>20</x>
+      <y>440</y>
+      <width>160</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -349,8 +391,8 @@
    <widget class="QLabel" name="gender_label">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>530</y>
+      <x>70</x>
+      <y>475</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -368,10 +410,10 @@
    <widget class="QLabel" name="label6">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>430</y>
-      <width>151</width>
-      <height>101</height>
+      <x>20</x>
+      <y>320</y>
+      <width>160</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -387,15 +429,15 @@
    <widget class="QLabel" name="phone_label">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>460</y>
-      <width>131</width>
+      <x>42</x>
+      <y>355</y>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>11</pointsize>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -406,25 +448,89 @@
    <widget class="QComboBox" name="comboBox_2">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>535</y>
-      <width>75</width>
-      <height>25</height>
+      <x>180</x>
+      <y>480</y>
+      <width>191</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>11</pointsize>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
     </property>
    </widget>
    <widget class="QPushButton" name="back_button">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>610</y>
-      <width>71</width>
+      <x>20</x>
+      <y>20</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>back</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="eye_p">
+    <property name="geometry">
+     <rect>
+      <x>375</x>
+      <y>300</y>
+      <width>31</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>510</y>
+      <width>200</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/btn1.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>115</x>
+      <y>541</y>
+      <width>161</width>
       <height>41</height>
      </rect>
     </property>
@@ -435,35 +541,16 @@
      </font>
     </property>
     <property name="text">
-     <string>Back</string>
+     <string>Register Account</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="login_pushbutton">
+   <widget class="QPushButton" name="register_button">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>600</y>
-      <width>91</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Log in</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="eye_p">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>330</y>
-      <width>31</width>
-      <height>21</height>
+      <x>97</x>
+      <y>545</y>
+      <width>165</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -471,6 +558,48 @@
     </property>
     <property name="flat">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>45</x>
+      <y>85</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/images.jpg</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="guideTextEdit">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>251</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 170, 0);</string>
     </property>
    </widget>
   </widget>

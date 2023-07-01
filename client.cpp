@@ -1,11 +1,13 @@
 #include "client.h"
 #include "ui_client.h"
 
+
 Client::Client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Client)
 {
     ui->setupUi(this);
+
 
     clientWindow=clientwindow;
     personalWindow=personalwindow;
