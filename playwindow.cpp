@@ -20,13 +20,15 @@ PlayWindow::PlayWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap picture(":/new/image/icons8-pause-button-96.png");
-
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Play");
+
     ui->back_ground->showFullScreen();
+
+    QPixmap picture(":/new/image/icons8-pause-button-96.png");
     ui->stop_label->setPixmap(picture);
+
     ui->time_label->hide();
     ui->bottle->hide();
     ui->groupBox->hide();
@@ -37,14 +39,13 @@ PlayWindow::PlayWindow(QWidget *parent) :
      ui->exchange_button->setStyleSheet("border:none");
      ui->ok_button->setStyleSheet("border:none");
     savedatetime();//save date time in file
-    set_round_hand(1,1);
 
+     // round and hand labels in begining of play must be hide and when play starts, we must show them
+    set_round_hand(1,1);
 
     User->set_coin(User->get_coin()-50);//take 50 coin
     User->edit();
 
-//    ui->
-//    player->
 
 }
 
@@ -86,14 +87,13 @@ void PlayWindow::on_stop_button_clicked()
     QImage image=labelpixmap.toImage();
     if(image1!=image){//change the image
         count++;
-        QPixmap p(":/new/image/icons8-play-button-96.png");
+        QPixmap p(":/new/image/icons8-play-button-96.png"); //must be stop picture
         ui->stop_label->setPixmap(p);
-        startcountdown(20);
-
     }
     else{
     QPixmap p(":/new/image/icons8-pause-button-96.png");
     ui->stop_label->setPixmap(p);
+    startcountdown(20);
     }
     if(count==2)
         ui->stop_button->setEnabled(false);
@@ -136,7 +136,7 @@ void PlayWindow::f()
 
 void PlayWindow::set_round_hand(int round, int hand)
 {
-    QString r="Round "+QString::number(round)+"/7",h="hand "+QString::number(hand)+"/"+QString::number(round*2);
+    QString r="Round "+QString::number(round)+"/7",h="Hand "+QString::number(hand)+"/"+QString::number(round*2);
     ui->round_label->setText(r);
     ui->hand_label->setText(h);
 }
