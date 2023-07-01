@@ -19,10 +19,9 @@ public:
 
 private slots:
     void on_stop_button_clicked();
-
     void on_exit_button_clicked();
-
     void f();
+    void set_round_hand(int ,int);
 
 private:
     Ui::PlayWindow *ui;

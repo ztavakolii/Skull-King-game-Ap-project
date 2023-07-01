@@ -30,6 +30,8 @@ PlayWindow::PlayWindow(QWidget *parent) :
     ui->stop_button->setStyleSheet("border:none");
     ui->exit_button->setStyleSheet("border:none");
     savedatetime();//save date time in file
+    set_round_hand(1,1);
+
 
     User->set_coin(User->get_coin()-50);//take 50 coin
     User->edit();
@@ -124,3 +126,9 @@ void PlayWindow::f()
     }
 }
 
+void PlayWindow::set_round_hand(int round, int hand)
+{
+    QString r="Round "+QString::number(round)+"/7",h="hand "+QString::number(hand)+"/"+QString::number(round*2);
+    ui->round_label->setText(r);
+    ui->hand_label->setText(h);
+}
