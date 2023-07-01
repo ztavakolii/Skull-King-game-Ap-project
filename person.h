@@ -4,6 +4,7 @@
 #include <QPixmap>
 #include "client.h"
 #include "server.h"
+#include "serverwaitwindow.h"
 
 class Person
 {
@@ -40,8 +41,8 @@ public:
     void edit_password(QString);//change the password
     void read_information_from_file();
     void write_information_in_file();
-    void set_client(QHostAddress serverIP);
-    void set_server(QString servername,int numberofclients);
+    void set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP);
+    void set_server(ServerWaitWindow* waitwindow,QString servername,int numberofclients);
 
 
 private:

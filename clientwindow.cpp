@@ -2,7 +2,9 @@
 #include "ui_clientwindow.h"
 #include "person.h"
 #include <QMessageBox>
+#include <regex>
 
+using namespace std;
 extern Person *User;
 
 ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent) :
@@ -54,14 +56,16 @@ void ClientWindow::connectButtonClicked()
 {
     if(ui->serverIPLineEdit->text().length()>0){
          //IP permission must be checked with regex
-        //if(IP is correct)
+       // regex* IP=new regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0- 9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
+     //   if(regex_match(ui->serverIPLineEdit->text().toStdString(),*IP))
         {
-            User->set_client(QHostAddress(ui->serverIPLineEdit->text()));
-            if(User->get_client()->getConnectionStatus()==true){
-            clientWaitWindow=new ClientWaitWindow(personalWindow,this);
-            clientWaitWindow->showMaximized();
-            this->close();
-            }
+            User->set_client(this,personalWindow,QHostAddress(ui->serverIPLineEdit->text()));
+ //           t=new std::thread(&ClientWindow::showClientWaitWindow,this);
+//            if(User->get_client()->getConnectionStatus()==true){
+//            clientWaitWindow=new ClientWaitWindow(personalWindow,this);
+//            clientWaitWindow->showMaximized();
+//            this->close();
+//            }
         }
 //        else{
 //            QMessageBox message;
@@ -69,13 +73,17 @@ void ClientWindow::connectButtonClicked()
 //            message.setIcon(QMessageBox::Critical);
 //            message.setWindowIcon(QIcon(":/new/image/gamename.png"));
 //            message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//          //  message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
 //            message.exec();
 //        }
     }
     else{
-        QMessageBox*message=new QMessageBox(this);
-        message->critical(this,"Become Client","Enter your desired server IP.");
-        //set style sheet of this message
+        QMessageBox message;
+        message.setText("Enter your desired server IP.");
+        message.setIcon(QMessageBox::Critical);
+        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+        message.setStyleSheet("background-color: rgb(236, 197, 119)");
+        message.exec();
     }
 }
+
+

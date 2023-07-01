@@ -20,6 +20,7 @@ ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->backButton->setIcon(QIcon(":/new/image/icons8-back-48.png"));
     ui->backButton->setIconSize(QSize(40,40));
     connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
+    ui->backButton->hide();//hiding backButton
 
     ui->profileLabel1->setFrameStyle(QFrame::StyledPanel|QFrame::Plain);
     ui->profileLabel2->setFrameStyle(QFrame::StyledPanel|QFrame::Plain);
@@ -35,15 +36,14 @@ ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     }
 
     ui->guideTextEdit->setReadOnly(true);
-    ui->guideTextEdit->setText("Commander, now we have to wait until the number of clients connected to your server reaches "
-                               +QString::number(User->get_server()->getMaxNumberOfClients())
-                               +" people, after \nthat the war will begin.\nI was informed that the IP of your server is "+
-                               User->get_server()->getServerIP().toString()+"\nSkull King");
+//    ui->guideTextEdit->setText("Commander, now we have to wait until the number of clients connected to your server reaches "
+//                               +QString::number(User->get_server()->getMaxNumberOfClients())
+//                               +" people, after \nthat the war will begin.\nI was informed that the IP of your server is "+
+//                               User->get_server()->getServerIP().toString()+"\nSkull King");
 
     ui->deleteServerButton->setStyleSheet("border:none");
     connect(ui->deleteServerButton,SIGNAL(clicked(bool)),this,SLOT(deleteServerButtonClicked()));
 
-   // ui->PlayButton->setEnabled(false);
     ui->PlayButton->setStyleSheet("border:none");
     connect(ui->PlayButton,SIGNAL(clicked(bool)),this,SLOT(playButtonClicked()));
     ui->PlayButton->setToolTip("Click me, if you want to start the game with the same number of present clients.");
@@ -70,14 +70,22 @@ ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->cupNumberLabel3->hide();
     ui->label_5->hide();
 
-    t=std::thread(&ServerWaitWindow::showConnectedClients,this);
+  //  t=std::thread(&ServerWaitWindow::showConnectedClients,this);
 
 }
 
 ServerWaitWindow::~ServerWaitWindow()
 {
     delete ui;
-    t.join();
+    //  t.join();
+}
+
+void ServerWaitWindow::setGuideTextEdit()
+{
+    ui->guideTextEdit->setText("Commander, now we have to wait until the number of clients connected to your server reaches "
+                               +QString::number(User->get_server()->getMaxNumberOfClients())
+                               +" people, after \nthat the war will begin.\nI was informed that the IP of your server is "+
+                               User->get_server()->getServerIP().toString()+"\nSkull King");
 }
 
 void ServerWaitWindow::backButtonClicked()
@@ -106,6 +114,7 @@ void ServerWaitWindow::playButtonClicked()
     playWindow=new PlayWindow;
     playWindow->showMaximized();
     this->close();
+//    t.join();
 }
 
 void ServerWaitWindow::deleteServer()
@@ -113,18 +122,20 @@ void ServerWaitWindow::deleteServer()
     User->get_server()->serverDeleted();
     preWindow->showMaximized();
     this->close();
+   // t.join();
 }
 
 void ServerWaitWindow::showConnectedClients()
 {
     QByteArray information;
-    QDataStream in(information);
+    QDataStream in(&information,QIODevice::ReadOnly);
     QString clientName;
     int clientCupNumber,numberOfConnectedClients;
     QPixmap clientProfilePicture;
-    while(true){
-        if(User->get_server()->getNumberOfConnectedClientsChangeStatus()==true){
-            information.clear();
+  //  while(true){
+        //if(User->get_server()->getNumberOfConnectedClientsChangeStatus()==true)
+      //  {
+          //  information.clear();
             information=User->get_server()->readPlayersList();
             in>>numberOfConnectedClients;
             if(numberOfConnectedClients==0){
@@ -157,9 +168,13 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_12->show();
 
                 in>>clientName>>clientCupNumber>>clientProfilePicture;
-                ui->profileLabel1->setPixmap(clientProfilePicture);
+                {
+                    QPixmap scaledImage(clientProfilePicture);
+                    scaledImage=scaledImage.scaled(50,50);
+                ui->profileLabel1->setPixmap(scaledImage);
                 ui->nameLabel1->setText(clientName);
                 ui->cupNumberLabel1->setText(QString::number(clientCupNumber));
+                }
 
                 ui->profileLabel1->show();
                 ui->nameLabel1->show();
@@ -185,9 +200,13 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_12->show();
 
                 in>>clientName>>clientCupNumber>>clientProfilePicture;
-                ui->profileLabel1->setPixmap(clientProfilePicture);
+                {
+                QPixmap scaledImage(clientProfilePicture);
+                scaledImage=scaledImage.scaled(50,50);
+                ui->profileLabel1->setPixmap(scaledImage);
                 ui->nameLabel1->setText(clientName);
                 ui->cupNumberLabel1->setText(QString::number(clientCupNumber));
+                }
 
                 ui->profileLabel1->show();
                 ui->nameLabel1->show();
@@ -196,9 +215,13 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_3->show();
 
                 in>>clientName>>clientCupNumber>>clientProfilePicture;
-                ui->profileLabel2->setPixmap(clientProfilePicture);
+                {
+                QPixmap scaledImage(clientProfilePicture);
+                scaledImage=scaledImage.scaled(50,50);
+                ui->profileLabel2->setPixmap(scaledImage);
                 ui->nameLabel2->setText(clientName);
                 ui->cupNumberLabel2->setText(QString::number(clientCupNumber));
+                }
 
                 ui->profileLabel2->show();
                 ui->nameLabel2->show();
@@ -218,9 +241,13 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_12->show();
 
                 in>>clientName>>clientCupNumber>>clientProfilePicture;
-                ui->profileLabel1->setPixmap(clientProfilePicture);
+                {
+                QPixmap scaledImage(clientProfilePicture);
+                scaledImage=scaledImage.scaled(50,50);
+                ui->profileLabel1->setPixmap(scaledImage);
                 ui->nameLabel1->setText(clientName);
                 ui->cupNumberLabel1->setText(QString::number(clientCupNumber));
+                }
 
                 ui->profileLabel1->show();
                 ui->nameLabel1->show();
@@ -229,9 +256,13 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_3->show();
 
                 in>>clientName>>clientCupNumber>>clientProfilePicture;
-                ui->profileLabel2->setPixmap(clientProfilePicture);
+                {
+                QPixmap scaledImage(clientProfilePicture);
+                scaledImage=scaledImage.scaled(50,50);
+                ui->profileLabel2->setPixmap(scaledImage);
                 ui->nameLabel2->setText(clientName);
                 ui->cupNumberLabel2->setText(QString::number(clientCupNumber));
+                }
 
                 ui->profileLabel2->show();
                 ui->nameLabel2->show();
@@ -240,9 +271,13 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_4->show();
 
                 in>>clientName>>clientCupNumber>>clientProfilePicture;
-                ui->profileLabel3->setPixmap(clientProfilePicture);
+                {
+                QPixmap scaledImage(clientProfilePicture);
+                scaledImage=scaledImage.scaled(50,50);
+                ui->profileLabel3->setPixmap(scaledImage);
                 ui->nameLabel3->setText(clientName);
                 ui->cupNumberLabel3->setText(QString::number(clientCupNumber));
+                }
 
                 ui->profileLabel3->show();
                 ui->nameLabel3->show();
@@ -251,6 +286,6 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_5->show();
             }
         }
-    }
-}
+   // }
+//}
 

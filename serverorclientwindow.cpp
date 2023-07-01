@@ -15,9 +15,6 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Server or Client?");
 
-    //serverWindow=new Server(this);
-    //clientWindow=new Client(this);
-
     ui->background->showFullScreen();
 
     ui->backButton->setStyleSheet("border:none");

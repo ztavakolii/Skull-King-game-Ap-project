@@ -230,15 +230,15 @@
    <widget class="QLabel" name="nameLabel1">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>130</x>
       <y>231</y>
-      <width>131</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -249,15 +249,15 @@
    <widget class="QLabel" name="nameLabel2">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>130</x>
       <y>290</y>
-      <width>131</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -268,15 +268,15 @@
    <widget class="QLabel" name="nameLabel3">
     <property name="geometry">
      <rect>
-      <x>121</x>
+      <x>131</x>
       <y>350</y>
-      <width>131</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -287,15 +287,15 @@
    <widget class="QLabel" name="nameLabel4">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>130</x>
       <y>410</y>
-      <width>131</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>11</pointsize>
       <bold>true</bold>
      </font>
     </property>

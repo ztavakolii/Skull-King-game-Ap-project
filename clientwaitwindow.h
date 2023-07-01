@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include <thread>
 #include <vector>
+#include "playwindow.h"
 
 namespace Ui {
 class ClientWaitWindow;
@@ -33,6 +34,9 @@ private:
         QPixmap profilePicture;
     };
     std::vector<ClientInformation>connectedClientsToServerList;
+    PlayWindow*playWindow;
+    bool b; //for ui->guideTextEdit
+
 
     void sendPlayerInformationToServer();
     void readInformationSentByServer();

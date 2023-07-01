@@ -67,8 +67,9 @@ void ServerWindow::confirmButtonClicked()
         message.exec();
     }
     else{
-        User->set_server(ui->serverNamelineEdit->text(),ui->maxNumberOfClientsComboBox->currentText().toInt());
         serverWaitWindow=new ServerWaitWindow(personalWindow);
+        User->set_server(serverWaitWindow,ui->serverNamelineEdit->text(),ui->maxNumberOfClientsComboBox->currentText().toInt());
+        serverWaitWindow->setGuideTextEdit();
         serverWaitWindow->showMaximized();
         this->close();
     }

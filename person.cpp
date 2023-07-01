@@ -15,6 +15,8 @@ Person::Person(QString name,QString user_name,QString gender,QString password,QS
     this->coin=coin;
     in_game=false;
     server=false;
+    client=nullptr;
+    server2=nullptr;
 }
 
 QString Person::get_name(){
@@ -212,14 +214,14 @@ void Person::write_information_in_file()
     }
 }
 
-void Person::set_client(QHostAddress serverIP)
+void Person::set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP)
 {
-    client=new Client(serverIP);
+    client=new Client(clientwindow,personalwindow,serverIP);
 }
 
-void Person::set_server(QString servername, int numberofclients)
+void Person::set_server(ServerWaitWindow* waitwindow,QString servername, int numberofclients)
 {
-    server2=new Server(servername,numberofclients);
+    server2=new Server(waitwindow,servername,numberofclients);
 }
 
 Client* Person::get_client(){

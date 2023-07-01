@@ -1,9 +1,9 @@
 #include "clientwaitwindow.h"
 #include "ui_clientwaitwindow.h"
 #include "person.h"
+#include <QTimer>
 
-
-extern Person User;
+extern Person *User;
 
 using namespace std;
 
@@ -30,6 +30,7 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     ui->backButton->setIcon(QIcon(":/new/image/icons8-back-48.png"));
     ui->backButton->setIconSize(QSize(40,40));
     connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
+    ui->backButton->hide();// hiding backButton
 
     ui->profileLabel1->setFrameStyle(QFrame::StyledPanel|QFrame::Plain);
     ui->profileLabel2->setFrameStyle(QFrame::StyledPanel|QFrame::Plain);
@@ -39,10 +40,10 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     ui->disconnectButton->setStyleSheet("border:none");
     connect(ui->disconnectButton,SIGNAL(clicked(bool)),this,SLOT(disconnectButtonClicked()));
 
-    if(User.get_gender()=="Male"){
+    if(User->get_gender()=="Male"){
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    else if(User.get_gender()=="Female"){
+    else if(User->get_gender()=="Female"){
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
     }
 
@@ -70,6 +71,9 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     ui->cupNumberLabel4->hide();
     ui->label_6->hide();
 
+    t=new std::thread(&ClientWaitWindow::readInformationSentByServer,this);
+    ui->guideTextEdit->setReadOnly(true);
+    b=false;
 }
 
 ClientWaitWindow::~ClientWaitWindow()
@@ -80,14 +84,15 @@ ClientWaitWindow::~ClientWaitWindow()
 
 void ClientWaitWindow::sendPlayerInformationToServer()
 {
-    if(User.get_client()->getConnectionStatus()==true){
+    //if(User.get_client()->getConnectionStatus()==true)
+    {
         QByteArray information;
-        QDataStream out(information);
+        QDataStream out(&information,QIODevice::WriteOnly);
         // 'a' tell the server that "add" the clients to the list of connected clients
-        out<<'a'<<User.get_name()<<User.get_cup()<<User.get_profile_picture();
-        User.get_client()->writeInformation(information);
-        if(User.get_client()->getSendStatus()==true){
-            t=new std::thread(&ClientWaitWindow::readInformationSentByServer,this);
+        out<<'a'<<User->get_name()<<User->get_cup()<<User->get_profile_picture();
+        User->get_client()->writeInformation(information);
+        if(User->get_client()->getSendStatus()==true){
+          //  t=new std::thread(&ClientWaitWindow::readInformationSentByServer,this);
         }
     }
 }
@@ -97,8 +102,7 @@ void ClientWaitWindow::readInformationSentByServer()
     QString serverName,clientName;
     int serverCapacity,numberOfConnectedClients,clientCupNumber;
     QPixmap clientProfilePicture;
-
-    QMessageBox*message=new QMessageBox(this);
+    QMessageBox message;
 
     char mainCode ,subCode;
 
@@ -116,31 +120,43 @@ void ClientWaitWindow::readInformationSentByServer()
     //----------------------------------------------------------------------------------------------------------------
     // 'r' "reject"
     while(true){
-        if(User.get_client()->getReceiveStatus()==true){
-            QByteArray receivedInformation=User.get_client()->readInformation();
-            QDataStream in(receivedInformation);
+        if(User->get_client()->getReceiveStatus()==true){
+          QByteArray receivedInformation="";/*=User->get_client()->readInformation()*/
+
+          emit User->get_client()->readSignal(&receivedInformation);
+          while(receivedInformation=="");
+            QDataStream in(&receivedInformation,QIODevice::ReadOnly);
             in>>mainCode;
             switch(mainCode){
             case 'r':
-              //  QMessageBox*message=new QMessageBox(this);
-                // set the style sheet of this QMessageBox
-                message->critical(this,"Waiting for the server to complete","The server is complete.");
-                if(message->Ok){
-                    this->close();
-                    preWindow->showMaximized();
+                message.setText("The server is complete.");
+                message.setIcon(QMessageBox::Critical);
+                message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+                message.setStyleSheet("background-color: rgb(236, 197, 119)");
+                message.exec();
+                if(message.Ok){
+                    QTimer::singleShot(0,this,[this](){
+                        this->preWindow->showMaximized();
+                        this->close();
+                    });
                 }
                 break;
 
             case 'b':
                 in>>serverName>>serverCapacity>>numberOfConnectedClients;
-                ui->guideTextEdit->setText("Commander, now we have to wait until the number of clients connected to "
-                                           +serverName+" server reaches "+QString::number(serverCapacity)
-                                           +". After that, the war begins.\n\nSkull King");
+//                if(b==false)
+//                {
+//                    QString s="Commander, now we have to wait until the number of clients connected to "
+//                                +serverName+" server reaches "+QString::number(serverCapacity)
+//                                +". After that, the war begins.\n\nSkull King";
+//                ui->guideTextEdit->setText(s);
+//                    b=true;
+//                }
                 for(int i=0;i<numberOfConnectedClients;i++){
                     in>>clientName>>clientCupNumber>>clientProfilePicture;
                     addNewClientToList(clientName,clientCupNumber,clientProfilePicture);
                 }
-            //    addNewClientToList(User.get_name(),User.get_cup()/*,User.get_profile_picture()*/);
+               // addNewClientToList(User->get_name(),User->get_cup(),User->get_profile_picture());
                 break;
 
             case 'a':
@@ -165,13 +181,19 @@ void ClientWaitWindow::readInformationSentByServer()
                     break;
 
                 case 's':
-                    User.get_client()->closeSocket();
-                    QMessageBox*message=new QMessageBox(this);
-                    // set the style sheet of this QMessageBox
-                    message->critical(this,"Waiting for the server to complete","The server has given up on continuing the war, so the war does not start.");
-                    if(message->Ok){
-                        preWindow->showMaximized();
-                        this->close();
+                    User->get_client()->closeSocket();
+                    message.setText("The server has given up on continuing the war, so the war doesn't start.");
+                    message.setIcon(QMessageBox::Critical);
+                    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+                    message.setStyleSheet("background-color: rgb(236, 197, 119)");
+                    message.exec();
+                    if(message.Ok){
+                        QTimer::singleShot(0,this,[this](){
+                            this->preWindow->showMaximized();
+                            this->close();
+                        });
+//                        preWindow->showMaximized();
+//                        this->close();
                     }
                     break;
                 }
@@ -181,35 +203,38 @@ void ClientWaitWindow::readInformationSentByServer()
                 // I must show play window and close other windows.
                 //note that when server sent 'p' client may be in other windows
                 //and those window must be closed
-
-                //t->join();
+                playWindow=new PlayWindow;
+                QTimer::singleShot(0,this,[this](){
+                   this->playWindow->showMaximized();
+                    this->close();
+                });
                 break;
             }
         }
+        }
     }
-}
+
 
 void ClientWaitWindow::backButtonClicked()
 {
-    if(User.get_client()->getConnectionStatus()==true)
+    if(User->get_client()->getConnectionStatus()==true)
         personalWindow->showMaximized();
     else
         preWindow->showMaximized();
 
     this->close();
-    // or if object destruct call this->hide()
+
 }
 
 void ClientWaitWindow::disconnectButtonClicked()
 {
     QByteArray information;
-    QDataStream out(information);
-    out<<'d'<<User.get_name(); // d "delete" tells the server that client want to disconnect and server deleted it from its list
-    User.get_client()->writeInformation(information);
-    while(User.get_client()->getSendStatus()==false);
-    User.get_client()->closeSocket();
+    QDataStream out(&information,QIODevice::WriteOnly);
+    out<<'d'<<User->get_name(); // d "delete" tells the server that client want to disconnect and server deleted it from its list
+    User->get_client()->writeInformation(information);
+    while(User->get_client()->getSendStatus()==false);
+    User->get_client()->closeSocket();
     preWindow->showMaximized();
-    t->join(); // *************** error possibility ***************
     this->close();
 }
 
@@ -254,9 +279,14 @@ void ClientWaitWindow::showClientListInGUI()
 
     }
     else if(connectedClientsToServerList.size()==1){
-        ui->profileLabel1->setPixmap(connectedClientsToServerList[0].profilePicture);
+
+        {
+            QPixmap scaledImage(connectedClientsToServerList[0].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel1->setPixmap(scaledImage);
         ui->nameLabel1->setText(connectedClientsToServerList[0].name);
         ui->cupNumberLabel1->setText(QString::number(connectedClientsToServerList[0].cupNumber));
+        }
 
         ui->profileLabel1->show();
         ui->nameLabel1->show();
@@ -284,13 +314,21 @@ void ClientWaitWindow::showClientListInGUI()
 
     }
     else if(connectedClientsToServerList.size()==2){
-        ui->profileLabel1->setPixmap(connectedClientsToServerList[0].profilePicture);
+        {
+        QPixmap scaledImage(connectedClientsToServerList[0].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel1->setPixmap(scaledImage);
         ui->nameLabel1->setText(connectedClientsToServerList[0].name);
         ui->cupNumberLabel1->setText(QString::number(connectedClientsToServerList[0].cupNumber));
+        }
 
-        ui->profileLabel2->setPixmap(connectedClientsToServerList[1].profilePicture);
+        {
+        QPixmap scaledImage(connectedClientsToServerList[1].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel2->setPixmap(scaledImage);
         ui->nameLabel2->setText(connectedClientsToServerList[1].name);
         ui->cupNumberLabel2->setText(QString::number(connectedClientsToServerList[1].cupNumber));
+        }
 
         ui->profileLabel1->show();
         ui->nameLabel1->show();
@@ -318,17 +356,27 @@ void ClientWaitWindow::showClientListInGUI()
 
     }
     else if(connectedClientsToServerList.size()==3){
-        ui->profileLabel1->setPixmap(connectedClientsToServerList[0].profilePicture);
+        {
+        QPixmap scaledImage(connectedClientsToServerList[0].profilePicture);
+       scaledImage= scaledImage.scaled(51,51);
+        ui->profileLabel1->setPixmap(scaledImage);
         ui->nameLabel1->setText(connectedClientsToServerList[0].name);
         ui->cupNumberLabel1->setText(QString::number(connectedClientsToServerList[0].cupNumber));
-
-        ui->profileLabel2->setPixmap(connectedClientsToServerList[1].profilePicture);
+        }
+        {
+        QPixmap scaledImage(connectedClientsToServerList[1].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel2->setPixmap(scaledImage);
         ui->nameLabel2->setText(connectedClientsToServerList[1].name);
         ui->cupNumberLabel2->setText(QString::number(connectedClientsToServerList[1].cupNumber));
-
-        ui->profileLabel3->setPixmap(connectedClientsToServerList[2].profilePicture);
+        }
+        {
+        QPixmap scaledImage(connectedClientsToServerList[2].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel3->setPixmap(scaledImage);
         ui->nameLabel3->setText(connectedClientsToServerList[2].name);
         ui->cupNumberLabel3->setText(QString::number(connectedClientsToServerList[2].cupNumber));
+        }
 
 
         ui->profileLabel1->show();
@@ -356,21 +404,34 @@ void ClientWaitWindow::showClientListInGUI()
         ui->label_6->hide();
     }
     else if(connectedClientsToServerList.size()==4){
-        ui->profileLabel1->setPixmap(connectedClientsToServerList[0].profilePicture);
+        {
+        QPixmap scaledImage(connectedClientsToServerList[0].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel1->setPixmap(scaledImage);
         ui->nameLabel1->setText(connectedClientsToServerList[0].name);
         ui->cupNumberLabel1->setText(QString::number(connectedClientsToServerList[0].cupNumber));
-
-        ui->profileLabel2->setPixmap(connectedClientsToServerList[1].profilePicture);
+    }
+    {
+        QPixmap scaledImage(connectedClientsToServerList[1].profilePicture);
+        scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel2->setPixmap(scaledImage);
         ui->nameLabel2->setText(connectedClientsToServerList[1].name);
         ui->cupNumberLabel2->setText(QString::number(connectedClientsToServerList[1].cupNumber));
-
-        ui->profileLabel3->setPixmap(connectedClientsToServerList[2].profilePicture);
+    }
+    {
+        QPixmap scaledImage(connectedClientsToServerList[2].profilePicture);
+       scaledImage= scaledImage.scaled(51,51);
+        ui->profileLabel3->setPixmap(scaledImage);
         ui->nameLabel3->setText(connectedClientsToServerList[2].name);
         ui->cupNumberLabel3->setText(QString::number(connectedClientsToServerList[2].cupNumber));
-
-        ui->profileLabel3->setPixmap(connectedClientsToServerList[3].profilePicture);
+    }
+    {
+    QPixmap scaledImage(connectedClientsToServerList[3].profilePicture);
+    scaledImage=scaledImage.scaled(51,51);
+        ui->profileLabel3->setPixmap(scaledImage);
         ui->nameLabel3->setText(connectedClientsToServerList[3].name);
         ui->cupNumberLabel3->setText(QString::number(connectedClientsToServerList[3].cupNumber));
+    }
 
 
         ui->profileLabel1->show();

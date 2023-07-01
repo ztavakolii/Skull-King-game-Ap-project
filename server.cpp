@@ -7,15 +7,18 @@ extern Person* User;
 
 using namespace std;
 
-Server::Server(QString servername,int maxnumberofclients,QWidget *parent) :
+Server::Server(ServerWaitWindow* waitwindow,QString servername,int maxnumberofclients,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Server)
 {
     ui->setupUi(this);
+    waitWindow=waitwindow;
 
     Player serverPlayer;
     serverPlayer.setName(User->get_name());
     serverPlayer.setProfile(User->get_profile_picture());
+    serverPlayer.setcupsNumber(User->get_cup());
+
     players.push_back(serverPlayer);
 
     serverName=servername;
@@ -31,7 +34,9 @@ Server::Server(QString servername,int maxnumberofclients,QWidget *parent) :
     while(!server->isListening())
         server->listen(QHostAddress::Any,8080);
     connect(server,SIGNAL(newConnection()),this,SLOT(acceptNewConnection()));
-
+    connect(this,SIGNAL(writeSignal(QByteArray,QTcpSocket*)),this,SLOT(writeInPlayerSocket(QByteArray,QTcpSocket*)));
+    connect(this,SIGNAL(readSignal(QByteArray*,QTcpSocket*)),this,SLOT(readFromSocket(QByteArray*,QTcpSocket*)));
+    connect(this,SIGNAL(playersListChange()),waitWindow,SLOT(showConnectedClients()));
 }
 
 Server::~Server()
@@ -68,8 +73,8 @@ QHostAddress Server::getServerIP()
 QByteArray Server::readPlayersList()
 {
     QByteArray information;
-    QDataStream out(information);
-    out<<players.size(); // the number of connected clients
+    QDataStream out(&information,QIODevice::WriteOnly);
+    out<<numberOfConnectedClients; // the number of connected clients
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         out<<(*it).getName()<<(*it).getCupsNumber()<<(*it).getProfile();
     }
@@ -79,7 +84,7 @@ QByteArray Server::readPlayersList()
 void Server::serverDeleted()
 {
     QByteArray information;
-    QDataStream out(information);
+    QDataStream out(&information,QIODevice::WriteOnly);
     out<<'d'<<'s';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         writeInPlayerSocket(information,it->getSocket());
@@ -90,10 +95,10 @@ void Server::serverDeleted()
 void Server::playStarted()
 {
     QByteArray information;
-    QDataStream out(information);
+    QDataStream out(&information,QIODevice::WriteOnly);
     out<<'p';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-        writeInPlayerSocket(information,it->getSocket());
+        writeInPlayerSocket(information,it->getSocket()); //************************ ***** write in multiple thread?
     }
 }
 
@@ -112,13 +117,16 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
     //----------------------------------------------------------------------------------------
 
     while(true){
-        while(!socket->waitForReadyRead(-1));
-        QByteArray receivedInformation;
-        QDataStream in(receivedInformation);
+        if(socket->waitForReadyRead(-1))
+        {
+            QByteArray receivedInformation="";
+        emit readSignal(&receivedInformation,socket);
+            while(receivedInformation=="");
+        QDataStream in(&receivedInformation,QIODevice::ReadOnly);
         in>>mainCode;
 
         QByteArray sentinformation;
-        QDataStream out(sentinformation);
+        QDataStream out(&sentinformation,QIODevice::WriteOnly);
 
         switch(mainCode){
 
@@ -130,6 +138,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
                     it->setName(clientName);
                     it->setcupsNumber(clientCupNumber);
                     it->setProfile(clientProfilePicture);
+                    emit playersListChange();
                     break;
                 }
             }
@@ -138,15 +147,19 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
                 out<<it->getName()<<it->getCupsNumber()<<it->getProfile();
             }
-            writeInPlayerSocket(sentinformation,socket);
+           // writeInPlayerSocket(sentinformation,socket);
+            emit writeSignal(sentinformation,socket);
 
             sentinformation.clear();
-            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 out<<'a'<<clientName<<clientCupNumber<<clientProfilePicture;
-                writeInPlayerSocket(sentinformation,it->getSocket());
+                //writeInPlayerSocket(sentinformation,it->getSocket());
+                emit writeSignal(sentinformation,it->getSocket());
                 sentinformation.clear();
             }
-
+            { unique_lock lck3(mx2);
+            numberOfConnectedClients++;
+            }
             break;
 
         case 'd':
@@ -154,13 +167,15 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
                 if(it->getName()==clientName){
                     players.erase(it);
+                    emit playersListChange();
                     break;
                 }
             }
-            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 sentinformation.clear();
                 out<<'d'<<'c'<<clientName;
-                writeInPlayerSocket(sentinformation,it->getSocket());
+                //writeInPlayerSocket(sentinformation,it->getSocket());
+                emit writeSignal(sentinformation,it->getSocket());
             }
             unique_lock lck1(mx);
             numberOfConnectedClientsChangeStatus=true;
@@ -169,21 +184,26 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             break;
 
         }
+        }
     }
 }
 
-void Server::writeInPlayerSocket(QByteArray &information, QTcpSocket *socket)
+void Server::writeInPlayerSocket(QByteArray information, QTcpSocket *socket)
 {
     socket->write(information);
 }
 
+void Server::readFromSocket(QByteArray *information, QTcpSocket *socket)
+{
+    *information=socket->readAll();
+}
+
 void Server::acceptNewConnection()
 {
-    if(numberOfConnectedClients<maxNumberOfClients){
+    if(numberOfConnectedClients < maxNumberOfClients){
     Player newPlayer;
     newPlayer.setSocket(server->nextPendingConnection());
     players.push_back(newPlayer);
-   // std::thread t(readFromPlayersocket,newPlayer.getSocket());
     readingFromPlayersSocketThreads.push_back(std::thread(&Server::readFromPlayersocket,this,newPlayer.getSocket()));
     unique_lock lck1(mx);
     numberOfConnectedClientsChangeStatus=true;
@@ -193,7 +213,7 @@ void Server::acceptNewConnection()
     else {
     QTcpSocket*socket=server->nextPendingConnection();
     QByteArray information;
-    QDataStream out(information);
+    QDataStream out(&information,QIODevice::WriteOnly);
     out<<'r';   // 'r' "reject"
     writeInPlayerSocket(information,socket);
     socket->disconnectFromHost();

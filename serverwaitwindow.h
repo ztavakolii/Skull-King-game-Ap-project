@@ -16,14 +16,15 @@ class ServerWaitWindow : public QMainWindow
 public:
     explicit ServerWaitWindow(QMainWindow*prewindow,QWidget *parent = nullptr);
     ~ServerWaitWindow();
+    void setGuideTextEdit();
 
 private:
     Ui::ServerWaitWindow *ui;
     QMainWindow*preWindow;
     PlayWindow*playWindow;
-    std::thread t;
+   // std::thread t;
 
-private slots:
+public slots:
     void backButtonClicked();
     void deleteServerButtonClicked();
     void playButtonClicked();

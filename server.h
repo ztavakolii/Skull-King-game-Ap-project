@@ -10,6 +10,7 @@
 #include <QByteArray>
 #include <QDataStream>
 #include "player.h"
+#include "serverwaitwindow.h"
 
 namespace Ui {
 class Server;
@@ -20,7 +21,7 @@ class Server : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Server(QString servername,int numberofclients,QWidget *parent = nullptr);
+    explicit Server(ServerWaitWindow* waitwindow,QString servername,int numberofclients,QWidget *parent = nullptr);
     ~Server();
     void setNumberOfConnectedClientsChangeStatus(bool status);
     bool getNumberOfConnectedClientsChangeStatus();
@@ -29,6 +30,7 @@ public:
     QByteArray readPlayersList();
     void serverDeleted();
     void playStarted();
+
 
 
 private:
@@ -45,12 +47,20 @@ private:
     std::shared_mutex mx; // this is for mangement writing in newConnectionStatus
                           //by acceptNewConnection and setNewConnectionStatus functions
     std::shared_mutex mx2;
+    ServerWaitWindow*waitWindow;
+//    void readFromPlayersocket(QTcpSocket*socket);
+//    void writeInPlayerSocket(QByteArray&information,QTcpSocket*socket);
 
-    void readFromPlayersocket(QTcpSocket*socket);
-    void writeInPlayerSocket(QByteArray&information,QTcpSocket*socket);
+signals:
+    void writeSignal(QByteArray information,QTcpSocket*socket);
+    void readSignal(QByteArray* information,QTcpSocket*socket);
+    void playersListChange();
 
 private slots:
     void acceptNewConnection();
+    void readFromPlayersocket(QTcpSocket*socket);
+    void writeInPlayerSocket(QByteArray information,QTcpSocket*socket);
+    void readFromSocket(QByteArray* information,QTcpSocket*socket);
 
 };
 

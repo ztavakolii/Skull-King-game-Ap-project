@@ -2,6 +2,7 @@
 #define CLIENTWINDOW_H
 
 #include <QMainWindow>
+#include <thread>
 #include "clientwaitwindow.h"
 
 namespace Ui {
@@ -21,11 +22,12 @@ private:
     QMainWindow*preWindow;
     QMainWindow*personalWindow;
     ClientWaitWindow*clientWaitWindow;
-
+   // std::thread*t;
 
 private slots:
     void backButtonClicked();
     void connectButtonClicked();
+   // void showClientWaitWindow();
 };
 
 #endif // CLIENTWINDOW_H
