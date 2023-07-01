@@ -31,6 +31,9 @@ PlayWindow::PlayWindow(QWidget *parent) :
     ui->exit_button->setStyleSheet("border:none");
     savedatetime();//save date time in file
 
+    User->set_coin(User->get_coin()-50);//take 50 coin
+    User->edit();
+
 //    ui->
 //    player->
 
