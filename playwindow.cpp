@@ -13,7 +13,7 @@
 
 extern Person*User;
 Player* player;
-int number_of_player=3,count=0;
+int number_of_player=4,count=0;
 
 PlayWindow::PlayWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -31,8 +31,16 @@ PlayWindow::PlayWindow(QWidget *parent) :
     ui->stop_label->setPixmap(picture);
 
     ui->time_lcd->hide();
-    ui->bottle->hide();
+//    ui->bottle->hide();
     ui->groupBox->hide();
+    ui->pic1->hide();
+    ui->pic2->hide();
+    ui->pic3->hide();
+    ui->pic4->hide();
+    ui->card1->hide();
+    ui->card2->hide();
+    ui->card3->hide();
+    ui->card4->hide();
     ui->ok_button->setEnabled(false);
 
     ui->stop_button->setStyleSheet("border:none");
@@ -42,6 +50,8 @@ PlayWindow::PlayWindow(QWidget *parent) :
     savedatetime();//save date time in file
 //    start_hand();
 //    rotate();
+    placeLabelsAroundCircle(200,1);//for images
+    placeLabelsAroundCircle(200,2);//for cards
 
      // round and hand labels in begining of play must be hide and when play starts, we must show them
     set_round_hand(1,1);
@@ -126,6 +136,8 @@ void PlayWindow::on_exit_button_clicked()
 void PlayWindow::f()
 {
     if(remainingtime>=0){
+        if(remainingtime<=10)
+        ui->time_lcd->setStyleSheet("color:red;");
         ui->time_lcd->show();//show timer
         ui->time_lcd->display(QString::number(remainingtime));
         remainingtime--;
@@ -154,24 +166,80 @@ void PlayWindow::handle_loop(int loop)//for stop loop of the game
         eventLoop.quit();
 }
 
-void PlayWindow::start_hand()
+//void PlayWindow::start_hand()
+//{
+//    if(number_of_player==2){
+
+//    }
+//    else if(number_of_player==3){
+//        QLabel pic1,pic2,pic3;
+//        QPixmap p1(":/new/image/4914363 - Copy (4).jpg"),p2(":/new/image/4914363 - Copy (4).jpg"),p3(":/new/image/4914363 - Copy (4).jpg");
+//        pic1.setGeometry(600,70,141,121);
+//        pic2.setGeometry(990,270,141,121);
+//        pic3.setGeometry(170,270,141,121);
+//        pic1.setPixmap(p1);
+//        pic2.setPixmap(p2);
+//        pic3.setPixmap(p3);
+//        pic1.show();
+//        pic2.show();
+//        pic3.show();
+
+//    }
+//}
+
+void PlayWindow::placeLabelsAroundCircle(int radius,int n)
 {
-    if(number_of_player==2){
-
-    }
-    else if(number_of_player==3){
-        QLabel pic1,pic2,pic3;
-        QPixmap p1(":/new/image/4914363 - Copy (4).jpg"),p2(":/new/image/4914363 - Copy (4).jpg"),p3(":/new/image/4914363 - Copy (4).jpg");
-        pic1.setGeometry(600,70,141,121);
-        pic2.setGeometry(990,270,141,121);
-        pic3.setGeometry(170,270,141,121);
-        pic1.setPixmap(p1);
-        pic2.setPixmap(p2);
-        pic3.setPixmap(p3);
-        pic1.show();
-        pic2.show();
-        pic3.show();
-
+    QPixmap p1(":/new/image/icons8-pause-button-96.png"),p2,p3,p4;
+    float angle;
+    if(number_of_player==2)
+        angle=180.0;
+    else if(number_of_player==3)
+        angle=120.0;
+    else if(number_of_player==4)
+        angle=90.0;
+    for(int i=0;i<number_of_player;i++){
+        int x=radius*qCos(qDegreesToRadians(angle*i));
+        int y=radius*qSin(qDegreesToRadians(angle*i));
+        if(n==1){
+            if(i==0){
+                ui->pic1->move(x+630,y+250);
+                ui->pic1->show();
+                ui->pic1->setPixmap(p1);
+            }
+            else if(i==1){
+                ui->pic2->move(x+630,y+250);
+                ui->pic2->show();
+                ui->pic2->setPixmap(p1);
+            }
+            else if(i==2){
+                ui->pic3->move(x+630,y+250);
+                ui->pic3->show();
+                ui->pic3->setPixmap(p1);
+            }
+            else if(i==3){
+                ui->pic4->move(x+630,y+250);
+                ui->pic4->show();
+                ui->pic4->setPixmap(p1);
+            }
+        }
+        else if(n==2){
+            if(i==0){
+                ui->card1->move(x+650,y+215);
+                ui->card1->show();
+            }
+            else if(i==1){
+                ui->card2->move(x+650,y+215);
+                ui->card2->show();
+            }
+            else if(i==2){
+                ui->card3->move(x+650,y+215);
+                ui->card3->show();
+            }
+            else if(i==3){
+                ui->card4->move(x+650,y+215);
+                ui->card4->show();
+            }
+        }
     }
 }
 

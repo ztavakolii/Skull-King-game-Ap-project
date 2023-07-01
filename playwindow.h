@@ -36,6 +36,7 @@ private:
     int remainingtime;
     void handle_loop(int);
     void start_hand();
+    void placeLabelsAroundCircle(int,int);
 };
 
 #endif // PLAYWINDOW_H
