@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1300</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,15 +19,15 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>801</width>
-      <height>611</height>
+      <width>1300</width>
+      <height>700</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/old torn treasure map showing the treasure of _isl (1).jpg</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/b428506e-7875-42da-aeb9-0e662cce7e32.jfif</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -36,10 +36,10 @@
    <widget class="QLabel" name="stop_label">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>61</width>
-      <height>51</height>
+      <x>50</x>
+      <y>30</y>
+      <width>101</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
@@ -55,10 +55,10 @@
    <widget class="QLabel" name="exit_label">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>20</y>
-      <width>61</width>
-      <height>51</height>
+      <x>1150</x>
+      <y>30</y>
+      <width>91</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -111,8 +111,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>70</y>
+      <x>20</x>
+      <y>100</y>
       <width>111</width>
       <height>101</height>
      </rect>
@@ -130,8 +130,8 @@
    <widget class="QLabel" name="exchange_label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>108</y>
+      <x>40</x>
+      <y>140</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -168,7 +168,7 @@
    <widget class="QLabel" name="hand_label">
     <property name="geometry">
      <rect>
-      <x>353</x>
+      <x>352</x>
       <y>38</y>
       <width>71</width>
       <height>21</height>
@@ -186,10 +186,10 @@
    <widget class="QPushButton" name="stop_button">
     <property name="geometry">
      <rect>
-      <x>28</x>
-      <y>27</y>
-      <width>44</width>
-      <height>35</height>
+      <x>65</x>
+      <y>42</y>
+      <width>71</width>
+      <height>55</height>
      </rect>
     </property>
     <property name="text">
@@ -202,10 +202,10 @@
    <widget class="QPushButton" name="exit_button">
     <property name="geometry">
      <rect>
-      <x>726</x>
-      <y>23</y>
-      <width>41</width>
-      <height>45</height>
+      <x>1161</x>
+      <y>34</y>
+      <width>60</width>
+      <height>63</height>
      </rect>
     </property>
     <property name="text">
@@ -218,7 +218,7 @@
    <widget class="QLabel" name="time_label">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>990</x>
       <y>40</y>
       <width>63</width>
       <height>20</height>
