@@ -417,6 +417,19 @@ color: rgb(0, 170, 255);
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>30</y>
+      <width>93</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>game</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources>

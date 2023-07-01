@@ -6,6 +6,9 @@
 #include "QMessageBox"
 using namespace std;
 
+#include <QFile>
+#include <QTextStream>
+
 extern Person*User;
 
 RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
@@ -100,6 +103,23 @@ void RegisterAccount::on_register_button_clicked(bool checked)
 
                 User->set_user_name(user.get_user_name());
                 User->read_information_from_file();
+
+                QString f_name=User->get_user_name()+"_buy";//build a file for items that will buy in future
+                QFile b(f_name);
+                b.open(QIODevice::WriteOnly);
+                QDataStream out1(&b);
+                for(int i=0;i<25;i++)
+                    out1<<"0";
+                b.close();
+
+                QString file_name=User->get_user_name()+"_history";//build a file for history
+                QFile h(file_name);
+                h.open(QIODevice::WriteOnly);
+                QDataStream out(&h);
+                for(int i=0;i<20;i++)
+                    out<<"";
+                h.close();
+
                 personalwindow=new PersonalWindow(prewindow);
                 personalwindow->showMaximized();
                 this->close();

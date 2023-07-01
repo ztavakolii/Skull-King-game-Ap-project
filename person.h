@@ -39,6 +39,7 @@ public:
     int add();//add the information of person in to files
     int match(int);//chack that the information is true or not
     void edit_password(QString);//change the password
+    void edit();//edit information in file
     void read_information_from_file();
     void write_information_in_file();
     void set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP);

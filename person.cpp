@@ -192,6 +192,12 @@ void Person::edit_password(QString new_password){//change password in file
         this->add();
 }
 
+void Person::edit(){
+    QFile f(user_name);
+    f.remove();
+    add();
+}
+
 void Person::read_information_from_file()
 {
     QString file_name=user_name;
