@@ -27,6 +27,7 @@ private slots:
     void set_round_hand(int ,int);
     void on_exchange_button_clicked();
     void on_ok_button_clicked();
+//    void rotate();
 
 private:
     Ui::PlayWindow *ui;
@@ -34,6 +35,7 @@ private:
     QEventLoop eventLoop;
     int remainingtime;
     void handle_loop(int);
+    void start_hand();
 };
 
 #endif // PLAYWINDOW_H

@@ -8,11 +8,12 @@
 #include "person.h"
 #include "player.h"
 #include "thread"
+#include <QLabel>
+#include <QPropertyAnimation>
 
 extern Person*User;
 Player* player;
-static int count=0;
-int number_of_player=2;
+int number_of_player=3,count=0;
 
 PlayWindow::PlayWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,7 +30,7 @@ PlayWindow::PlayWindow(QWidget *parent) :
     QPixmap picture(":/new/image/icons8-pause-button-96.png");
     ui->stop_label->setPixmap(picture);
 
-    ui->time_label->hide();
+    ui->time_lcd->hide();
     ui->bottle->hide();
     ui->groupBox->hide();
     ui->ok_button->setEnabled(false);
@@ -39,6 +40,8 @@ PlayWindow::PlayWindow(QWidget *parent) :
      ui->exchange_button->setStyleSheet("border:none");
      ui->ok_button->setStyleSheet("border:none");
     savedatetime();//save date time in file
+//    start_hand();
+//    rotate();
 
      // round and hand labels in begining of play must be hide and when play starts, we must show them
     set_round_hand(1,1);
@@ -86,16 +89,20 @@ void PlayWindow::on_stop_button_clicked()
     QImage image1=pixmap1.toImage();
     QImage image=labelpixmap.toImage();
     if(image1!=image){//change the image
-        count++;
+        if(count!=2){
         QPixmap p(":/new/image/icons8-play-button-96.png"); //must be stop picture
         ui->stop_label->setPixmap(p);
+        startcountdown(20);
+        }
+        count++;
     }
     else{
-    QPixmap p(":/new/image/icons8-pause-button-96.png");
-    ui->stop_label->setPixmap(p);
-    startcountdown(20);
+        countdowntimer->stop();//stop the timer
+        ui->time_lcd->hide();//hide timer
+        QPixmap p(":/new/image/icons8-pause-button-96.png");
+        ui->stop_label->setPixmap(p);
     }
-    if(count==2)
+    if(count==3)
         ui->stop_button->setEnabled(false);
 }
 
@@ -119,18 +126,16 @@ void PlayWindow::on_exit_button_clicked()
 void PlayWindow::f()
 {
     if(remainingtime>=0){
-        ui->time_label->show();//show number
-        ui->time_label->setText(QString::number(remainingtime));
+        ui->time_lcd->show();//show timer
+        ui->time_lcd->display(QString::number(remainingtime));
         remainingtime--;
     }
     else{
     //counttime is finish
         countdowntimer->stop();//stop the timer
-        ui->time_label->hide();//hide number
-        //        if(n==20){
-        //        QPixmap p(":/new/image/icons8-pause-button-96.png");
-        //        ui->stop_label->setPixmap(p);
-        //        }
+        ui->time_lcd->hide();//hide timer
+        QPixmap p(":/new/image/icons8-pause-button-96.png");
+        ui->stop_label->setPixmap(p);
     }
 }
 
@@ -147,6 +152,27 @@ void PlayWindow::handle_loop(int loop)//for stop loop of the game
         eventLoop.exec();
     else//stop the loop
         eventLoop.quit();
+}
+
+void PlayWindow::start_hand()
+{
+    if(number_of_player==2){
+
+    }
+    else if(number_of_player==3){
+        QLabel pic1,pic2,pic3;
+        QPixmap p1(":/new/image/4914363 - Copy (4).jpg"),p2(":/new/image/4914363 - Copy (4).jpg"),p3(":/new/image/4914363 - Copy (4).jpg");
+        pic1.setGeometry(600,70,141,121);
+        pic2.setGeometry(990,270,141,121);
+        pic3.setGeometry(170,270,141,121);
+        pic1.setPixmap(p1);
+        pic2.setPixmap(p2);
+        pic3.setPixmap(p3);
+        pic1.show();
+        pic2.show();
+        pic3.show();
+
+    }
 }
 
 void PlayWindow::on_exchange_button_clicked()
@@ -171,5 +197,29 @@ void PlayWindow::on_ok_button_clicked()
     //send to server
     ui->groupBox->hide();
     ui->ok_button->setEnabled(false);
+    ui->checkBox1->setChecked(false);
+    ui->checkBox2->setChecked(false);
+    ui->checkBox3->setChecked(false);
+
 }
+
+//void PlayWindow::rotate()
+//{
+//    ui->bottle->show();
+//    QPropertyAnimation* rotationAnimation=new QPropertyAnimation(ui->bottle,"rotation");
+//    rotationAnimation->setDuration(5000);//time for rotation
+//    rotationAnimation->setStartValue(0);//the start degree
+//    rotationAnimation->setEndValue(120);//the end degree
+//    rotationAnimation->start();
+//    QObject::connect(rotationAnimation,&QPropertyAnimation::finished,rotationAnimation,&QPropertyAnimation::stop);
+//    if(number_of_player==2){
+
+//    }
+//    else if(number_of_player==3){
+
+//    }
+//    else{
+
+//    }
+//}
 
