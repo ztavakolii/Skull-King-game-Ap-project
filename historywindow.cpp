@@ -67,14 +67,14 @@ HistoryWindow::HistoryWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->date8->setText(arr[2]);
     ui->date9->setText(arr[1]);
     ui->date10->setText(arr[0]);
-    QPixmap picture(":/new/image/icons8-red-squar-96.png"),picture2(":/new/image/icons8-green-squar-96.png");
-    QString str1="Lose",str2="Win";
-    if(condition[9]==str1){
+    QPixmap picture(":/new/image/icons8-red-square-96.png"),picture2(":/new/image/icons8-green-square-96.png");
+    ui->label->setText(condition[9]);
+    if(condition[9]=="Lose"){
         ui->condition_label->setPixmap(picture);
         ui->condition->setText("Lose");
         ui->pushButton->setEnabled(true);
     }
-    else if(condition[9]==str2){
+    else if(condition[9]=="Win"){
         ui->condition_label->setPixmap(picture2);
         ui->condition->setText("Win");
         ui->pushButton->setEnabled(true);

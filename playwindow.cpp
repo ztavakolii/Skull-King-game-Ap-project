@@ -78,13 +78,15 @@ void PlayWindow::savedatetime(){
         in>>arr[i];
     file.close();
     file.remove();
-    file.open(QIODevice::WriteOnly);//create new history file and write the information in it
-    QDataStream out(&file);
+    QFile file2(file_name);
+    file2.open(QIODevice::WriteOnly);//create new history file and write the information in it
+    QDataStream out(&file2);
     for(int i=9;i<90;i++)
         out<<arr[i];
     out<<dateTimeString;
     for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
     out<<"Lose";
+    file2.close();
 }
 
 void PlayWindow::startcountdown(int n){
