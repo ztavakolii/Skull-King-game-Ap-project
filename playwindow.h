@@ -2,6 +2,9 @@
 #define PLAYWINDOW_H
 
 #include <QMainWindow>
+#include <QByteArray>
+#include <QTextStream>
+#include <thread>
 #include <QTimer>
 #include "ui_playwindow.h"
 #include "QEventLoop"
@@ -15,7 +18,7 @@ class PlayWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit PlayWindow(QWidget *parent = nullptr);
+    explicit PlayWindow(QMainWindow*personalwindow,QWidget *parent = nullptr);
     ~PlayWindow();
     void startcountdown(int);
     void savedatetime();
@@ -33,7 +36,13 @@ private:
     QTimer* countdowntimer;
     QEventLoop eventLoop;
     int remainingtime;
+    std::thread*t;//thread of reading information sent by server if the player become client
+    QMainWindow*personalWindow;
+
     void handle_loop(int);
+
+    void readInformationSentByServer();//for clients
+    void exitCodeReceived(QString clientName);
 };
 
 #endif // PLAYWINDOW_H

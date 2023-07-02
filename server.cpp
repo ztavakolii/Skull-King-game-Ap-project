@@ -104,16 +104,28 @@ void Server::playStarted()
 
 void Server::readFromPlayersocket(QTcpSocket* socket)
 {
-    char mainCode;
+    char mainCode, subCode;
     QString clientName;
     int clientCupNumber;
     QPixmap clientProfilePicture;
 
-    // mainCode         | Received information
+    // mainCode                 | Received information
     //----------------------------------------------------------------------------------------
-    // 'a' "add"        | client name - client's cups number - client's profile picture
+    // 'a' "add"                | client name - client's cups number - client's profile picture
     //----------------------------------------------------------------------------------------
-    // 'd' "delete"     | deleted client's name
+    // 'd' "delete"             | deleted client's name
+    //----------------------------------------------------------------------------------------
+    // 'e' "exit"               | 't' - The name of the player who want to exit
+    //----------------------------------------------------------------------------------------
+    // 's' "stop"               | The name of player who want to stop play
+    //----------------------------------------------------------------------------------------
+    // 'r' "resume"             | 's'
+    //----------------------------------------------------------------------------------------
+    // 'e' "exchange"           | 'c' - number of players - a list of indexes of players vector
+    //----------------------------------------------------------------------------------------
+    // 'c' "chosen card"        | card code - index of player that play this card
+    //----------------------------------------------------------------------------------------
+    // 'r' "reply exchange card"| 'p' - player's name and index in players vector
     //----------------------------------------------------------------------------------------
 
     while(true){
@@ -183,6 +195,39 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             numberOfConnectedClients--;
             break;
 
+        case 'e':
+            in>>subCode;
+            switch(subCode){
+            case 't':
+
+                break;
+
+            case 'c':
+
+                break;
+            }
+            break;
+
+        case 's':
+
+            break;
+
+        case 'c':
+
+            break;
+
+        case 'r':
+            in>>subCode;
+            switch(subCode){
+            case 's':
+
+                break;
+
+            case 'p':
+
+                break;
+            }
+            break;
         }
         }
     }

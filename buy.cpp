@@ -21,6 +21,8 @@ buy::buy(QMainWindow *previousWindow,QWidget *parent) :
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Store");
 
+    ui->back_button->setStyleSheet("border:none");
+
     QString file_name=User.get_user_name()+"_buy";
     QFile f(file_name);
     if(f.open(QIODevice::ReadOnly)){
