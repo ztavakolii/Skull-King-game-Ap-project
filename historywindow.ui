@@ -465,9 +465,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -488,9 +485,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -513,9 +507,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -536,9 +527,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -561,9 +549,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -584,9 +569,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -609,9 +591,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -632,9 +611,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -657,9 +633,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -681,9 +654,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/icons8-green-square-96.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -704,7 +674,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_2">
@@ -723,7 +693,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_3">
@@ -742,7 +712,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_4">
@@ -761,7 +731,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_5">
@@ -780,7 +750,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_6">
@@ -799,7 +769,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_7">
@@ -818,7 +788,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_8">
@@ -837,7 +807,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_9">
@@ -856,7 +826,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="condition_10">
@@ -875,7 +845,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Win</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">

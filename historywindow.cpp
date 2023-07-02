@@ -26,7 +26,16 @@ HistoryWindow::HistoryWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->pushButton_8->setStyleSheet("border:none");
     ui->pushButton_9->setStyleSheet("border:none");
     ui->pushButton_10->setStyleSheet("border:none");
-
+    ui->pushButton->setEnabled(false);
+    ui->pushButton_2->setEnabled(false);
+    ui->pushButton_3->setEnabled(false);
+    ui->pushButton_4->setEnabled(false);
+    ui->pushButton_5->setEnabled(false);
+    ui->pushButton_6->setEnabled(false);
+    ui->pushButton_7->setEnabled(false);
+    ui->pushButton_8->setEnabled(false);
+    ui->pushButton_9->setEnabled(false);
+    ui->pushButton_10->setEnabled(false);
 
     preWindow=prewindow;
 
@@ -58,46 +67,115 @@ HistoryWindow::HistoryWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->date8->setText(arr[2]);
     ui->date9->setText(arr[1]);
     ui->date10->setText(arr[0]);
-    QPixmap picture(":/new/image/icons8-red-squar-96.png");
-    if(condition[9]=="Lose"){
+    QPixmap picture(":/new/image/icons8-red-squar-96.png"),picture2(":/new/image/icons8-green-squar-96.png");
+    QString str1="Lose",str2="Win";
+    if(condition[9]==str1){
         ui->condition_label->setPixmap(picture);
         ui->condition->setText("Lose");
+        ui->pushButton->setEnabled(true);
     }
+    else if(condition[9]==str2){
+        ui->condition_label->setPixmap(picture2);
+        ui->condition->setText("Win");
+        ui->pushButton->setEnabled(true);
+    }
+
     if(condition[8]=="Lose"){
         ui->condition_label_2->setPixmap(picture);
         ui->condition_2->setText("Lose");
+        ui->pushButton_2->setEnabled(true);
     }
+    else if(condition[8]=="Win"){
+        ui->condition_label_2->setPixmap(picture2);
+        ui->condition_2->setText("Win");
+        ui->pushButton_2->setEnabled(true);
+    }
+
     if(condition[7]=="Lose"){
         ui->condition_label_3->setPixmap(picture);
         ui->condition_3->setText("Lose");
+        ui->pushButton_3->setEnabled(true);
     }
+    else if(condition[7]=="Win"){
+        ui->condition_label_3->setPixmap(picture2);
+        ui->condition_3->setText("Win");
+        ui->pushButton_3->setEnabled(true);
+    }
+
     if(condition[6]=="Lose"){
         ui->condition_label_4->setPixmap(picture);
         ui->condition_4->setText("Lose");
+        ui->pushButton_4->setEnabled(true);
+    }
+    else if(condition[6]=="Win"){
+        ui->condition_label_4->setPixmap(picture2);
+        ui->condition_4->setText("Win");
+        ui->pushButton_4->setEnabled(true);
     }
     if(condition[5]=="Lose"){
         ui->condition_label_5->setPixmap(picture);
         ui->condition_5->setText("Lose");
+        ui->pushButton_5->setEnabled(true);
     }
+    else if(condition[5]=="Win"){
+        ui->condition_label_5->setPixmap(picture2);
+        ui->condition_5->setText("Win");
+        ui->pushButton_5->setEnabled(true);
+    }
+
     if(condition[4]=="Lose"){
         ui->condition_label_6->setPixmap(picture);
         ui->condition_6->setText("Lose");
+        ui->pushButton_6->setEnabled(true);
     }
+    else if(condition[4]=="Win"){
+        ui->condition_label_6->setPixmap(picture2);
+        ui->condition_6->setText("Win");
+        ui->pushButton_6->setEnabled(true);
+    }
+
     if(condition[3]=="Lose"){
         ui->condition_label_7->setPixmap(picture);
         ui->condition_7->setText("Lose");
+        ui->pushButton_7->setEnabled(true);
     }
+    else if(condition[3]=="Win"){
+        ui->condition_label_7->setPixmap(picture2);
+        ui->condition_7->setText("Win");
+        ui->pushButton_7->setEnabled(true);
+    }
+
     if(condition[2]=="Lose"){
         ui->condition_label_8->setPixmap(picture);
         ui->condition_8->setText("Lose");
+        ui->pushButton_8->setEnabled(true);
     }
+    else if(condition[2]=="Win"){
+        ui->condition_label_8->setPixmap(picture2);
+        ui->condition_8->setText("Win");
+        ui->pushButton_8->setEnabled(true);
+    }
+
     if(condition[1]=="Lose"){
         ui->condition_label_9->setPixmap(picture);
         ui->condition_9->setText("Lose");
+        ui->pushButton_9->setEnabled(true);
     }
+    else if(condition[1]=="Win"){
+        ui->condition_label_9->setPixmap(picture2);
+        ui->condition_9->setText("Win");
+        ui->pushButton_9->setEnabled(true);
+    }
+
     if(condition[0]=="Lose"){
         ui->condition_label_10->setPixmap(picture);
         ui->condition_10->setText("Lose");
+        ui->pushButton_10->setEnabled(true);
+    }
+    else if(condition[0]=="Win"){
+        ui->condition_label_10->setPixmap(picture2);
+        ui->condition_10->setText("Win");
+        ui->pushButton_10->setEnabled(true);
     }
 
 }
