@@ -69,20 +69,22 @@ PlayWindow::~PlayWindow()
 
 void PlayWindow::savedatetime(){
     QDateTime currentDateTime=QDateTime::currentDateTime();
-    QString dateTimeString=currentDateTime.toString("yyyy-MM-ddhh:mm:ss"),file_name,arr[20];
+    QString dateTimeString=currentDateTime.toString("yyyy-MM-dd  hh:mm:ss"),file_name,arr[90];
     file_name=User->get_user_name()+"_history";
     QFile file(file_name);
     file.open(QIODevice::ReadOnly);//open the history file and read the information
     QDataStream in(&file);
-    for(int i=0;i<10;i++)
+    for(int i=0;i<90;i++)
         in>>arr[i];
     file.close();
     file.remove();
     file.open(QIODevice::WriteOnly);//create new history file and write the information in it
     QDataStream out(&file);
-    for(int i=2;i<20;i++)
+    for(int i=9;i<90;i++)
         out<<arr[i];
     out<<dateTimeString;
+    for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
+    out<<"Lose";
 }
 
 void PlayWindow::startcountdown(int n){
@@ -137,7 +139,7 @@ void PlayWindow::f()
 {
     if(remainingtime>=0){
         if(remainingtime<=10)
-        ui->time_lcd->setStyleSheet("color:red;");
+        ui->time_lcd->setStyleSheet("color::rgb(170,0,0);");
         ui->time_lcd->show();//show timer
         ui->time_lcd->display(QString::number(remainingtime));
         remainingtime--;

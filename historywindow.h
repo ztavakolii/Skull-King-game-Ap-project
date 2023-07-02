@@ -15,6 +15,9 @@ public:
     explicit HistoryWindow(QMainWindow*prewindow,QWidget *parent = nullptr);
     ~HistoryWindow();
 
+private slots:
+    void on_back_button_clicked();
+
 private:
     Ui::HistoryWindow *ui;
     QMainWindow*preWindow;
