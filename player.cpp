@@ -57,6 +57,11 @@ void Player::setcupsNumber(int number)
     cupsNumber=number;
 }
 
+void Player::setScore(int score)
+{
+    this->score=score;
+}
+
 void Player::increaseScoreAtEndEachRound()
 {
     if(numberOfHandsSaidWon!=0){
@@ -71,7 +76,7 @@ void Player::increaseScoreAtEndEachRound()
     }
 }
 
-void Player::setCards(std::vector<int> cardsSet)
+void Player::setCards(std::vector<QString> cardsSet)
 {
     cards=cardsSet;
 }
@@ -111,7 +116,7 @@ int Player::getCupsNumber()
     return cupsNumber;
 }
 
-std::vector<int> Player::getCasrdsSet()
+std::vector<QString> Player::getCasrdsSet()
 {
     return cards;
 }

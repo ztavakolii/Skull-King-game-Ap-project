@@ -12,6 +12,7 @@
 #include "player.h"
 #include "serverwaitwindow.h"
 #include "ui_server.h"
+#include "playwindow.h"
 
 
 namespace Ui {
@@ -23,7 +24,7 @@ class Server : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Server(ServerWaitWindow* waitwindow,QString servername,int numberofclients,QWidget *parent = nullptr);
+    explicit Server(PlayWindow*playwindow,ServerWaitWindow* waitwindow,QString servername,int numberofclients,QWidget *parent = nullptr);
     ~Server();
     void setNumberOfConnectedClientsChangeStatus(bool status);
     bool getNumberOfConnectedClientsChangeStatus();
@@ -32,7 +33,10 @@ public:
     QByteArray readPlayersList();
     void serverDeleted();
     void playStarted();
-
+    void serverWantsToStopPlay();
+    void serverWantsToResumePlay();
+    void serverWantsToExit();
+    void sentExchangeRequestToClients(QByteArray information);
 
 
 private:
@@ -50,6 +54,7 @@ private:
                           //by acceptNewConnection and setNewConnectionStatus functions
     std::shared_mutex mx2;
     ServerWaitWindow*waitWindow;
+    PlayWindow*playWindow;
 //    void readFromPlayersocket(QTcpSocket*socket);
 //    void writeInPlayerSocket(QByteArray&information,QTcpSocket*socket);
 

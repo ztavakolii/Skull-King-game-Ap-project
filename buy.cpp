@@ -15,6 +15,7 @@ buy::buy(QMainWindow *previousWindow,QWidget *parent) :
     ui(new Ui::buy)
 {
     ui->setupUi(this);
+    setFixedSize(1300,700);
 
     prewindow=previousWindow;
     QIcon windowsIcon(":/new/image/gamename.png");

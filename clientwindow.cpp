@@ -12,6 +12,7 @@ ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWid
     ui(new Ui::ClientWindow)
 {
     ui->setupUi(this);
+    setFixedSize(1300,700);
     preWindow=prewindow;
     personalWindow=personalwindow;
 

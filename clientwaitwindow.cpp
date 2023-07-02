@@ -12,6 +12,7 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     ui(new Ui::ClientWaitWindow)
 {
     ui->setupUi(this);
+    setFixedSize(1300,700);
     personalWindow=personalwindow;
     preWindow=prewindow;
 
@@ -203,7 +204,7 @@ void ClientWaitWindow::readInformationSentByServer()
                 // I must show play window and close other windows.
                 //note that when server sent 'p' client may be in other windows
                 //and those window must be closed
-                playWindow=new PlayWindow;
+                playWindow=new PlayWindow(personalWindow);
                 QTimer::singleShot(0,this,[this](){
                    this->playWindow->showMaximized();
                     this->close();

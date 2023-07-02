@@ -3,16 +3,18 @@
 #include <QHostInfo>
 #include "person.h"
 
+
 extern Person* User;
 
 using namespace std;
 
-Server::Server(ServerWaitWindow* waitwindow,QString servername,int maxnumberofclients,QWidget *parent) :
+Server::Server(PlayWindow*playwindow,ServerWaitWindow* waitwindow,QString servername,int maxnumberofclients,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Server)
 {
     ui->setupUi(this);
     waitWindow=waitwindow;
+    playWindow=playwindow;
 
     Player serverPlayer;
     serverPlayer.setName(User->get_name());
@@ -102,11 +104,69 @@ void Server::playStarted()
     }
 }
 
+void Server::serverWantsToStopPlay()
+{
+    QByteArray information;
+    QDataStream out(&information,QIODevice::WriteOnly);
+    out<<'s'<<'t'<<User->get_name();
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+        writeInPlayerSocket(information,it->getSocket());
+    }
+}
+
+void Server::serverWantsToResumePlay()
+{
+    QByteArray information;
+    QDataStream out(&information,QIODevice::WriteOnly);
+    out<<'r'<<'s';
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+        writeInPlayerSocket(information,it->getSocket());
+    }
+}
+
+void Server::serverWantsToExit()
+{
+    QByteArray information;
+    QDataStream out(&information,QIODevice::WriteOnly);
+    out<<'e'<<'t'<<User->get_name();
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+        writeInPlayerSocket(information,it->getSocket());
+    }
+    playWindow->exitCodeReceived(User->get_name());
+}
+
+void Server::sentExchangeRequestToClients(QByteArray information)
+{
+    QString clientName,clientName2;
+    int number;
+    QDataStream in(&information,QIODevice::ReadOnly);
+    QByteArray sentinformation;
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
+    in>>clientName>>number;
+    clientName2=clientName;
+    out<<'e'<<'c'<<clientName;
+    for(int i=0;i<number;i++){
+        in>>clientName;
+        if(clientName!=User->get_name()){
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                if(it->getName()==clientName){
+                writeInPlayerSocket(sentinformation,it->getSocket());
+                break;
+                }
+            }
+        }
+        else{ // an exchange request for server player
+            // show exchange request for server in GUI and receive respons
+            playWindow->showExchangeRequest(clientName2);
+        }
+    }
+}
+
 void Server::readFromPlayersocket(QTcpSocket* socket)
 {
     char mainCode, subCode;
-    QString clientName;
-    int clientCupNumber;
+    QString clientName,clientName2;
+    int clientCupNumber,number;
     QPixmap clientProfilePicture;
 
     // mainCode                 | Received information
@@ -117,11 +177,11 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
     //----------------------------------------------------------------------------------------
     // 'e' "exit"               | 't' - The name of the player who want to exit
     //----------------------------------------------------------------------------------------
-    // 's' "stop"               | The name of player who want to stop play
+    // 's' "stop"               |'t' - The name of player who want to stop play
     //----------------------------------------------------------------------------------------
     // 'r' "resume"             | 's'
     //----------------------------------------------------------------------------------------
-    // 'e' "exchange"           | 'c' - number of players - a list of indexes of players vector
+    // 'e' "exchange"           | 'c'- name of player who want to exchange cart - number of players - names of players
     //----------------------------------------------------------------------------------------
     // 'c' "chosen card"        | card code - index of player that play this card
     //----------------------------------------------------------------------------------------
@@ -209,6 +269,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             break;
 
         case 's':
+            in>>subCode;
 
             break;
 

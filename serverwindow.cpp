@@ -11,6 +11,8 @@ ServerWindow::ServerWindow(QMainWindow*prewindow,QMainWindow*personalwindow,QWid
     ui(new Ui::ServerWindow)
 {
     ui->setupUi(this);
+    setFixedSize(1300,700);
+
     preWindow=prewindow;
     personalWindow=personalwindow;
 

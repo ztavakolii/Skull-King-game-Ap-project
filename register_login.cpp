@@ -7,6 +7,8 @@ register_login::register_login(QApplication*a,QWidget *parent)
     , ui(new Ui::register_login)
 {
     ui->setupUi(this);
+    setFixedSize(1300,700);
+
     showMaximized();
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);

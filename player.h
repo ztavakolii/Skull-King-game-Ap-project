@@ -18,8 +18,9 @@ public:
     void setNumberOfHandsWonInCurrentRoundTOZero();
     void setNumberOfHandsWonInCurrentRoundIncreament();
     void setcupsNumber(int number);
+    void setScore(int score);
     void increaseScoreAtEndEachRound();
-    void setCards(std::vector<int>cardsSet);
+    void setCards(std::vector<QString>cardsSet);
     void setWhichRound(int numberOfRound);
     void setSocket(QTcpSocket* clientSocket);
     QString getName();
@@ -27,7 +28,7 @@ public:
     int getScore();
     int getNumberOfHandsSaidWon();
     int getCupsNumber();
-    std::vector<int> getCasrdsSet();
+    std::vector<QString> getCasrdsSet();
     QTcpSocket*getSocket();
 
 private:
@@ -38,7 +39,7 @@ private:
     int cupsNumber;
     int numberOfHandsSaidWon; //the number of hands that player promise to won in each round
     int numberOfHandsWonInCurrentRound;
-    std:: vector<int>cards; // the list of player's carts in each round
+    std:: vector<QString>cards; // the list of player's carts in each round
     int durationOfDisconnectFromServer; //the time elapsed from the disconnect moment from server
     int whichRound;
     QTcpSocket*socket;

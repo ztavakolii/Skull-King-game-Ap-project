@@ -6,6 +6,7 @@ HistoryWindow::HistoryWindow(QMainWindow*prewindow,QWidget *parent) :
     ui(new Ui::HistoryWindow)
 {
     ui->setupUi(this);
+    setFixedSize(1300,700);
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
