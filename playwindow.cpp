@@ -154,6 +154,7 @@ void PlayWindow::savedatetime(){
     for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
     out<<"Lose";
     file2.close();
+<<<<<<< HEAD
 }
 
 void PlayWindow::setNumberOfPlayers(int number)
@@ -247,14 +248,10 @@ void PlayWindow::f()
 {
     if(remainingtime>=0){
         if(remainingtime<=10)
-<<<<<<< HEAD
-        ui->time_lcd->setStyleSheet("color:red;");
+            ui->time_lcd->setStyleSheet("color::rgb(170,0,0);");
         else
-        ui->time_lcd->setStyleSheet("color:green;");
+        ui->time_lcd->setStyleSheet("color: rgb(85, 255, 0);");
 
-=======
-        ui->time_lcd->setStyleSheet("color::rgb(170,0,0);");
->>>>>>> c3bea856ef992f5d0b40b77992b09be53c291f8b
         ui->time_lcd->show();//show timer
         ui->time_lcd->display(QString::number(remainingtime));
         remainingtime--;
