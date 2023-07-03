@@ -21,7 +21,7 @@ public:
     explicit PlayWindow(QMainWindow*personalwindow,QWidget *parent = nullptr);
     ~PlayWindow();
     void startcountdown(int);
-    void savedatetime();
+    void savedatetime(int);
     void setNumberOfPlayers(int number);
     void set_round(int);
     void set_hand(int hand);
@@ -66,6 +66,7 @@ private:
     void placeLabelsAroundCircle(int,int);
     void rotate_bottle(int);
     void show_line_edit();
+    void end_of_play();
 
 signals:
     void second25Signal();

@@ -24,6 +24,7 @@ int number_of_player=4;
 int Round=1;
 int hand=0;
 int prediction;
+bool is_win=0;
 QString name;
 
 PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
@@ -88,7 +89,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->exit_button->setStyleSheet("border:none");
      ui->exchange_button->setStyleSheet("border:none");
      ui->ok_button->setStyleSheet("border:none");
-    savedatetime();//save date time in file
+    savedatetime(0);//save date time in file
 //    start_hand();
 //    rotate();
    // placeLabelsAroundCircle(200,1);//for images
@@ -156,9 +157,15 @@ PlayWindow::~PlayWindow()
         t->join();
 }
 
-void PlayWindow::savedatetime(){
+void PlayWindow::savedatetime(int n){
     QDateTime currentDateTime=QDateTime::currentDateTime();
-    QString dateTimeString=currentDateTime.toString("yyyy-MM-dd  hh:mm:ss"),file_name,arr[90];
+    QString dateTimeString=currentDateTime.toString("yyyy-MM-dd  hh:mm:ss");;
+    if(n==1)
+        dateTimeString=dateTimeString+" Win";
+
+    else
+      dateTimeString=dateTimeString+" Lose";
+    QString file_name,arr[90];
     file_name=User->get_user_name()+"_history";
     QFile file(file_name);
     file.open(QIODevice::ReadOnly);//open the history file and read the information
@@ -173,8 +180,8 @@ void PlayWindow::savedatetime(){
     for(int i=9;i<90;i++)
         out<<arr[i];
     out<<dateTimeString;
-    for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
-    out<<"Lose";
+//    for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
+//    out<<"Lose";
     file2.close();
 }
 
@@ -1183,6 +1190,20 @@ void PlayWindow::show_line_edit()
     ui->lineEdit->show();
     ui->pushButton->show();
     ui->pushButton->setEnabled(true);
+}
+
+void PlayWindow::end_of_play()
+{
+    QMessageBox message;
+    if(is_win==1){
+        savedatetime(1);
+        message.setText("You win");
+    }
+    else{
+        savedatetime(0);
+        message.setText("You Lose");
+    }
+    message.exec();
 }
 
 

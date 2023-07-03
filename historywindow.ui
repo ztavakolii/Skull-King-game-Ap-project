@@ -27,7 +27,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/new/image/BG_Pirate's_Legacy_3200x1800.png</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/BG_Pirate's_Legacy_3200x1800.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -226,10 +226,10 @@
    <widget class="QLabel" name="date1">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>50</x>
       <y>50</y>
-      <width>191</width>
-      <height>36</height>
+      <width>221</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -245,9 +245,9 @@
    <widget class="QLabel" name="date2">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>50</x>
       <y>150</y>
-      <width>201</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -264,9 +264,9 @@
    <widget class="QLabel" name="date4">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>50</x>
       <y>350</y>
-      <width>201</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -283,9 +283,9 @@
    <widget class="QLabel" name="date5">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>50</x>
       <y>450</y>
-      <width>191</width>
+      <width>221</width>
       <height>31</height>
      </rect>
     </property>
@@ -302,9 +302,9 @@
    <widget class="QLabel" name="date3">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>50</x>
       <y>250</y>
-      <width>201</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -321,9 +321,9 @@
    <widget class="QLabel" name="date6">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>800</x>
       <y>50</y>
-      <width>191</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -340,9 +340,9 @@
    <widget class="QLabel" name="date7">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>798</x>
       <y>150</y>
-      <width>189</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -359,9 +359,9 @@
    <widget class="QLabel" name="date8">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>807</x>
       <y>250</y>
-      <width>188</width>
+      <width>221</width>
       <height>31</height>
      </rect>
     </property>
@@ -378,9 +378,9 @@
    <widget class="QLabel" name="date9">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>798</x>
       <y>350</y>
-      <width>189</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -397,9 +397,9 @@
    <widget class="QLabel" name="date10">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>800</x>
       <y>450</y>
-      <width>191</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
