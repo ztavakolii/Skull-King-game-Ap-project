@@ -430,8 +430,8 @@
    <widget class="QLCDNumber" name="time_lcd">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>38</y>
+      <x>900</x>
+      <y>30</y>
       <width>91</width>
       <height>41</height>
      </rect>
