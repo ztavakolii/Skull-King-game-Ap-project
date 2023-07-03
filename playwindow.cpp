@@ -21,7 +21,7 @@ Player *player; // the information of User in game like cards set ,....
 vector<Player>players;
 static int count=0;
 int number_of_player=4;
-int Round=0;
+int Round=1;
 int hand=0;
 int prediction;
 QString name;
@@ -213,6 +213,8 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
         stopCodeReceived(true,User->get_name());
     }
     else{
+        countdowntimer->stop();
+        ui->time_lcd->hide();
         if(User->get_client()!=nullptr){
             out<<'r'<<'s';
             User->get_client()->writeInformation(information);
@@ -270,8 +272,6 @@ void PlayWindow::f()
     //counttime is finish
         countdowntimer->stop();//stop the timer
         ui->time_lcd->hide();//hide timer
-        //QPixmap p(":/new/image/icons8-pause-button-96.png");
-        //ui->stop_label->setPixmap(p);
         if(initialvalueofremainingtime==25)
         emit second25Signal();
         if(initialvalueofremainingtime==15)
@@ -280,6 +280,8 @@ void PlayWindow::f()
         emit second45Signal();
         if(initialvalueofremainingtime==30)
         emit second30Signal();
+        QPixmap p(":/new/image/icons8-pause-button-96.png");
+        ui->stop_label->setPixmap(p);
 
     }
 }
