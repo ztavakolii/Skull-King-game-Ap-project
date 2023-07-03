@@ -64,6 +64,7 @@ private:
     void readInformationSentByServer();//for clients
     void start_hand();
     void placeLabelsAroundCircle(int,int);
+    void rotate_bottle(int);
 
 signals:
     void second25Signal();

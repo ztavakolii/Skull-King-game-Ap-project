@@ -1144,3 +1144,28 @@ void PlayWindow::on_noRadioButton_2_clicked()
     ui->time_lcd->hide();
 }
 
+void PlayWindow::rotate_bottle(int index)
+{
+    Player p(players[index]);
+    QString name=p.getName();
+    if(ui->nameLabel1->text()==name){
+        ui->bottle->show();
+        ui->bottle4->hide();
+    }
+    else if(ui->nameLabel2->text()==name){
+        ui->bottle2->show();
+        ui->bottle->hide();
+    }
+    else if(ui->nameLabel3->text()==name){
+        ui->bottle3->show();
+        ui->bottle2->hide();
+    }
+    else if(ui->nameLabel4->text()==name){
+        ui->bottle4->show();
+        ui->bottle3->hide();
+    }
+
+
+}
+
+
