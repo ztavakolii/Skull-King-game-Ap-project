@@ -35,6 +35,8 @@ public:
     void showExchangeRequest(QString clientName);
     void exchangeReplyReceived(QString clientName);
     void exchangeTwoCard(QString preCard,QString newCard);
+    void setPlayersForserverplayer(QByteArray);
+    void setScoresForServerPlayer(QByteArray);
 
 public slots:
     void on_stop_button_clicked();

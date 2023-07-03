@@ -126,3 +126,13 @@ QTcpSocket *Player::getSocket()
     return socket;
 }
 
+void Player::clearCardsVector()
+{
+    cards.clear();
+}
+
+int Player::getNumberOfHandsWonInCurrentRound()
+{
+    return numberOfHandsWonInCurrentRound;
+}
+

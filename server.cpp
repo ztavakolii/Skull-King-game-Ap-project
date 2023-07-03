@@ -4,10 +4,20 @@
 #include "person.h"
 #include <ctime>
 #include <cstdlib>
+#include <algorithm>
+#include <QtCore>
+#include <qregularexpression.h>
+#include <QRegularExpression>
 
 
 extern Person* User;
 extern PlayWindow*playWindow;
+extern Player*player;
+int numberOfPlayers;
+int indexOfWinnerPreviousHand;
+int indexOfBeginnerOfHand;
+bool isCardSelected=false;
+QString codeOfSelectedCard;
 
 using namespace std;
 
@@ -105,6 +115,8 @@ void Server::playStarted()
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         writeInPlayerSocket(information,it->getSocket()); //************************ ***** write in multiple thread?
     }
+    numberOfPlayers=players.size();
+    gameLogicControl();
 }
 
 void Server::serverWantsToStopPlay()
@@ -224,10 +236,371 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     }
 }
 
+void Server::gameLogicControl()
+{
+    QByteArray sentinformation;
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
+
+    {
+    // sending number of players to clients
+    out<<'n'<<numberOfPlayers;
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
+     writeInPlayerSocket(sentinformation,it->getSocket());
+    }
+    playWindow->setNumberOfPlayers(numberOfPlayers); // for server
+    }
+
+    {//sending list of players to clients
+    sentinformation.clear();
+    out<<'l';
+    for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+     out<<it->getName()<<it->getProfile()<<it->getScore();
+    }
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+     writeInPlayerSocket(sentinformation,it->getSocket());
+    }
+    playWindow->setPlayersForserverplayer(sentinformation);
+    }
+
+    for(int Round=1;Round<=7;Round++){
+
+    {
+     //sending number of round to clients
+     sentinformation.clear();
+     out<<'r'<<'o'<<Round;
+     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
+            writeInPlayerSocket(sentinformation,it->getSocket());
+     }
+     playWindow->set_round(Round);
+    }
+
+    {
+     // shuffle cards
+     shuffleCards(Round);
+     // send players
+     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+            sentinformation.clear();
+            out<<'c';
+            for(int i=0;i<2*Round;i++){
+                out<<it->getCasrdsSet()[i];
+            }
+            writeInPlayerSocket(sentinformation,it->getSocket());
+     }
+     player->setCards(players[0].getCasrdsSet());
+     playWindow->setCardsIcon();
+    }
+
+    for(int Hand=1;Hand<=2*Round;Hand++){
+
+     {
+            // send clients number of hand
+            sentinformation.clear();
+            out<<'h'<<Hand;
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                writeInPlayerSocket(sentinformation,it->getSocket());
+            }
+            playWindow->set_hand(Hand);
+     }
+
+     {
+            if(Hand==1){ //determining the beginner of hand
+                indexOfBeginnerOfHand=determineBeginnerOfFirstHand();
+            }
+            else{
+                indexOfBeginnerOfHand=indexOfWinnerPreviousHand;
+            }
+     }
+     int currentTurn,preTurn; // these are indexes
+     int winnerIndex;
+     QString winnerCard,codeOfplayingFieldCard;
+     std::vector<QString>cardsOfHand;
+    for(int i=0;i<numberOfPlayers;i++){
+            if(i==0)
+                currentTurn=indexOfBeginnerOfHand;
+            else
+                currentTurn=(preTurn+1 < numberOfPlayers ? preTurn+1 : preTurn+1-numberOfPlayers);
+            {//send next turn to clients
+                sentinformation.clear();
+                out<<'t'<<currentTurn;
+                for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                    writeInPlayerSocket(sentinformation,it->getSocket());
+                }
+                // call bottle function for server********************************
+            }
+
+            {
+                sentinformation.clear();
+                out<<'y';
+                writeInPlayerSocket(sentinformation,players[currentTurn].getSocket());
+            }
+            while(isCardSelected==false);
+            isCardSelected=false;
+            cardsOfHand.push_back(codeOfSelectedCard);
+            {//send code of selected card to clients
+                sentinformation.clear();
+                out<<'s'<<'w'<<codeOfSelectedCard<<currentTurn;
+                for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                    writeInPlayerSocket(sentinformation,it->getSocket());
+                }
+                playWindow->showCard(currentTurn,codeOfSelectedCard);
+            }
+            if(i==0){
+                winnerIndex=indexOfBeginnerOfHand;
+                winnerCard=codeOfSelectedCard;
+                codeOfplayingFieldCard=codeOfSelectedCard.remove(QRegularExpression("\\d+"));
+            }
+            {
+                if(codeOfSelectedCard.contains("skullking")||codeOfSelectedCard.contains("queen")
+                    ||codeOfSelectedCard.contains("pirate")||codeOfSelectedCard.contains("flag")
+                    ||codeOfSelectedCard.contains(codeOfplayingFieldCard)){
+                if(codeOfSelectedCard.contains("skullking")||codeOfSelectedCard.contains("queen")||
+                    codeOfSelectedCard.contains("pirate")){
+                    if(winnerCard.contains("skullking")||winnerCard.contains("queen")||
+                        winnerCard.contains("pirate")){
+                        if(codeOfSelectedCard=="skullking"&&winnerCard=="pirate"){
+                            winnerCard=codeOfSelectedCard;
+                            winnerIndex=currentTurn;
+                        }
+                        else if(codeOfSelectedCard=="pirate"&&winnerCard=="queen"){
+                            winnerCard=codeOfSelectedCard;
+                            winnerIndex=currentTurn;
+                        }
+                        else if(codeOfSelectedCard=="queen"&&winnerCard=="skullking"){
+                            winnerCard=codeOfSelectedCard;
+                            winnerIndex=currentTurn;
+                        }
+                    }
+                    else{
+                        winnerCard=codeOfSelectedCard;
+                        winnerIndex=currentTurn;
+                    }
+                }
+                else{
+                    if(codeOfSelectedCard.contains("flag")){
+                        if(winnerCard.contains("flag")){
+                            int numberofcurrentcard,numberofwinnercard;
+                            numberofcurrentcard=codeOfSelectedCard.toInt();
+                            numberofwinnercard=winnerCard.toInt();
+                            if(numberofcurrentcard>numberofwinnercard){
+                                winnerCard=codeOfSelectedCard;
+                                winnerIndex=currentTurn;
+                            }
+                        }
+                        else{
+                            winnerCard=codeOfSelectedCard;
+                            winnerIndex=currentTurn;
+                        }
+                    }
+                    else{
+                        if(winnerCard.contains("skullking")==false&&winnerCard.contains("queen")==false
+                            &&winnerCard.contains("pirate")==false&&winnerCard.contains("flag")==false){
+                            int numberofcurrentcard,numberofwinnercard;
+                            numberofcurrentcard=codeOfSelectedCard.toInt();
+                            numberofwinnercard=winnerCard.toInt();
+                            if(numberofcurrentcard>numberofwinnercard){
+                                winnerCard=codeOfSelectedCard;
+                                winnerIndex=currentTurn;
+                            }
+                        }
+                    }
+                }
+                }
+            }
+    }
+    {// sending name of current hand winner to clients;
+            sentinformation.clear();
+            out<<'w'<<'h'<<players[winnerIndex].getName();
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                writeInPlayerSocket(sentinformation,it->getSocket());
+            }
+            playWindow->showWinnerOfCurrentHand(players[winnerIndex].getName());
+    }
+
+    players[winnerIndex].setScore(players[winnerIndex].getScore()+
+                                  std::count(cardsOfHand.begin(),cardsOfHand.end(),"queen")*20
+                                  +std::count(cardsOfHand.begin(),cardsOfHand.end(),"skullking")*15
+                                  +std::count(cardsOfHand.begin(),cardsOfHand.end(),"pirate")*10);
+    players[winnerIndex].setNumberOfHandsWonInCurrentRoundIncreament();
+    indexOfWinnerPreviousHand=winnerIndex;
+
+    {//sending scores to clients
+            sentinformation.clear();
+            out<<'s'<<'c';
+            for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+                out<<it->getScore();
+            }
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                writeInPlayerSocket(sentinformation,it->getSocket());
+            }
+            playWindow->setScoresForServerPlayer(sentinformation);
+    }
+    }
+    for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+    if(it->getNumberOfHandsSaidWon()==0){
+            if(it->getNumberOfHandsWonInCurrentRound()==0)
+                it->setScore(it->getScore()+10*Round);
+    }
+    else{
+            int saidwon=it->getNumberOfHandsSaidWon();
+            int won=it->getNumberOfHandsWonInCurrentRound();
+            if(saidwon>=won)
+                it->setScore(it->getScore()+10*won);
+            else it->setScore(it->getScore()+10*(saidwon-won));
+    }
+    }
+    {//sending scores to clients
+    sentinformation.clear();
+    out<<'s'<<'c';
+    for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+            out<<it->getScore();
+    }
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+            writeInPlayerSocket(sentinformation,it->getSocket());
+    }
+    playWindow->setScoresForServerPlayer(sentinformation);
+    }
+    }
+
+}
+//card name - numeric code
+//---------------------------------------------------------------------------------------------------
+// parrot1   1| parrot2   2|parrot3   3|parrot4   4|parrot5   5|parrot6   6|parrot7   7|parrot8   8|
+//---------------------------------------------------------------------------------------------------
+// map1    9|map2   10|map3   11|map4   12|map5   13|map6   14|map7   15|map8   16|treasure1   17|
+//---------------------------------------------------------------------------------------------------
+//treasure2   18|treasure3   19|treasure4   20|treasure5   21|treasure6   22|treasure7   23|
+//---------------------------------------------------------------------------------------------------
+//treasure8   24|flag1   25|flag2   26|flag3   27|flag4   28|flag5   29|flag6   30|flag7   31|
+//---------------------------------------------------------------------------------------------------
+//flag8   32|skullking1   33|skullking2   34|skullking3   35|queen1   36|queen2   37|queen3   38|
+//---------------------------------------------------------------------------------------------------
+//pirate1   39|pirate2   40|pirate3   41|pirate4   42|parrot9    43|parrot10   44|parrot11   45|
+//---------------------------------------------------------------------------------------------------
+//map9   46|map10   47|map11   48|treasure9   49|treasure10   50|treasure11   51|flag9   52|
+//---------------------------------------------------------------------------------------------------
+//flag10   53|flag11   54|skullking4   55|queen4   56
+void Server::shuffleCards(int Round)
+{
+    std::vector<QString>cardsName{"parrot1","parrot2","parrot3","parrot4","parrot5","parrot6","parrot7","parrot8"
+    ,"map1","map2","map3","map4","map5","map6","map7","map8","treasure1","treasure2","treasure3","treasure4"
+    "treasure5","treasure6","treasure7","treasure8","flag1","flag2","flag3","flag4","flag5","flag6","flag7",
+        "flag8","skullking","skullking","skullking","queen","queen","queen","pirate","pirate","pirate","pirate"
+    ,"parrot9","parrot10","parrot11","map9","map10","map11","treasure9","treasure10","treasure11",
+                                   "falg9","falg10","falg11","skullking","queen"};
+
+    vector<int>numericCodes;
+    vector<QString>cards;
+
+    if(numberOfPlayers==4){
+    while(true){
+    int generatedNumber=rand()%56;
+    if(std::find(numericCodes.begin(),numericCodes.end(),generatedNumber)==numericCodes.end())
+    numericCodes.push_back(generatedNumber);
+    if(numericCodes.size()==8*Round)
+    break;
+    }
+
+    for(int i=0;i<2*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[0].clearCardsVector();
+    players[0].setCards(cards);
+
+    cards.clear();
+    for(int i=2*Round;i<4*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[1].clearCardsVector();
+    players[1].setCards(cards);
+
+    cards.clear();
+    for(int i=4*Round;i<6*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[2].clearCardsVector();
+    players[2].setCards(cards);
+
+    cards.clear();
+    for(int i=6*Round;i<8*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[3].clearCardsVector();
+    players[3].setCards(cards);
+    }
+
+    else if(numberOfPlayers==3){
+    while(true){
+    int generatedNumber=rand()%42;
+    if(std::find(numericCodes.begin(),numericCodes.end(),generatedNumber)==numericCodes.end())
+    numericCodes.push_back(generatedNumber);
+    if(numericCodes.size()==6*Round)
+    break;
+    }
+
+    for(int i=0;i<2*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[0].clearCardsVector();
+    players[0].setCards(cards);
+
+    cards.clear();
+    for(int i=2*Round;i<4*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[1].clearCardsVector();
+    players[1].setCards(cards);
+
+    cards.clear();
+    for(int i=4*Round;i<6*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[2].clearCardsVector();
+    players[2].setCards(cards);
+    }
+
+    else if(numberOfPlayers==2){
+    while(true){
+    int generatedNumber=rand()%42;
+    if(std::find(numericCodes.begin(),numericCodes.end(),generatedNumber)==numericCodes.end())
+    numericCodes.push_back(generatedNumber);
+    if(numericCodes.size()==4*Round)
+    break;
+    }
+
+    for(int i=0;i<2*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[0].clearCardsVector();
+    players[0].setCards(cards);
+
+    cards.clear();
+    for(int i=2*Round;i<4*Round;i++){
+    cards.push_back(cardsName[numericCodes[i]]);
+    }
+    players[1].clearCardsVector();
+    players[1].setCards(cards);
+    }
+}
+
+int Server::determineBeginnerOfFirstHand()
+{
+    std::vector<int> randomnumbers;
+    while(true){
+    int generated=rand()%8;
+    if(std::find(randomnumbers.begin(),randomnumbers.end(),generated)==randomnumbers.end())
+    randomnumbers.push_back(generated);
+    if(randomnumbers.size()==numberOfPlayers)
+    break;
+    }
+    auto maxelement=std::max_element(randomnumbers.begin(),randomnumbers.end());
+    int maxindex=std::distance(randomnumbers.begin(),maxelement);
+    return maxindex;
+}
+
 void Server::readFromPlayersocket(QTcpSocket* socket)
 {
     char mainCode, subCode;
-    QString clientName,clientName2,senderRequest,receiverRequest;
+    QString clientName,clientName2,senderRequest,receiverRequest,cardCode;
     int clientCupNumber,number;
     QPixmap clientProfilePicture;
 
@@ -245,7 +618,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
     //----------------------------------------------------------------------------------------
     // 'e' "exchange"           | 'c'- name of player who want to exchange cart - number of players - names of players
     //----------------------------------------------------------------------------------------
-    // 'c' "chosen card"        | card code - index of player that play this card
+    // 'c' "chosen card"        | card code
     //----------------------------------------------------------------------------------------
     // 'r' "reply exchange card"| 'p' - name of sernder of request - name of receiver of request
     //----------------------------------------------------------------------------------------
@@ -359,7 +732,8 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             break;
 
         case 'c':
-
+            in>>codeOfSelectedCard;
+            isCardSelected=true;
             break;
 
         case 'r':

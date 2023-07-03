@@ -30,6 +30,8 @@ public:
     int getCupsNumber();
     std::vector<QString> getCasrdsSet();
     QTcpSocket*getSocket();
+    void clearCardsVector();
+    int getNumberOfHandsWonInCurrentRound();
 
 private:
 

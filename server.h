@@ -55,9 +55,10 @@ private:
                           //by acceptNewConnection and setNewConnectionStatus functions
     std::shared_mutex mx2;
     ServerWaitWindow*waitWindow;
- //   PlayWindow*playWindow;
-//    void readFromPlayersocket(QTcpSocket*socket);
-//    void writeInPlayerSocket(QByteArray&information,QTcpSocket*socket);
+
+    void gameLogicControl();
+    void shuffleCards(int Round);
+    int determineBeginnerOfFirstHand();
 
 signals:
     void writeSignal(QByteArray information,QTcpSocket*socket);

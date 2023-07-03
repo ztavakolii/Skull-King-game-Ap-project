@@ -270,14 +270,16 @@ void PlayWindow::f()
     }
 }
 
-void PlayWindow::set_round(int Round)
+void PlayWindow::set_round(int numberofround)
 {
+    Round=numberofround;
     QString r="Round "+QString::number(Round)+"/7";
     ui->round_label->setText(r);
 }
 
-void PlayWindow::set_hand(int hand)
+void PlayWindow::set_hand(int numberofhand)
 {
+    hand=numberofhand;
     QString h="Hand "+QString::number(hand)+"/"+QString::number(2*Round);
     ui->hand_label->setText(h);
 }
@@ -460,6 +462,42 @@ void PlayWindow::exchangeTwoCard(QString preCard, QString newCard)
     setCardsIcon();
 }
 
+void PlayWindow::setPlayersForserverplayer(QByteArray information)
+{
+    QDataStream in(&information,QIODevice::ReadOnly);
+    int code,clientScore;
+    QString clientName;
+    QPixmap clientProfilePicture;
+    in>>code;
+    for(int i=0;i<number_of_player;i++){
+        Player newPlayer;
+        in>>clientName;
+        in>>clientProfilePicture;
+        in>>clientScore;
+        newPlayer.setName(clientName);
+        newPlayer.setProfile(clientProfilePicture);
+        newPlayer.setScore(clientScore);
+        players.push_back(newPlayer);
+    }
+    placeLabelsAroundCircle(200,1); // for profile and name
+    placeLabelsAroundCircle(200,2); // for cards
+}
+
+void PlayWindow::setScoresForServerPlayer(QByteArray information)
+{
+    QDataStream in(&information,QIODevice::ReadOnly);
+    char code;
+    in>>code;
+    in>>code;
+    int score;
+    for(int i=0;i<number_of_player;i++){
+        in>>score;
+        players[i].setScore(score);
+    }
+    setPlayersScore();
+
+}
+
 void PlayWindow::handle_loop(int loop)//for stop loop of the game
 {
     if(loop==1)//start the stop loop
@@ -579,8 +617,8 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'o':
                     in>>numberOfRound;
-                    ::Round=numberOfRound;
-                    set_round(Round);
+                   // ::Round=numberOfRound;
+                    set_round(numberOfRound);
                     break;
 
                 case 'p':
@@ -592,8 +630,8 @@ void PlayWindow::readInformationSentByServer()
 
             case 'h':
                 in>>numberOfHand;
-                hand=numberOfHand;
-                set_hand(hand);
+                //hand=numberOfHand;
+                set_hand(numberOfHand);
                 break;
 
             case 'n':
