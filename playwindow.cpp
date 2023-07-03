@@ -21,9 +21,11 @@ Player *player; // the information of User in game like cards set ,....
 vector<Player>players;
 static int count=0;
 int number_of_player=4;
-int Round=0;
+int Round=1;
 int hand=0;
-QString name;
+int prediction;
+bool is_win=0,is_first_one=0;
+QString name,main_card;
 
 PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     QMainWindow(parent),
@@ -33,6 +35,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     setFixedSize(1280,700);
 
     personalWindow=personalwindow;
+    show_line_edit();
 
     player=new Player;
 
@@ -41,6 +44,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     this->setWindowTitle("Play");
 
     ui->back_ground->showFullScreen();
+//    ui->lineEdit->setValidator(new QIntValidator(ui->lineEdit));
 
     ui->guideTextEdit->setReadOnly(true);
     if(User->get_gender()=="Male")
@@ -58,7 +62,16 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->stop_label->setPixmap(picture);
 
     ui->time_lcd->hide();
-//    ui->bottle->hide();
+    ui->bottle->hide();
+    ui->bottle2->hide();
+    ui->bottle3->hide();
+    ui->bottle4->hide();
+    ui->bottle5->hide();
+    ui->bottle6->hide();
+    ui->bottle7->hide();
+    ui->lineEdit->hide();
+    ui->pushButton->hide();
+
     ui->groupBox->hide();
     ui->pic1->hide();
     ui->pic2->hide();
@@ -76,7 +89,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->exit_button->setStyleSheet("border:none");
      ui->exchange_button->setStyleSheet("border:none");
      ui->ok_button->setStyleSheet("border:none");
-    savedatetime();//save date time in file
+    savedatetime(0);//save date time in file
 //    start_hand();
 //    rotate();
    // placeLabelsAroundCircle(200,1);//for images
@@ -109,6 +122,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->pushButton_12->setStyleSheet("border:none");
     ui->pushButton_13->setStyleSheet("border:none");
     ui->pushButton_14->setStyleSheet("border:none");
+    ui->pushButton->setStyleSheet("border:none");
     ui->pushButton_1->setEnabled(false);
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
@@ -123,6 +137,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->pushButton_12->setEnabled(false);
     ui->pushButton_13->setEnabled(false);
     ui->pushButton_14->setEnabled(false);
+    ui->pushButton->setEnabled(false);
 
     ui->noRadioButton_2->hide();
     ui->yesRadioButton->hide();
@@ -142,9 +157,15 @@ PlayWindow::~PlayWindow()
         t->join();
 }
 
-void PlayWindow::savedatetime(){
+void PlayWindow::savedatetime(int n){
     QDateTime currentDateTime=QDateTime::currentDateTime();
-    QString dateTimeString=currentDateTime.toString("yyyy-MM-dd  hh:mm:ss"),file_name,arr[90];
+    QString dateTimeString=currentDateTime.toString("yyyy-MM-dd  hh:mm:ss");;
+    if(n==1)
+        dateTimeString=dateTimeString+" Win";
+
+    else
+      dateTimeString=dateTimeString+" Lose";
+    QString file_name,arr[90];
     file_name=User->get_user_name()+"_history";
     QFile file(file_name);
     file.open(QIODevice::ReadOnly);//open the history file and read the information
@@ -159,8 +180,8 @@ void PlayWindow::savedatetime(){
     for(int i=9;i<90;i++)
         out<<arr[i];
     out<<dateTimeString;
-    for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
-    out<<"Lose";
+//    for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
+//    out<<"Lose";
     file2.close();
 }
 
@@ -199,6 +220,8 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
         stopCodeReceived(true,User->get_name());
     }
     else{
+        countdowntimer->stop();
+        ui->time_lcd->hide();
         if(User->get_client()!=nullptr){
             out<<'r'<<'s';
             User->get_client()->writeInformation(information);
@@ -256,8 +279,6 @@ void PlayWindow::f()
     //counttime is finish
         countdowntimer->stop();//stop the timer
         ui->time_lcd->hide();//hide timer
-        //QPixmap p(":/new/image/icons8-pause-button-96.png");
-        //ui->stop_label->setPixmap(p);
         if(initialvalueofremainingtime==25)
         emit second25Signal();
         if(initialvalueofremainingtime==15)
@@ -266,6 +287,8 @@ void PlayWindow::f()
         emit second45Signal();
         if(initialvalueofremainingtime==30)
         emit second30Signal();
+        QPixmap p(":/new/image/icons8-pause-button-96.png");
+        ui->stop_label->setPixmap(p);
 
     }
 }
@@ -1174,5 +1197,91 @@ void PlayWindow::on_noRadioButton_2_clicked()
     ui->noRadioButton_2->hide();
     ui->yesRadioButton->hide();
     ui->time_lcd->hide();
+}
+
+void PlayWindow::rotate_bottle(int index)
+{
+    Player p(players[index]);
+    QString name=p.getName();
+    if(ui->nameLabel1->text()==name){
+        ui->bottle->show();
+        ui->bottle4->hide();
+    }
+    else if(ui->nameLabel2->text()==name){
+        ui->bottle2->show();
+        ui->bottle->hide();
+    }
+    else if(ui->nameLabel3->text()==name){
+        ui->bottle3->show();
+        ui->bottle2->hide();
+    }
+    else if(ui->nameLabel4->text()==name){
+        ui->bottle4->show();
+        ui->bottle3->hide();
+    }
+
+
+}
+
+void PlayWindow::show_line_edit()
+{
+    ui->lineEdit->show();
+    ui->pushButton->show();
+    ui->pushButton->setEnabled(true);
+}
+
+void PlayWindow::end_of_play()
+{
+    QMessageBox message;
+    if(is_win==1){
+        savedatetime(1);
+        message.setText("You win");
+    }
+    else{
+        savedatetime(0);
+        message.setText("You Lose");
+    }
+    message.exec();
+}
+
+void PlayWindow::check_card(QString selected_card)
+{
+    QString str="flag";
+    vector<QString> cards(player->getCasrdsSet());
+    if(selected_card.contains("flag")){
+        if(is_first_one==0){
+        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
+            str=t->at(0);
+            if(str.contains(main_card)){
+                QMessageBox message;
+                message.setText("You not allow to choose this card");
+                message.exec();
+                break;
+            }
+        }
+        }
+        else{
+        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
+            t->at(0)==selected_card;
+            cards.erase(t);
+        }
+        }
+    }
+    else{
+        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
+        t->at(0)==selected_card;
+        cards.erase(t);
+        }
+    }
+}
+
+
+
+void PlayWindow::on_pushButton_clicked()
+{
+    prediction=ui->lineEdit->text().toInt();
+    ui->lineEdit->hide();
+    ui->pushButton->hide();
+    ui->pushButton->setEnabled(false);
 }
 

@@ -21,7 +21,7 @@ public:
     explicit PlayWindow(QMainWindow*personalwindow,QWidget *parent = nullptr);
     ~PlayWindow();
     void startcountdown(int);
-    void savedatetime();
+    void savedatetime(int);
     void setNumberOfPlayers(int number);
     void set_round(int);
     void set_hand(int hand);
@@ -66,6 +66,10 @@ private:
     void readInformationSentByServer();//for clients
     void start_hand();
     void placeLabelsAroundCircle(int,int);
+    void rotate_bottle(int);
+    void show_line_edit();
+    void end_of_play();
+    void check_card(QString);
 
 signals:
     void second25Signal();
@@ -90,6 +94,7 @@ private slots:
     void on_pushButton_14_clicked();
     void on_yesRadioButton_clicked();
     void on_noRadioButton_2_clicked();
+    void on_pushButton_clicked();
 };
 
 #endif // PLAYWINDOW_H

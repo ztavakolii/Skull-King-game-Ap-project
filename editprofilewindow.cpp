@@ -112,17 +112,29 @@ void EditProfileWindow::changePasswordLineEditMode()
 void EditProfileWindow::deleteAccountButtonClicked()
 {
     QMessageBox message;
-    message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
     message.setIcon(QMessageBox::Warning);
-    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-    message.setStyleSheet("background-color: rgb(236, 197, 119)");
     message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
-    message.exec();
-    if(message.Yes){
-        // delete all files
+    int result=message.exec();
+    if(result==QMessageBox::Yes){
+        QFile f(User->get_user_name()),f1(User->get_user_name()+"_buy"),f2(User->get_user_name()+"_history");
+        f.remove();
+        f1.remove();
+        f2.remove();
+
         register_loginWindow->showMaximized();
         this->close();
     }
+//    message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
+//    message.setIcon(QMessageBox::Warning);
+//    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+//    message.setStyleSheet("background-color: rgb(236, 197, 119)");
+//    message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+//    message.exec();
+//    if(message.Yes){
+//        // delete all files
+//        register_loginWindow->showMaximized();
+//        this->close();
+//    }
 }
 
 void EditProfileWindow::editButtonClicked()
