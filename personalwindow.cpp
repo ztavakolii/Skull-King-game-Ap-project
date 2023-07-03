@@ -120,10 +120,4 @@ void PersonalWindow::editProfileButtonClicked()
     this->close();
 }
 
-void PersonalWindow::on_pushButton_clicked()
-{
-    playwindow=new PlayWindow(this);
-    playwindow->showMaximized();
-    this->close();
-}
 

@@ -5,8 +5,6 @@
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
-#include <QtCore>
-#include <qregularexpression.h>
 #include <QRegularExpression>
 
 
@@ -325,7 +323,7 @@ void Server::gameLogicControl()
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     writeInPlayerSocket(sentinformation,it->getSocket());
                 }
-                // call bottle function for server********************************
+                playWindow->rotate_bottle(currentTurn);
             }
 
             {
@@ -460,7 +458,6 @@ void Server::gameLogicControl()
     playWindow->setScoresForServerPlayer(sentinformation);
     }
     }
-
 }
 //card name - numeric code
 //---------------------------------------------------------------------------------------------------

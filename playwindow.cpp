@@ -688,7 +688,8 @@ void PlayWindow::readInformationSentByServer()
                 break;
 
             case 't':
-
+                in>>index;
+                rotate_bottle(index);
                 break;
 
             case 'y':
@@ -710,7 +711,7 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'y':
                     User->set_coin(User->get_coin()+(number_of_player*50));
-                    User->edit(); //****************possibility of error*****************
+                    User->edit();
                     break;
                 }
                 break;
@@ -718,28 +719,6 @@ void PlayWindow::readInformationSentByServer()
         }
     }
 }
-
-
-//void PlayWindow::start_hand()
-//{
-//    if(number_of_player==2){
-
-//    }
-//    else if(number_of_player==3){
-//        QLabel pic1,pic2,pic3;
-//        QPixmap p1(":/new/image/4914363 - Copy (4).jpg"),p2(":/new/image/4914363 - Copy (4).jpg"),p3(":/new/image/4914363 - Copy (4).jpg");
-//        pic1.setGeometry(600,70,141,121);
-//        pic2.setGeometry(990,270,141,121);
-//        pic3.setGeometry(170,270,141,121);
-//        pic1.setPixmap(p1);
-//        pic2.setPixmap(p2);
-//        pic3.setPixmap(p3);
-//        pic1.show();
-//        pic2.show();
-//        pic3.show();
-
-//    }
-//}
 
 void PlayWindow::placeLabelsAroundCircle(int radius,int n)
 {
@@ -1018,28 +997,6 @@ void PlayWindow::setCardsIcon()
     ui->pushButton_1->hide();
 }
 
-//void PlayWindow::rotate()
-//{
-//    ui->bottle->show();
-//    QPropertyAnimation* rotationAnimation=new QPropertyAnimation(ui->bottle,"rotation");
-//    rotationAnimation->setDuration(5000);//time for rotation
-//    rotationAnimation->setStartValue(0);//the start degree
-//    rotationAnimation->setEndValue(120);//the end degree
-//    rotationAnimation->start();
-//    QObject::connect(rotationAnimation,&QPropertyAnimation::finished,rotationAnimation,&QPropertyAnimation::stop);
-//    if(number_of_player==2){
-
-//    }
-//    else if(number_of_player==3){
-
-//    }
-//    else{
-
-//    }
-
-//}
-
-
 void PlayWindow::on_pushButton_1_clicked()
 {
     QString cardCode = ui->pushButton_1->icon().name();
@@ -1274,8 +1231,6 @@ void PlayWindow::check_card(QString selected_card)
         }
     }
 }
-
-
 
 void PlayWindow::on_pushButton_clicked()
 {

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1351</width>
+    <width>1300</width>
     <height>699</height>
    </rect>
   </property>
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1600</width>
-      <height>800</height>
+      <width>1300</width>
+      <height>700</height>
      </rect>
     </property>
     <property name="font">
@@ -32,7 +32,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="Images.qrc">:/new/image/pirate-background-00b7ldiwa469320d.jpg</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/jpgtopngconverter-com (23).jpg</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>

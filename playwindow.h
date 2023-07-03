@@ -37,6 +37,7 @@ public:
     void exchangeTwoCard(QString preCard,QString newCard);
     void setPlayersForserverplayer(QByteArray);
     void setScoresForServerPlayer(QByteArray);
+    void rotate_bottle(int);
 
 public slots:
     void on_stop_button_clicked();
@@ -66,7 +67,6 @@ private:
     void readInformationSentByServer();//for clients
     void start_hand();
     void placeLabelsAroundCircle(int,int);
-    void rotate_bottle(int);
     void show_line_edit();
     void end_of_play();
     void check_card(QString);

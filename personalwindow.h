@@ -43,7 +43,5 @@ private slots:
     void playButtonClicked();
     void editProfileButtonClicked();
 
-
-    void on_pushButton_clicked();
 };
 #endif // PERSONALWINDOW_H
