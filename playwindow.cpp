@@ -58,7 +58,13 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->stop_label->setPixmap(picture);
 
     ui->time_lcd->hide();
-//    ui->bottle->hide();
+    ui->bottle->hide();
+    ui->bottle2->hide();
+    ui->bottle3->hide();
+    ui->bottle4->hide();
+    ui->bottle5->hide();
+    ui->bottle6->hide();
+    ui->bottle7->hide();
     ui->groupBox->hide();
     ui->pic1->hide();
     ui->pic2->hide();
