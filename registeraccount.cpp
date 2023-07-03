@@ -16,7 +16,7 @@ RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     ui(new Ui::RegisterAccount)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
 
     this->prewindow=prewindow;
 

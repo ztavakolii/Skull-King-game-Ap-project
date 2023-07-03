@@ -107,8 +107,6 @@
         <file>610.jpg</file>
         <file>jpgtopngconverter-com (6).jpg</file>
         <file>613.jpg</file>
-        <file>icons8-play-button-96.png</file>
-        <file>icons8-pause-button-96.png</file>
         <file>icons8-exit-button-100.png</file>
         <file>icons8-logout-96.png</file>
         <file>old torn treasure map showing the treasure of _isl (1).jpg</file>
@@ -155,5 +153,54 @@
         <file>BG_Pirate's_Legacy_3200x1800.png</file>
         <file>icons8-green-square-96.png</file>
         <file>icons8-red-square-96.png</file>
+        <file>flag1.jpg</file>
+        <file>flag2.jpg</file>
+        <file>flag3.jpg</file>
+        <file>flag4.jpg</file>
+        <file>flag5.jpg</file>
+        <file>flag6.jpg</file>
+        <file>flag7.jpg</file>
+        <file>flag8.jpg</file>
+        <file>flag9.jpg</file>
+        <file>flag10.jpg</file>
+        <file>flag11.jpg</file>
+        <file>map1.jpg</file>
+        <file>map2.jpg</file>
+        <file>map3.jpg</file>
+        <file>map4.jpg</file>
+        <file>map5.jpg</file>
+        <file>map6.jpg</file>
+        <file>map7.jpg</file>
+        <file>map8.jpg</file>
+        <file>map9.jpg</file>
+        <file>map11.jpg</file>
+        <file>map10.jpg</file>
+        <file>parrot1.jpg</file>
+        <file>parrot2.jpg</file>
+        <file>parrot3.jpg</file>
+        <file>parrot4.jpg</file>
+        <file>parrot5.jpg</file>
+        <file>parrot6.jpg</file>
+        <file>parrot7.jpg</file>
+        <file>parrot8.jpg</file>
+        <file>parrot9.jpg</file>
+        <file>parrot10.jpg</file>
+        <file>parrot11.jpg</file>
+        <file>treasure1.jpg</file>
+        <file>treasure2.jpg</file>
+        <file>treasure3.jpg</file>
+        <file>treasure4.jpg</file>
+        <file>treasure5.jpg</file>
+        <file>treasure6.jpg</file>
+        <file>treasure7.jpg</file>
+        <file>treasure8.jpg</file>
+        <file>treasure9.jpg</file>
+        <file>treasure10.jpg</file>
+        <file>treasure11.jpg</file>
+        <file>pirate.jpg</file>
+        <file>skullking.jpg</file>
+        <file>queen.jpg</file>
+        <file>icons8-pause-button-96 (2).png</file>
+        <file>icons8-play-button-96.png</file>
     </qresource>
 </RCC>

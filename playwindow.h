@@ -33,6 +33,8 @@ public:
     void resumeCodeReceived();
     void youCodeReceived();
     void showExchangeRequest(QString clientName);
+    void exchangeReplyReceived(QString clientName);
+    void exchangeTwoCard(QString preCard,QString newCard);
 
 public slots:
     void on_stop_button_clicked();
@@ -44,6 +46,8 @@ public slots:
     void hideSkullKingWords();
     void setCardsIcon();
     void exitCodeReceived(QString clientName);
+    void isSelectedCardAllowed(QString cardCode);
+    void enterAnAllowedCardToTheGame();
 //    void rotate();
 
 private:
@@ -65,6 +69,7 @@ signals:
     void second25Signal();
     void second15Signal();
     void second45Signal();
+    void second30Signal();
     void aCardWasselected(QString cardCode);
 private slots:
     void on_pushButton_1_clicked();
@@ -77,7 +82,6 @@ private slots:
     void on_pushButton_8_clicked();
     void on_pushButton_9_clicked();
     void on_pushButton_10_clicked();
-    void on_pushButton_clicked();
     void on_pushButton_11_clicked();
     void on_pushButton_12_clicked();
     void on_pushButton_13_clicked();

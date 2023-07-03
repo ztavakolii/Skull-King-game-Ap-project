@@ -12,25 +12,29 @@
 #include <QPropertyAnimation>
 #include <vector>
 #include <string>
-//#include <algorithm>
+
 
 using namespace std;
 
 extern Person*User;
-Player player; // the information of User in game like cards set ,....
+Player *player; // the information of User in game like cards set ,....
 vector<Player>players;
 static int count=0;
 int number_of_player=4;
-int round=0,hand=0;
+int Round=0;
+int hand=0;
+QString name;
 
 PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PlayWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
 
     personalWindow=personalwindow;
+
+    player=new Player;
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
@@ -67,6 +71,8 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->ok_button->setEnabled(false);
 
     ui->stop_button->setStyleSheet("border:none");
+    QPixmap pixmap1(":/new/image/icons8-play-button-96.png");
+    ui->stop_label->setPixmap(pixmap1);
     ui->exit_button->setStyleSheet("border:none");
      ui->exchange_button->setStyleSheet("border:none");
      ui->ok_button->setStyleSheet("border:none");
@@ -124,6 +130,8 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     connect(this,SIGNAL(second25Signal()),this,SLOT(exitSlot()));
     connect(this,SIGNAL(second15Signal()),this,SLOT(hideSkullKingWords()));
     connect(this,SIGNAL(second45Signal()),this,SLOT(hideSkullKingWords()));
+    connect(this,SIGNAL(aCardWasselected(QString)),this,SLOT(isSelectedCardAllowed(QString)));
+    connect(this,SIGNAL(second30Signal()),this,SLOT(enterAnAllowedCardToTheGame()));
 
 }
 
@@ -154,7 +162,6 @@ void PlayWindow::savedatetime(){
     for(int i=0;i<8;i++);///////////////kgbjnkml,///////////////////khnkn,m //////////////
     out<<"Lose";
     file2.close();
-<<<<<<< HEAD
 }
 
 void PlayWindow::setNumberOfPlayers(int number)
@@ -176,22 +183,7 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
     QPixmap labelpixmap=ui->stop_label->pixmap();
     QImage image1=pixmap1.toImage();
     QImage image=labelpixmap.toImage();
-//    if(image1!=image){//change the image
-//        if(::count!=2){
-//            QPixmap p(":/new/image/icons8-play-button-96.png"); //must be stop picture
-//            ui->stop_label->setPixmap(p);
-//            startcountdown(20);
-//        }
-//        ::count++;
-//    }
-//    else{
-//        countdowntimer->stop();//stop the timer
-//        ui->time_lcd->hide();//hide timer
-//        QPixmap p(":/new/image/icons8-pause-button-96.png");
-//        ui->stop_label->setPixmap(p);
-//    }
-//    if(::count==3)
-//        ui->stop_button->setEnabled(false);
+
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
     if(image==image1){
@@ -202,7 +194,9 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
         else if(User->get_server()!=nullptr){
             User->get_server()->serverWantsToStopPlay();
         }
-        stopCodeReceived(true);
+        QPixmap p(":/new/image/icons8-pause-button-96 (2).png");
+        ui->stop_label->setPixmap(p);
+        stopCodeReceived(true,User->get_name());
     }
     else{
         if(User->get_client()!=nullptr){
@@ -213,8 +207,10 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
            User->get_server()->serverWantsToResumePlay();
         }
         ::count++;
-        if(count==2)
+        if(::count==2)
             ui->stop_button->setEnabled(false);
+        QPixmap p(":/new/image/icons8-play-button-96.png");
+        ui->stop_label->setPixmap(p);
     }
 }
 
@@ -248,7 +244,7 @@ void PlayWindow::f()
 {
     if(remainingtime>=0){
         if(remainingtime<=10)
-            ui->time_lcd->setStyleSheet("color::rgb(170,0,0);");
+            ui->time_lcd->setStyleSheet("color: rgb(170,0,0);");
         else
         ui->time_lcd->setStyleSheet("color: rgb(85, 255, 0);");
 
@@ -268,19 +264,21 @@ void PlayWindow::f()
         emit second15Signal();
         if(initialvalueofremainingtime==45)
         emit second45Signal();
+        if(initialvalueofremainingtime==30)
+        emit second30Signal();
 
     }
 }
 
-void PlayWindow::set_round(int round)
+void PlayWindow::set_round(int Round)
 {
-    QString r="Round "+QString::number(round)+"/7";
+    QString r="Round "+QString::number(Round)+"/7";
     ui->round_label->setText(r);
 }
 
 void PlayWindow::set_hand(int hand)
 {
-    QString h="Hand "+QString::number(hand)+"/"+QString::number(int(round*2));
+    QString h="Hand "+QString::number(hand)+"/"+QString::number(2*Round);
     ui->hand_label->setText(h);
 }
 
@@ -343,7 +341,7 @@ void PlayWindow::stopCodeReceived(bool b,QString name)
         ui->stop_button->setEnabled(false);
     }
 
-    QPixmap p(":/new/image/icons8-pause-button-96.png");
+    QPixmap p(":/new/image/icons8-pause-button-96 (2).png");
     ui->stop_label->setPixmap(p);
 
     ui->guideTextEdit->setText(name+" has requested to stop fighting. The war will start in less than 20 seconds.\nSkullKing");
@@ -442,6 +440,26 @@ void PlayWindow::showExchangeRequest(QString clientName)
 
 }
 
+void PlayWindow::exchangeReplyReceived(QString clientName)
+{
+    ui->guideTextEdit->setText(clientName+" responded positively to your card exchange request and now two of your cards will be randomly exchanged.\nSkullKing");
+    ui->SkullKingPicture->show();
+    ui->guideTextEdit->show();
+    startcountdown(45);
+}
+
+void PlayWindow::exchangeTwoCard(QString preCard, QString newCard)
+{
+    std::vector<QString> cards=player->getCasrdsSet();
+    for(int i=0;i<cards.size();i++){
+        if(cards[i]==preCard){
+        cards[i]=newCard;
+        break;
+        }
+    }
+    setCardsIcon();
+}
+
 void PlayWindow::handle_loop(int loop)//for stop loop of the game
 {
     if(loop==1)//start the stop loop
@@ -452,7 +470,7 @@ void PlayWindow::handle_loop(int loop)//for stop loop of the game
 
 void PlayWindow::readInformationSentByServer()
 {
-    QString clientName,card,cardCode;
+    QString clientName,card,cardCode,preCard,newCard;
     QPixmap clientProfilePicture;
     vector<QString>cards;
 
@@ -495,6 +513,10 @@ void PlayWindow::readInformationSentByServer()
     // 's' "score"                  | 'c' - the score of all players after each hand
     //-----------------------------------------------------------------------------------------------
     // 'w' "winner"                 | 'y' "you win whole game"
+    //-----------------------------------------------------------------------------------------------
+    // 'e' "exchange"               | 'x' - previous card code - new card code
+    //-----------------------------------------------------------------------------------------------
+
     while(true){
         if(User->get_client()->getReceiveStatus()==true){
             QByteArray receivedInformation="";/*=User->get_client()->readInformation()*/
@@ -514,7 +536,13 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'c':
                     in>>clientName;
+                    name=clientName;
                     showExchangeRequest(clientName);
+                    break;
+
+                case 'x':
+                    in>>preCard>>newCard;
+                    exchangeTwoCard(preCard,newCard);
                     break;
                 }
                 break;
@@ -523,7 +551,8 @@ void PlayWindow::readInformationSentByServer()
                 in>>subCode;
                 switch(subCode){
                 case 't':
-                    stopCodeReceived(false);
+                    in>>clientName;
+                    stopCodeReceived(false,clientName);
                     break;
 
                 case 'w':
@@ -550,12 +579,13 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'o':
                     in>>numberOfRound;
-                    ::round=numberOfRound;
-                    set_round(round);
+                    ::Round=numberOfRound;
+                    set_round(Round);
                     break;
 
                 case 'p':
-
+                    in>>clientName;
+                    exchangeReplyReceived(clientName);
                     break;
                 }
                 break;
@@ -587,11 +617,11 @@ void PlayWindow::readInformationSentByServer()
                 break;
 
             case 'c':
-                for(int i=0;i<2*round;i++){
+                for(int i=0;i<2*Round;i++){
                     in>>card;
                     cards.push_back(card);
                 }
-                player.setCards(cards);
+                player->setCards(cards);
                 //Showing that the cards go from the center of the circle to the people and
                 setCardsIcon();   //matching the person cards with push button cards
                 break;
@@ -737,6 +767,16 @@ void PlayWindow::exitCodeReceived(QString clientName)
     User->set_coin(User->get_coin()+(number_of_player*50)/(number_of_player-1));
 }
 
+void PlayWindow::isSelectedCardAllowed(QString cardCode)
+{
+
+}
+
+void PlayWindow::enterAnAllowedCardToTheGame()
+{
+
+}
+
 void PlayWindow::on_exchange_button_clicked()
 {
     ui->groupBox->show();
@@ -810,67 +850,111 @@ void PlayWindow::hideSkullKingWords()
 
 void PlayWindow::setCardsIcon()
 {
-    vector<QString>cards=player.getCasrdsSet();
+    vector<QString>cards=player->getCasrdsSet();
     for(int i=0;i<cards.size();i++){
-        QString cardAddress(":/new/image/"+cards[i]+".png");
+        QString cardAddress(":/new/image/"+cards[i]+".jpg");
         QIcon icon(cardAddress);
         if(i==0){
             ui->pushButton_1->setIcon(icon);
             ui->pushButton_1->setIconSize(QSize(50,70));
+            ui->pushButton_1->show();
         }
         else if(i==1){
             ui->pushButton_2->setIcon(icon);
             ui->pushButton_2->setIconSize(QSize(50,70));
+            ui->pushButton_2->show();
         }
         else if(i==2){
             ui->pushButton_3->setIcon(icon);
             ui->pushButton_3->setIconSize(QSize(50,70));
+            ui->pushButton_3->show();
         }
         else if(i==3){
             ui->pushButton_4->setIcon(icon);
             ui->pushButton_4->setIconSize(QSize(50,70));
+            ui->pushButton_4->show();
         }
         else if(i==4){
             ui->pushButton_5->setIcon(icon);
             ui->pushButton_5->setIconSize(QSize(50,70));
+            ui->pushButton_5->show();
         }
         else if(i==5){
             ui->pushButton_6->setIcon(icon);
             ui->pushButton_6->setIconSize(QSize(50,70));
+            ui->pushButton_6->show();
         }
         else if(i==6){
             ui->pushButton_7->setIcon(icon);
             ui->pushButton_7->setIconSize(QSize(50,70));
+            ui->pushButton_7->show();
         }
         else if(i==7){
             ui->pushButton_8->setIcon(icon);
             ui->pushButton_8->setIconSize(QSize(50,70));
+            ui->pushButton_8->show();
         }
         else if(i==8){
             ui->pushButton_9->setIcon(icon);
             ui->pushButton_9->setIconSize(QSize(50,70));
+            ui->pushButton_9->show();
         }
         else if(i==9){
             ui->pushButton_10->setIcon(icon);
             ui->pushButton_10->setIconSize(QSize(50,70));
+            ui->pushButton_10->show();
         }
         else if(i==10){
             ui->pushButton_11->setIcon(icon);
             ui->pushButton_11->setIconSize(QSize(50,70));
+            ui->pushButton_11->show();
         }
         else if(i==11){
             ui->pushButton_12->setIcon(icon);
             ui->pushButton_12->setIconSize(QSize(50,70));
+            ui->pushButton_12->show();
         }
         else if(i==12){
             ui->pushButton_13->setIcon(icon);
             ui->pushButton_13->setIconSize(QSize(50,70));
+            ui->pushButton_13->show();
         }
         else if(i==13){
             ui->pushButton_14->setIcon(icon);
             ui->pushButton_14->setIconSize(QSize(50,70));
+            ui->pushButton_14->show();
         }
     }
+
+    int numberOfCards=cards.size();
+    if(numberOfCards<=13)
+    ui->pushButton_14->hide();
+    if(numberOfCards<=12)
+    ui->pushButton_13->hide();
+    if(numberOfCards<=11)
+    ui->pushButton_12->hide();
+    if(numberOfCards<=10)
+    ui->pushButton_11->hide();
+    if(numberOfCards<=9)
+    ui->pushButton_10->hide();
+    if(numberOfCards<=8)
+    ui->pushButton_9->hide();
+    if(numberOfCards<=7)
+    ui->pushButton_8->hide();
+    if(numberOfCards<=6)
+    ui->pushButton_7->hide();
+    if(numberOfCards<=5)
+    ui->pushButton_6->hide();
+    if(numberOfCards<=4)
+    ui->pushButton_5->hide();
+    if(numberOfCards<=3)
+    ui->pushButton_4->hide();
+    if(numberOfCards<=2)
+    ui->pushButton_3->hide();
+    if(numberOfCards<=1)
+    ui->pushButton_2->hide();
+    if(numberOfCards<=0)
+    ui->pushButton_1->hide();
 }
 
 //void PlayWindow::rotate()
@@ -891,6 +975,7 @@ void PlayWindow::setCardsIcon()
 //    else{
 
 //    }
+
 //}
 
 
@@ -898,7 +983,7 @@ void PlayWindow::on_pushButton_1_clicked()
 {
     QString cardCode = ui->pushButton_1->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -907,7 +992,7 @@ void PlayWindow::on_pushButton_2_clicked()
 {
     QString cardCode = ui->pushButton_2->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -916,7 +1001,7 @@ void PlayWindow::on_pushButton_3_clicked()
 {
     QString cardCode = ui->pushButton_3->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -925,7 +1010,7 @@ void PlayWindow::on_pushButton_4_clicked()
 {
     QString cardCode = ui->pushButton_4->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -934,7 +1019,7 @@ void PlayWindow::on_pushButton_5_clicked()
 {
     QString cardCode = ui->pushButton_5->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -943,7 +1028,7 @@ void PlayWindow::on_pushButton_6_clicked()
 {
     QString cardCode = ui->pushButton_6->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -952,7 +1037,7 @@ void PlayWindow::on_pushButton_7_clicked()
 {
     QString cardCode = ui->pushButton_7->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -961,7 +1046,7 @@ void PlayWindow::on_pushButton_8_clicked()
 {
     QString cardCode = ui->pushButton_8->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -970,7 +1055,7 @@ void PlayWindow::on_pushButton_9_clicked()
 {
     QString cardCode = ui->pushButton_9->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -979,7 +1064,7 @@ void PlayWindow::on_pushButton_10_clicked()
 {
     QString cardCode = ui->pushButton_10->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -988,7 +1073,7 @@ void PlayWindow::on_pushButton_11_clicked()
 {
     QString cardCode = ui->pushButton_11->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -998,7 +1083,7 @@ void PlayWindow::on_pushButton_12_clicked()
 {
     QString cardCode = ui->pushButton_12->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -1008,7 +1093,7 @@ void PlayWindow::on_pushButton_13_clicked()
 {
     QString cardCode = ui->pushButton_13->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
@@ -1018,14 +1103,24 @@ void PlayWindow::on_pushButton_14_clicked()
 {
     QString cardCode = ui->pushButton_14->icon().name();
     cardCode.remove(":/new/image/");
-    cardCode.remove(".png");
+    cardCode.remove(".jpg");
     emit aCardWasselected(cardCode);
 }
 
 
 void PlayWindow::on_yesRadioButton_clicked()
 {
-    // send to server
+    QByteArray information;
+    QDataStream out(&information,QIODevice::WriteOnly);
+    // 'r' - 'p' - name of sender of request - name of receiver of request
+    if(User->get_client()!=nullptr){
+        out<<'r'<<'p'<<name<<User->get_name();
+        User->get_client()->writeInformation(information);
+    }
+    else if(User->get_server()!=nullptr){
+        //call the function of server class that take to name and shuffle cards and handle exchanging cards
+        User->get_server()->exchangeTwoCardRandomly(name,User->get_name());
+    }
     ui->guideTextEdit->hide();
     ui->SkullKingPicture->hide();
     ui->noRadioButton_2->hide();

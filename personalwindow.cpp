@@ -10,7 +10,7 @@ PersonalWindow::PersonalWindow(QMainWindow* prewindow,QWidget *parent) :
     ui(new Ui::PersonalWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
 
     preWindow=prewindow;
 
@@ -122,7 +122,7 @@ void PersonalWindow::editProfileButtonClicked()
 
 void PersonalWindow::on_pushButton_clicked()
 {
-    playwindow=new PlayWindow();
+    playwindow=new PlayWindow(this);
     playwindow->showMaximized();
     this->close();
 }

@@ -4,15 +4,17 @@
 #include <QMessageBox>
 
 extern Person* User;
+extern PlayWindow*playWindow;
 
 ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ServerWaitWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
 
     preWindow=prewindow;
+  //  this->personalWindow=personalWindow;
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
@@ -113,7 +115,7 @@ void ServerWaitWindow::deleteServerButtonClicked()
 void ServerWaitWindow::playButtonClicked()
 {
     User->get_server()->playStarted();
-    playWindow=new PlayWindow;
+    playWindow=new PlayWindow(preWindow);
     playWindow->showMaximized();
     this->close();
 //    t.join();

@@ -34,7 +34,7 @@ private:
         QPixmap profilePicture;
     };
     std::vector<ClientInformation>connectedClientsToServerList;
-    PlayWindow*playWindow;
+  //  PlayWindow*playWindow;
     bool b; //for ui->guideTextEdit
 
 

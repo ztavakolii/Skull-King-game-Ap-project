@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <thread>
 #include "playwindow.h"
+//#include "personalwindow.h"
 
 namespace Ui {
 class ServerWaitWindow;
@@ -21,7 +22,8 @@ public:
 private:
     Ui::ServerWaitWindow *ui;
     QMainWindow*preWindow;
-    PlayWindow*playWindow;
+  //  QMainWindow*personalWindow;
+   // PlayWindow*playWindow;
    // std::thread t;
 
 public slots:

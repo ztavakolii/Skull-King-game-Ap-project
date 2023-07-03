@@ -9,7 +9,7 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
     ui(new Ui::ServerOrClientWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
 
     preWindow=prewindow;
 

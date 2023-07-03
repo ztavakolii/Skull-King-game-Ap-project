@@ -13,7 +13,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     ui(new Ui::login)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
 
     preWindow=previousWindow;
 

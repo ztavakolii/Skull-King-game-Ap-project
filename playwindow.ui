@@ -46,7 +46,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>icons8-play-button-96.png</pixmap>
+     <pixmap resource="Images.qrc">:/new/image/icons8-play-button-96.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -430,10 +430,10 @@
    <widget class="QLCDNumber" name="time_lcd">
     <property name="geometry">
      <rect>
-      <x>1070</x>
-      <y>40</y>
-      <width>61</width>
-      <height>27</height>
+      <x>600</x>
+      <y>38</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
    </widget>

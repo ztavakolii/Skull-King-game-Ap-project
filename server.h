@@ -24,7 +24,7 @@ class Server : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Server(PlayWindow*playwindow,ServerWaitWindow* waitwindow,QString servername,int numberofclients,QWidget *parent = nullptr);
+    explicit Server(ServerWaitWindow* waitwindow,QString servername,int numberofclients,QWidget *parent = nullptr);
     ~Server();
     void setNumberOfConnectedClientsChangeStatus(bool status);
     bool getNumberOfConnectedClientsChangeStatus();
@@ -37,6 +37,7 @@ public:
     void serverWantsToResumePlay();
     void serverWantsToExit();
     void sentExchangeRequestToClients(QByteArray information);
+    void exchangeTwoCardRandomly(QString senderRequest ,QString receiverRequest);
 
 
 private:
@@ -54,7 +55,7 @@ private:
                           //by acceptNewConnection and setNewConnectionStatus functions
     std::shared_mutex mx2;
     ServerWaitWindow*waitWindow;
-    PlayWindow*playWindow;
+ //   PlayWindow*playWindow;
 //    void readFromPlayersocket(QTcpSocket*socket);
 //    void writeInPlayerSocket(QByteArray&information,QTcpSocket*socket);
 
@@ -62,12 +63,14 @@ signals:
     void writeSignal(QByteArray information,QTcpSocket*socket);
     void readSignal(QByteArray* information,QTcpSocket*socket);
     void playersListChange();
+    void playStartSignal();
 
 private slots:
     void acceptNewConnection();
     void readFromPlayersocket(QTcpSocket*socket);
     void writeInPlayerSocket(QByteArray information,QTcpSocket*socket);
     void readFromSocket(QByteArray* information,QTcpSocket*socket);
+    void playStartSlot();
 
 };
 

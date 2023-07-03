@@ -2,9 +2,11 @@
 #include "ui_clientwaitwindow.h"
 #include "person.h"
 #include <QTimer>
+#include "playwindow.h"
+
 
 extern Person *User;
-
+PlayWindow*playWindow;
 using namespace std;
 
 ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent) :
@@ -12,7 +14,7 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     ui(new Ui::ClientWaitWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
     personalWindow=personalwindow;
     preWindow=prewindow;
 
@@ -206,7 +208,7 @@ void ClientWaitWindow::readInformationSentByServer()
                 //and those window must be closed
                 playWindow=new PlayWindow(personalWindow);
                 QTimer::singleShot(0,this,[this](){
-                   this->playWindow->showMaximized();
+                   playWindow->showMaximized();
                     this->close();
                 });
                 break;

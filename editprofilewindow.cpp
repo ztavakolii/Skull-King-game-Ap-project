@@ -11,7 +11,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     ui(new Ui::EditProfileWindow)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1280,700);
     preWindow=prewindow;
     register_loginWindow=register_loginwindow;
 

@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QTextStream>
 
-extern Person User;
+extern Person *User;
 
 int arr[25];
 
@@ -15,7 +15,7 @@ buy::buy(QMainWindow *previousWindow,QWidget *parent) :
     ui(new Ui::buy)
 {
     ui->setupUi(this);
-    setFixedSize(1300,700);
+    setFixedSize(1500,800);
 
     prewindow=previousWindow;
     QIcon windowsIcon(":/new/image/gamename.png");
@@ -24,7 +24,7 @@ buy::buy(QMainWindow *previousWindow,QWidget *parent) :
 
     ui->back_button->setStyleSheet("border:none");
 
-    QString file_name=User.get_user_name()+"_buy";
+    QString file_name=User->get_user_name()+"_buy";
     QFile f(file_name);
     if(f.open(QIODevice::ReadOnly)){
         QDataStream in(&f);
@@ -227,7 +227,7 @@ void buy::on_back_button_clicked()
 void buy::on_buy_2_clicked()
 {
     int price=ui->label_26->text().toInt();
-    if(User.buy(price,0)==0)
+    if(User->buy(price,0)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock->hide();
@@ -237,7 +237,7 @@ void buy::on_buy_2_clicked()
 void buy::on_buy_1_clicked()
 {
     int price=ui->label_27->text().toInt();
-    if(User.buy(price,1)==0)
+    if(User->buy(price,1)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_2->hide();
@@ -247,7 +247,7 @@ void buy::on_buy_1_clicked()
 void buy::on_pushButton_clicked()
 {
     int price=ui->label_28->text().toInt();
-    if(User.buy(price,2)==0)
+    if(User->buy(price,2)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_3->hide();
@@ -257,7 +257,7 @@ void buy::on_pushButton_clicked()
 void buy::on_pushButton_2_clicked()
 {
     int price=ui->label_29->text().toInt();
-    if(User.buy(price,3)==0)
+    if(User->buy(price,3)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_4->hide();
@@ -267,7 +267,7 @@ void buy::on_pushButton_2_clicked()
 void buy::on_pushButton_3_clicked()
 {
     int price=ui->label_30->text().toInt();
-    if(User.buy(price,4)==0)
+    if(User->buy(price,4)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_5->hide();
@@ -277,7 +277,7 @@ void buy::on_pushButton_3_clicked()
 void buy::on_pushButton_4_clicked()
 {
     int price=ui->label_31->text().toInt();
-    if(User.buy(price,5)==0)
+    if(User->buy(price,5)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_6->hide();
@@ -287,7 +287,7 @@ void buy::on_pushButton_4_clicked()
 void buy::on_pushButton_5_clicked()
 {
     int price=ui->label_32->text().toInt();
-    if(User.buy(price,6)==0)
+    if(User->buy(price,6)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_7->hide();
@@ -297,7 +297,7 @@ void buy::on_pushButton_5_clicked()
 void buy::on_pushButton_6_clicked()
 {
     int price=ui->label_33->text().toInt();
-    if(User.buy(price,7)==0)
+    if(User->buy(price,7)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_8->hide();
@@ -307,7 +307,7 @@ void buy::on_pushButton_6_clicked()
 void buy::on_pushButton_7_clicked()
 {
     int price=ui->label_34->text().toInt();
-    if(User.buy(price,8)==0)
+    if(User->buy(price,8)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_9->hide();
@@ -317,7 +317,7 @@ void buy::on_pushButton_7_clicked()
 void buy::on_pushButton_8_clicked()
 {
     int price=ui->label_35->text().toInt();
-    if(User.buy(price,9)==0)
+    if(User->buy(price,9)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_10->hide();
@@ -327,7 +327,7 @@ void buy::on_pushButton_8_clicked()
 void buy::on_pushButton_9_clicked()
 {
     int price=ui->label_36->text().toInt();
-    if(User.buy(price,10)==0)
+    if(User->buy(price,10)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_11->hide();
@@ -337,7 +337,7 @@ void buy::on_pushButton_9_clicked()
 void buy::on_pushButton_10_clicked()
 {
     int price=ui->label_37->text().toInt();
-    if(User.buy(price,11)==0)
+    if(User->buy(price,11)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_12->hide();
@@ -347,7 +347,7 @@ void buy::on_pushButton_10_clicked()
 void buy::on_pushButton_11_clicked()
 {
     int price=ui->label_38->text().toInt();
-    if(User.buy(price,12)==0)
+    if(User->buy(price,12)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_13->hide();
@@ -357,7 +357,7 @@ void buy::on_pushButton_11_clicked()
 void buy::on_pushButton_12_clicked()
 {
     int price=ui->label_39->text().toInt();
-    if(User.buy(price,13)==0)
+    if(User->buy(price,13)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_14->hide();
@@ -367,7 +367,7 @@ void buy::on_pushButton_12_clicked()
 void buy::on_pushButton_13_clicked()
 {
     int price=ui->label_40->text().toInt();
-    if(User.buy(price,14)==0)
+    if(User->buy(price,14)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_15->hide();
@@ -377,7 +377,7 @@ void buy::on_pushButton_13_clicked()
 void buy::on_pushButton_14_clicked()
 {
     int price=ui->label_41->text().toInt();
-    if(User.buy(price,15)==0)
+    if(User->buy(price,15)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_16->hide();
@@ -387,7 +387,7 @@ void buy::on_pushButton_14_clicked()
 void buy::on_pushButton_15_clicked()
 {
     int price=ui->label_42->text().toInt();
-    if(User.buy(price,16)==0)
+    if(User->buy(price,16)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_17->hide();
@@ -397,7 +397,7 @@ void buy::on_pushButton_15_clicked()
 void buy::on_pushButton_16_clicked()
 {
     int price=ui->label_44->text().toInt();
-    if(User.buy(price,17)==0)
+    if(User->buy(price,17)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_18->hide();
@@ -407,7 +407,7 @@ void buy::on_pushButton_16_clicked()
 void buy::on_pushButton_17_clicked()
 {
     int price=ui->label_45->text().toInt();
-    if(User.buy(price,18)==0)
+    if(User->buy(price,18)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_19->hide();
@@ -417,7 +417,7 @@ void buy::on_pushButton_17_clicked()
 void buy::on_pushButton_18_clicked()
 {
     int price=ui->label_43->text().toInt();
-    if(User.buy(price,19)==0)
+    if(User->buy(price,19)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_20->hide();
@@ -427,7 +427,7 @@ void buy::on_pushButton_18_clicked()
 void buy::on_pushButton_19_clicked()
 {
     int price=ui->label_46->text().toInt();
-    if(User.buy(price,20)==0)
+    if(User->buy(price,20)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_21->hide();
@@ -437,7 +437,7 @@ void buy::on_pushButton_19_clicked()
 void buy::on_pushButton_20_clicked()
 {
     int price=ui->label_47->text().toInt();
-    if(User.buy(price,21)==0)
+    if(User->buy(price,21)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_22->hide();
@@ -447,7 +447,7 @@ void buy::on_pushButton_20_clicked()
 void buy::on_pushButton_21_clicked()
 {
     int price=ui->label_48->text().toInt();
-    if(User.buy(price,22)==0)
+    if(User->buy(price,22)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_23->hide();
@@ -457,7 +457,7 @@ void buy::on_pushButton_21_clicked()
 void buy::on_pushButton_22_clicked()
 {
     int price=ui->label_49->text().toInt();
-    if(User.buy(price,23)==0)
+    if(User->buy(price,23)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_24->hide();
@@ -467,7 +467,7 @@ void buy::on_pushButton_22_clicked()
 void buy::on_pushButton_23_clicked()
 {
     int price=ui->label_50->text().toInt();
-    if(User.buy(price,24)==0)
+    if(User->buy(price,24)==0)
         QMessageBox::critical(this,"Error","You do not have enough coins to buy this item!");
     else
         ui->lock_25->hide();
