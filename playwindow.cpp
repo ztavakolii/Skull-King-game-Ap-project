@@ -23,6 +23,7 @@ static int count=0;
 int number_of_player=4;
 int Round=0;
 int hand=0;
+int prediction;
 QString name;
 
 PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
@@ -33,6 +34,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     setFixedSize(1280,700);
 
     personalWindow=personalwindow;
+    show_line_edit();
 
     player=new Player;
 
@@ -41,6 +43,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     this->setWindowTitle("Play");
 
     ui->back_ground->showFullScreen();
+//    ui->lineEdit->setValidator(new QIntValidator(ui->lineEdit));
 
     ui->guideTextEdit->setReadOnly(true);
     if(User->get_gender()=="Male")
@@ -65,6 +68,9 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->bottle5->hide();
     ui->bottle6->hide();
     ui->bottle7->hide();
+    ui->lineEdit->hide();
+    ui->pushButton->hide();
+
     ui->groupBox->hide();
     ui->pic1->hide();
     ui->pic2->hide();
@@ -115,6 +121,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->pushButton_12->setStyleSheet("border:none");
     ui->pushButton_13->setStyleSheet("border:none");
     ui->pushButton_14->setStyleSheet("border:none");
+    ui->pushButton->setStyleSheet("border:none");
     ui->pushButton_1->setEnabled(false);
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
@@ -129,6 +136,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->pushButton_12->setEnabled(false);
     ui->pushButton_13->setEnabled(false);
     ui->pushButton_14->setEnabled(false);
+    ui->pushButton->setEnabled(false);
 
     ui->noRadioButton_2->hide();
     ui->yesRadioButton->hide();
@@ -1168,4 +1176,20 @@ void PlayWindow::rotate_bottle(int index)
 
 }
 
+void PlayWindow::show_line_edit()
+{
+    ui->lineEdit->show();
+    ui->pushButton->show();
+    ui->pushButton->setEnabled(true);
+}
+
+
+
+void PlayWindow::on_pushButton_clicked()
+{
+    prediction=ui->lineEdit->text().toInt();
+    ui->lineEdit->hide();
+    ui->pushButton->hide();
+    ui->pushButton->setEnabled(false);
+}
 

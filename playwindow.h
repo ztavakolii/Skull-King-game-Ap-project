@@ -65,6 +65,7 @@ private:
     void start_hand();
     void placeLabelsAroundCircle(int,int);
     void rotate_bottle(int);
+    void show_line_edit();
 
 signals:
     void second25Signal();
@@ -89,6 +90,7 @@ private slots:
     void on_pushButton_14_clicked();
     void on_yesRadioButton_clicked();
     void on_noRadioButton_2_clicked();
+    void on_pushButton_clicked();
 };
 
 #endif // PLAYWINDOW_H
