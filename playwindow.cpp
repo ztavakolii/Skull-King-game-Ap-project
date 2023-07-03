@@ -24,8 +24,8 @@ int number_of_player=4;
 int Round=1;
 int hand=0;
 int prediction;
-bool is_win=0;
-QString name;
+bool is_win=0,is_first_one=0;
+QString name,main_card;
 
 PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     QMainWindow(parent),
@@ -1204,6 +1204,37 @@ void PlayWindow::end_of_play()
         message.setText("You Lose");
     }
     message.exec();
+}
+
+void PlayWindow::check_card(QString selected_card)
+{
+    QString str="flag";
+    vector<QString> cards(player->getCasrdsSet());
+    if(selected_card.contains("flag")){
+        if(is_first_one==0){
+        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
+            str=t->at(0);
+            if(str.contains(main_card)){
+                QMessageBox message;
+                message.setText("You not allow to choose this card");
+                message.exec();
+                break;
+            }
+        }
+        }
+        else{
+        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
+            t->at(0)==selected_card;
+            cards.erase(t);
+        }
+        }
+    }
+    else{
+        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
+        t->at(0)==selected_card;
+        cards.erase(t);
+        }
+    }
 }
 
 

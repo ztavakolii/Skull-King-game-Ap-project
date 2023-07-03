@@ -67,6 +67,7 @@ private:
     void rotate_bottle(int);
     void show_line_edit();
     void end_of_play();
+    void check_card(QString);
 
 signals:
     void second25Signal();
