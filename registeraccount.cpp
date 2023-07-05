@@ -72,10 +72,13 @@ void RegisterAccount::on_back_button_clicked()
 void RegisterAccount::on_register_button_clicked(bool checked)
 {
     if(ui->name_l->text().length()>0&&ui->user_name_l->text().length()>0&&ui->comboBox_2->currentText().length()>0&&ui->password_l->text().length()>0&&ui->comboBox->currentText().length()>0&&ui->phone_l->text().length()){
-        if(ui->password_l->text().length()<8)//invalid password
+        QRegularExpression passwordRegex("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$");
+        QString password=ui->password_l->text();
+        QRegularExpressionMatch Match=passwordRegex.match(password);
+        if(!Match.hasMatch())//invalid password
         {
             QMessageBox message;
-            message.setText("The password should have at least 8 characters!");
+            message.setText("The password must be at least 6 digits long and contain lowercase or uppercase letters and numbers.");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");

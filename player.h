@@ -32,6 +32,7 @@ public:
     QTcpSocket*getSocket();
     void clearCardsVector();
     int getNumberOfHandsWonInCurrentRound();
+    void deleteACardFromCardsList(int index);
 
 private:
 

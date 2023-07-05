@@ -36,13 +36,14 @@ public:
     void serverWantsToStopPlay();
     void serverWantsToResumePlay();
     void serverWantsToExit();
+    void serverSelectCard(QString cardCode);
     void sentExchangeRequestToClients(QByteArray information);
     void exchangeTwoCardRandomly(QString senderRequest ,QString receiverRequest);
+    void setNumberOfHandsServerPlayerSaidWons(int number);
 
 
 private:
     Ui::Server *ui;
-   // QMainWindow*preWindow;
     QTcpServer*server;
     QString serverName;
     int maxNumberOfClients;//this is the number of clients that server accept
@@ -56,7 +57,7 @@ private:
     std::shared_mutex mx2;
     ServerWaitWindow*waitWindow;
 
-    void gameLogicControl();
+
     void shuffleCards(int Round);
     int determineBeginnerOfFirstHand();
 
@@ -65,6 +66,7 @@ signals:
     void readSignal(QByteArray* information,QTcpSocket*socket);
     void playersListChange();
     void playStartSignal();
+    void playWindowShow();
 
 private slots:
     void acceptNewConnection();
@@ -72,6 +74,7 @@ private slots:
     void writeInPlayerSocket(QByteArray information,QTcpSocket*socket);
     void readFromSocket(QByteArray* information,QTcpSocket*socket);
     void playStartSlot();
+    void gameLogicControl();
 
 };
 

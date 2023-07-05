@@ -77,6 +77,7 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     t=new std::thread(&ClientWaitWindow::readInformationSentByServer,this);
     ui->guideTextEdit->setReadOnly(true);
     b=false;
+    connect(this,SIGNAL(setguideTextEdit(QString,int)),this,SLOT(setSkullKingWords(QString,int)));
 }
 
 ClientWaitWindow::~ClientWaitWindow()
@@ -147,14 +148,15 @@ void ClientWaitWindow::readInformationSentByServer()
 
             case 'b':
                 in>>serverName>>serverCapacity>>numberOfConnectedClients;
-//                if(b==false)
 //                {
 //                    QString s="Commander, now we have to wait until the number of clients connected to "
 //                                +serverName+" server reaches "+QString::number(serverCapacity)
 //                                +". After that, the war begins.\n\nSkull King";
 //                ui->guideTextEdit->setText(s);
-//                    b=true;
 //                }
+            //   ui->guideTextEdit->setText("Commander, now we have to wait until enough people join the server.\n\nSkullKing");
+        //        setSkullKingWords(serverName,serverCapacity);
+                emit setguideTextEdit(serverName,serverCapacity);
                 for(int i=0;i<numberOfConnectedClients;i++){
                     in>>clientName>>clientCupNumber>>clientProfilePicture;
                     addNewClientToList(clientName,clientCupNumber,clientProfilePicture);
@@ -461,4 +463,12 @@ void ClientWaitWindow::showClientListInGUI()
         ui->cupNumberLabel4->show();
         ui->label_6->show();
     }
+}
+
+void ClientWaitWindow::setSkullKingWords(QString serverName,int serverCapacity)
+{
+    QString s="Commander, now we have to wait until the number of clients connected to "
+                                    +serverName+" server reaches "+QString::number(serverCapacity)
+                                    +". After that, the war begins.\n\nSkull King";
+    ui->guideTextEdit->setText(s);
 }

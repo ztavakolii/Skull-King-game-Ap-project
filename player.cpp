@@ -136,3 +136,8 @@ int Player::getNumberOfHandsWonInCurrentRound()
     return numberOfHandsWonInCurrentRound;
 }
 
+void Player::deleteACardFromCardsList(int index)
+{
+    cards.erase(cards.begin()+index);
+}
+

@@ -19,8 +19,8 @@ public:
     QString get_phone_number();
     QString get_address();
     QPixmap get_profile_picture();
-    Client*get_client();
-    Server*get_server();
+    Client*&get_client();
+    Server*&get_server();
     int get_cup();
     int get_coin();
     bool get_isserver();

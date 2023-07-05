@@ -46,6 +46,10 @@ private:
 private slots:
     void backButtonClicked();
     void disconnectButtonClicked();
+    void setSkullKingWords(QString serverName,int serverCapacity);
+signals:
+    void setguideTextEdit(QString,int);
+
 };
 
 #endif // CLIENTWAITWINDOW_H

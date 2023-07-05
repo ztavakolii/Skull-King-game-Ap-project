@@ -2,6 +2,7 @@
 #include "ui_editprofilewindow.h"
 #include <QMessageBox>
 #include <QFile>
+#include <QFileDialog>
 #include "person.h"
 
 extern Person* User;
@@ -81,6 +82,14 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     ui->deleteAccountButton->setStyleSheet("border:none");
     connect(ui->deleteAccountButton,SIGNAL(clicked(bool)),this,SLOT(deleteAccountButtonClicked()));
 
+    connect(ui->editProfileImageButton,&QPushButton::clicked,[&](){
+        QString imagePath=QFileDialog::getOpenFileName(nullptr,"Select Image","C:/","Images (*.png *.jpg)");
+        if(!imagePath.isEmpty()){
+            QPixmap newProfilePicture(imagePath);
+            newProfilePicture=newProfilePicture.scaled(191,121);
+            ui->profileImageLabel->setPixmap(newProfilePicture);
+        }
+    });
 
 }
 
@@ -112,6 +121,9 @@ void EditProfileWindow::changePasswordLineEditMode()
 void EditProfileWindow::deleteAccountButtonClicked()
 {
     QMessageBox message;
+    message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
+    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+    message.setStyleSheet("background-color: rgb(236, 197, 119)");
     message.setIcon(QMessageBox::Warning);
     message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
     int result=message.exec();
@@ -124,21 +136,13 @@ void EditProfileWindow::deleteAccountButtonClicked()
         register_loginWindow->showMaximized();
         this->close();
     }
-//    message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
-//    message.setIcon(QMessageBox::Warning);
-//    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//    message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//    message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
-//    message.exec();
-//    if(message.Yes){
-//        // delete all files
-//        register_loginWindow->showMaximized();
-//        this->close();
-//    }
 }
-
 void EditProfileWindow::editButtonClicked()
 {
+    QRegularExpression passwordRegex("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$");
+    QString password=ui->passwordLineEdit->text();
+    QRegularExpressionMatch Match=passwordRegex.match(password);
+
     if(ui->addressTextEdit->toPlainText().length()>0
         && ui->countryPhoneCodesComboBox->currentText().length()>0
         && ui->genderComboBox->currentText().length()>0
@@ -150,7 +154,7 @@ void EditProfileWindow::editButtonClicked()
         QString fileName=ui->usernameLineEdit->text();
         if((!QFile::exists(fileName) && fileName!=User->get_user_name())
             || fileName==User->get_user_name()){
-            if(ui->passwordLineEdit->text().length()>=8){ // Here is better that password security be checked with regex
+            if(Match.hasMatch()){
                 if(ui->phoneNumberLineEdit->text().length()>=10){ //this condition may be inappropriate
                     fileName=User->get_user_name();
                     QFile f(fileName);
@@ -185,7 +189,7 @@ void EditProfileWindow::editButtonClicked()
             }
             else{
                 QMessageBox message;
-                message.setText("The password should have at least 8 characters!");
+                message.setText("The password must be at least 6 digits long and contain lowercase or uppercase letters and numbers.");
                 message.setIcon(QMessageBox::Critical);
                 message.setWindowIcon(QIcon(":/new/image/gamename.png"));
                 message.setStyleSheet("background-color: rgb(236, 197, 119)");
@@ -195,7 +199,7 @@ void EditProfileWindow::editButtonClicked()
     }
         else{
             QMessageBox message;
-            message.setText("The account with this username has already exists!");
+            message.setText("The account with this username has already exists.");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");

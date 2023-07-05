@@ -83,6 +83,11 @@
       <height>91</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>

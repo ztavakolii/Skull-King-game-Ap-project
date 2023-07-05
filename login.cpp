@@ -5,6 +5,7 @@
 #include <windows.h>
 #include "person.h"
 #include "QMessageBox"
+#include <QRegularExpression>
 
 extern Person* User;
 
@@ -64,6 +65,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
 
     ui->loginButton->setEnabled(false);
     connect(ui->passwordLineEdit,SIGNAL(textChanged(QString)),this,SLOT(enableLoginButton()));
+    connect(ui->usernameLineEdit,SIGNAL(textChanged(QString)),this,SLOT(enableLoginButton()));
 
     connect(ui->eyeButton,SIGNAL(clicked(bool)),this,SLOT(changePasswordLineEditMode()));
     connect(ui->loginButton,SIGNAL(clicked(bool)),this , SLOT(showPersonalWindow()));
@@ -72,6 +74,8 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     connect(ui->okButton,SIGNAL(clicked(bool)),this,SLOT(checkMatchingUsernameandPhoneNumber()));
     connect(ui->newPasswordLineEdit,SIGNAL(textChanged(QString)),this,SLOT(enableNewPasswordOkButton()));
     connect(ui->ok2Button,SIGNAL(clicked(bool)),this,SLOT(changePasswordAndShowPersonalWindow()));
+    connect(ui->usernameLineEdit,SIGNAL(textChanged(QString)),this ,SLOT(enablePhoneOkButton()));
+    connect(ui->comboBox,SIGNAL(currentTextChanged(QString)),this,SLOT(enablePhoneOkButton()));
 }
 
 login::~login()
@@ -129,14 +133,15 @@ void login::showPersonalWindow()
 
 void login::enableLoginButton()
 {
-    if(ui->passwordLineEdit->text().length()>0)
+    if(ui->passwordLineEdit->text().length()>0&&ui->usernameLineEdit->text().length()>0)
         ui->loginButton->setEnabled(true);
     else ui->loginButton->setEnabled(false);
 }
 
 void login::enablePhoneOkButton()
 {
-    if(ui->phoneLineEdit->text().length()>0)
+    if(ui->phoneLineEdit->text().length()>0&&ui->usernameLineEdit->text().length()>0
+        &&ui->comboBox->currentText().length()>0)
         ui->okButton->setEnabled(true);
     else {
         ui->okButton->setEnabled(false);
@@ -177,11 +182,14 @@ void login::enableNewPasswordOkButton()
 
 void login::changePasswordAndShowPersonalWindow()
 {
-    // change password in file
-    if(ui->newPasswordLineEdit->text().length()<8)//invalid password
+
+    QRegularExpression passwordRegex("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$");
+    QString password=ui->newPasswordLineEdit->text();
+    QRegularExpressionMatch Match=passwordRegex.match(password);
+    if(!Match.hasMatch())//invalid password
     {
         QMessageBox message;
-        message.setText("The password should have at least 8 characters!");
+        message.setText("The password must be at least 6 digits long and contain lowercase or uppercase letters and numbers.");
         message.setIcon(QMessageBox::Critical);
         message.setWindowIcon(QIcon(":/new/image/gamename.png"));
         message.setStyleSheet("background-color: rgb(236, 197, 119)");

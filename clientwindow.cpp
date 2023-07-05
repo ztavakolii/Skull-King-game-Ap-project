@@ -2,7 +2,7 @@
 #include "ui_clientwindow.h"
 #include "person.h"
 #include <QMessageBox>
-#include <regex>
+#include <QRegularExpression>
 
 using namespace std;
 extern Person *User;
@@ -57,25 +57,21 @@ void ClientWindow::connectButtonClicked()
 {
     if(ui->serverIPLineEdit->text().length()>0){
          //IP permission must be checked with regex
-       // regex* IP=new regex("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0- 9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
-     //   if(regex_match(ui->serverIPLineEdit->text().toStdString(),*IP))
+      QRegularExpression IPRegex("^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$");
+        QString IP=ui->serverIPLineEdit->text();
+      QRegularExpressionMatch Match=IPRegex.match(IP);
+        if(Match.hasMatch())
         {
             User->set_client(this,personalWindow,QHostAddress(ui->serverIPLineEdit->text()));
- //           t=new std::thread(&ClientWindow::showClientWaitWindow,this);
-//            if(User->get_client()->getConnectionStatus()==true){
-//            clientWaitWindow=new ClientWaitWindow(personalWindow,this);
-//            clientWaitWindow->showMaximized();
-//            this->close();
-//            }
         }
-//        else{
-//            QMessageBox message;
-//            message.setText("The IP is invalid, enter a valid IP.");
-//            message.setIcon(QMessageBox::Critical);
-//            message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//            message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//            message.exec();
-//        }
+        else{
+            QMessageBox message;
+            message.setText("The IP is invalid, enter a valid IP.");
+            message.setIcon(QMessageBox::Critical);
+            message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+            message.setStyleSheet("background-color: rgb(236, 197, 119)");
+            message.exec();
+        }
     }
     else{
         QMessageBox message;

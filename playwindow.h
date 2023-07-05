@@ -38,6 +38,9 @@ public:
     void setPlayersForserverplayer(QByteArray);
     void setScoresForServerPlayer(QByteArray);
     void rotate_bottle(int);
+    void setPlayingFieldCardCode(QString cardCode);
+    void setIsFirstOne();
+    void newRoundStarted();
 
 public slots:
     void on_stop_button_clicked();
@@ -49,9 +52,9 @@ public slots:
     void hideSkullKingWords();
     void setCardsIcon();
     void exitCodeReceived(QString clientName);
-    void isSelectedCardAllowed(QString cardCode);
     void enterAnAllowedCardToTheGame();
-//    void rotate();
+    void check_card(QString);
+    void sentNumberOfHandsSaidWon();
 
 private:
     Ui::PlayWindow *ui;
@@ -67,9 +70,8 @@ private:
     void readInformationSentByServer();//for clients
     void start_hand();
     void placeLabelsAroundCircle(int,int);
-    void show_line_edit();
+  //  void show_line_edit();
     void end_of_play();
-    void check_card(QString);
 
 signals:
     void second25Signal();
@@ -77,6 +79,7 @@ signals:
     void second45Signal();
     void second30Signal();
     void aCardWasselected(QString cardCode);
+    void second60Signal();
 private slots:
     void on_pushButton_1_clicked();
     void on_pushButton_2_clicked();
@@ -94,7 +97,7 @@ private slots:
     void on_pushButton_14_clicked();
     void on_yesRadioButton_clicked();
     void on_noRadioButton_2_clicked();
-    void on_pushButton_clicked();
+  //  void on_pushButton_clicked();
 };
 
 #endif // PLAYWINDOW_H

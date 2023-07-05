@@ -14,7 +14,6 @@ ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     setFixedSize(1280,700);
 
     preWindow=prewindow;
-  //  this->personalWindow=personalWindow;
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
@@ -40,10 +39,6 @@ ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     }
 
     ui->guideTextEdit->setReadOnly(true);
-//    ui->guideTextEdit->setText("Commander, now we have to wait until the number of clients connected to your server reaches "
-//                               +QString::number(User->get_server()->getMaxNumberOfClients())
-//                               +" people, after \nthat the war will begin.\nI was informed that the IP of your server is "+
-//                               User->get_server()->getServerIP().toString()+"\nSkull King");
 
     ui->deleteServerButton->setStyleSheet("border:none");
     connect(ui->deleteServerButton,SIGNAL(clicked(bool)),this,SLOT(deleteServerButtonClicked()));
@@ -74,14 +69,11 @@ ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->cupNumberLabel3->hide();
     ui->label_5->hide();
 
-  //  t=std::thread(&ServerWaitWindow::showConnectedClients,this);
-
 }
 
 ServerWaitWindow::~ServerWaitWindow()
 {
     delete ui;
-    //  t.join();
 }
 
 void ServerWaitWindow::setGuideTextEdit()
@@ -90,6 +82,11 @@ void ServerWaitWindow::setGuideTextEdit()
                                +QString::number(User->get_server()->getMaxNumberOfClients())
                                +" people, after \nthat the war will begin.\nI was informed that the IP of your server is "+
                                User->get_server()->getServerIP().toString()+"\nSkull King");
+}
+
+QMainWindow *ServerWaitWindow::getPreWindow()
+{
+    return preWindow;
 }
 
 void ServerWaitWindow::backButtonClicked()
@@ -101,31 +98,24 @@ void ServerWaitWindow::backButtonClicked()
 void ServerWaitWindow::deleteServerButtonClicked()
 {
     QMessageBox message;
+    message.setText("Are you sure you want to delete your server?");
     message.setIcon(QMessageBox::Warning);
+    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+    message.setStyleSheet("background-color: rgb(236, 197, 119)");
     message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
     int result=message.exec();
     if(result==QMessageBox::Yes){
         deleteServer();
     }
-//    QMessageBox message;
-//    message.setText("Are you sure you want to delete your server?");
-//    message.setIcon(QMessageBox::Warning);
-//    message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//    message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//    message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
-//    message.exec();
-//    if(message.Yes){
-//        deleteServer();
-//    }
 }
 
 void ServerWaitWindow::playButtonClicked()
 {
-    User->get_server()->playStarted();
+    //User->get_server()->playStarted();
     playWindow=new PlayWindow(preWindow);
     playWindow->showMaximized();
     this->close();
-//    t.join();
+    User->get_server()->playStarted();
 }
 
 void ServerWaitWindow::deleteServer()
@@ -133,7 +123,6 @@ void ServerWaitWindow::deleteServer()
     User->get_server()->serverDeleted();
     preWindow->showMaximized();
     this->close();
-   // t.join();
 }
 
 void ServerWaitWindow::showConnectedClients()
@@ -143,10 +132,6 @@ void ServerWaitWindow::showConnectedClients()
     QString clientName;
     int clientCupNumber,numberOfConnectedClients;
     QPixmap clientProfilePicture;
-  //  while(true){
-        //if(User->get_server()->getNumberOfConnectedClientsChangeStatus()==true)
-      //  {
-          //  information.clear();
             information=User->get_server()->readPlayersList();
             in>>numberOfConnectedClients;
             if(numberOfConnectedClients==0){
@@ -297,6 +282,4 @@ void ServerWaitWindow::showConnectedClients()
                 ui->label_5->show();
             }
         }
-   // }
-//}
 

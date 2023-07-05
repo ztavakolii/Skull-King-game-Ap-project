@@ -35,7 +35,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     setFixedSize(1280,700);
 
     personalWindow=personalwindow;
-    show_line_edit();
+   // show_line_edit();
 
     player=new Player;
 
@@ -50,13 +50,23 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     if(User->get_gender()=="Male")
     {
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
+        ui->lineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
     else if(User->get_gender()=="Female")
     {
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
+        ui->lineEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
     }
     ui->guideTextEdit->hide();
     ui->SkullKingPicture->hide();
+    ui->lineEdit->setGeometry(200,290,71,31);
+    ui->lineEdit->hide();
+    ui->label_3->setGeometry(280,270,51,71);
+    ui->label_3->hide();
+    ui->label_5->setGeometry(296,293,31,21);
+    ui->label_5->hide();
+    ui->pushButton->setGeometry(285,293,41,25);
+    ui->pushButton->hide();
 
     QPixmap picture(":/new/image/icons8-pause-button-96.png");
     ui->stop_label->setPixmap(picture);
@@ -90,13 +100,8 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
      ui->exchange_button->setStyleSheet("border:none");
      ui->ok_button->setStyleSheet("border:none");
     savedatetime(0);//save date time in file
-//    start_hand();
-//    rotate();
-   // placeLabelsAroundCircle(200,1);//for images
-  //  placeLabelsAroundCircle(200,2);//for cards
 
      // round and hand labels in begining of play must be hide and when play starts, we must show them
-   // set_round_hand(1,1);
     set_hand(1);
     set_round(1);
 
@@ -145,8 +150,10 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     connect(this,SIGNAL(second25Signal()),this,SLOT(exitSlot()));
     connect(this,SIGNAL(second15Signal()),this,SLOT(hideSkullKingWords()));
     connect(this,SIGNAL(second45Signal()),this,SLOT(hideSkullKingWords()));
-    connect(this,SIGNAL(aCardWasselected(QString)),this,SLOT(isSelectedCardAllowed(QString)));
+    connect(this,SIGNAL(aCardWasselected(QString)),this,SLOT(check_card(QString)));
     connect(this,SIGNAL(second30Signal()),this,SLOT(enterAnAllowedCardToTheGame()));
+    connect(ui->pushButton,SIGNAL(clicked(bool)),this,SLOT(sentNumberOfHandsSaidWon()));
+    connect(this,SIGNAL(second60Signal()),this,SLOT(sentNumberOfHandsSaidWon()));
 
 }
 
@@ -248,10 +255,9 @@ void PlayWindow::on_exit_button_clicked()
     message.setWindowIcon(QIcon(":/new/image/gamename.png"));
     message.setStyleSheet("background-color: rgb(236,197,119)");
     message.setStandardButtons(QMessageBox::Yes|QMessageBox::No);
-    message.exec();
-    if(message.Yes){
+   int result= message.exec();
+    if(result==QMessageBox::Yes){
         //back to the page personalwindow
-        //server or client code
         if(User->get_client()!=nullptr){
             out<<'e'<<'t'<<User->get_name();
             User->get_client()->writeInformation(information);
@@ -259,7 +265,6 @@ void PlayWindow::on_exit_button_clicked()
         else if(User->get_server()!=nullptr){
             User->get_server()->serverWantsToExit();
         }
-       // this->close();
     }
     }
 
@@ -287,7 +292,9 @@ void PlayWindow::f()
         emit second45Signal();
         if(initialvalueofremainingtime==30)
         emit second30Signal();
-        QPixmap p(":/new/image/icons8-pause-button-96.png");
+        if(initialvalueofremainingtime==60)
+        emit second60Signal();
+        QPixmap p(":/new/image/icons8-play-button-96.png");
         ui->stop_label->setPixmap(p);
 
     }
@@ -521,13 +528,13 @@ void PlayWindow::setScoresForServerPlayer(QByteArray information)
 
 }
 
-void PlayWindow::handle_loop(int loop)//for stop loop of the game
-{
-    if(loop==1)//start the stop loop
-        eventLoop.exec();
-    else//stop the loop
-        eventLoop.quit();
-}
+//void PlayWindow::handle_loop(int loop)//for stop loop of the game
+//{
+//    if(loop==1)//start the stop loop
+//        eventLoop.exec();
+//    else//stop the loop
+//        eventLoop.quit();
+//}
 
 void PlayWindow::readInformationSentByServer()
 {
@@ -576,6 +583,12 @@ void PlayWindow::readInformationSentByServer()
     // 'w' "winner"                 | 'y' "you win whole game"
     //-----------------------------------------------------------------------------------------------
     // 'e' "exchange"               | 'x' - previous card code - new card code
+    //-----------------------------------------------------------------------------------------------
+    // 'f' "playing field card code"| card code
+    //-----------------------------------------------------------------------------------------------
+    // 'b' "beginner"               | 'h' "hand"
+    //-----------------------------------------------------------------------------------------------
+    // 's' "start"                  | 'r' "round"
     //-----------------------------------------------------------------------------------------------
 
     while(true){
@@ -628,6 +641,9 @@ void PlayWindow::readInformationSentByServer()
                     }
                     setPlayersScore();
                     break;
+                case 'r':
+                    newRoundStarted();
+                    break;
                 }
                 break;
 
@@ -640,7 +656,6 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'o':
                     in>>numberOfRound;
-                   // ::Round=numberOfRound;
                     set_round(numberOfRound);
                     break;
 
@@ -653,7 +668,6 @@ void PlayWindow::readInformationSentByServer()
 
             case 'h':
                 in>>numberOfHand;
-                //hand=numberOfHand;
                 set_hand(numberOfHand);
                 break;
 
@@ -711,7 +725,21 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'y':
                     User->set_coin(User->get_coin()+(number_of_player*50));
+                    is_win=1;
                     User->edit();
+                    break;
+                }
+                break;
+            case 'f':
+                in>>cardCode;
+                setPlayingFieldCardCode(cardCode);
+                break;
+
+            case 'b':
+                in>>subCode;
+                switch(subCode){
+                case 'h':
+                    setIsFirstOne();
                     break;
                 }
                 break;
@@ -722,14 +750,14 @@ void PlayWindow::readInformationSentByServer()
 
 void PlayWindow::placeLabelsAroundCircle(int radius,int n)
 {
-    QPixmap p1(":/new/image/icons8-pause-button-96.png"),p2,p3,p4;
+   // QPixmap p1(":/new/image/icons8-pause-button-96.png"),p2,p3,p4;
     float angle;
     if(number_of_player==2)
-        angle=180.0;
+        angle=180;
     else if(number_of_player==3)
-        angle=120.0;
+        angle=120;
     else if(number_of_player==4)
-        angle=90.0;
+        angle=90;
     for(int i=0;i<number_of_player;i++){
         int x=radius*qCos(qDegreesToRadians(angle*i));
         int y=radius*qSin(qDegreesToRadians(angle*i));
@@ -743,6 +771,9 @@ void PlayWindow::placeLabelsAroundCircle(int radius,int n)
                 ui->nameLabel1->setText(players[i].getName());
                 ui->nameLabel1->show();
 
+                ui->scoreLabel1->move(x+630,y+220);
+                ui->scoreLabel1->show();
+
             }
             else if(i==1){
                 ui->pic2->move(x+630,y+250);
@@ -752,6 +783,9 @@ void PlayWindow::placeLabelsAroundCircle(int radius,int n)
                 ui->nameLabel2->move(x+610,y+340);
                 ui->nameLabel2->setText(players[i].getName());
                 ui->nameLabel2->show();
+
+                ui->scoreLabel2->move(x+630,y+220);
+                ui->scoreLabel2->show();
 
             }
             else if(i==2){
@@ -763,6 +797,9 @@ void PlayWindow::placeLabelsAroundCircle(int radius,int n)
                 ui->nameLabel3->setText(players[i].getName());
                 ui->nameLabel3->show();
 
+                ui->scoreLabel3->move(x+630,y+220);
+                ui->scoreLabel3->show();
+
             }
             else if(i==3){
                 ui->pic4->move(x+630,y+250);
@@ -772,6 +809,9 @@ void PlayWindow::placeLabelsAroundCircle(int radius,int n)
                 ui->nameLabel4->move(x+610,y+340);
                 ui->nameLabel4->setText(players[i].getName());
                 ui->nameLabel4->show();
+
+                ui->scoreLabel4->move(x+630,y+220);
+                ui->scoreLabel4->show();
             }
         }
         else if(n==2){
@@ -803,18 +843,134 @@ void PlayWindow::exitCodeReceived(QString clientName)
     ui->guideTextEdit->setText("Commander, a person named "+clientName+" from the enemy's army, has requested to leave the war. So the war ends and you will be transferred to your personal window in 25 seconds.\nSkullKing");
     ui->SkullKingPicture->show();
     ui->guideTextEdit->show();
+    is_win=1;
     startcountdown(25);
     User->set_coin(User->get_coin()+(number_of_player*50)/(number_of_player-1));
 }
 
-void PlayWindow::isSelectedCardAllowed(QString cardCode)
-{
-
-}
-
 void PlayWindow::enterAnAllowedCardToTheGame()
 {
+    QByteArray information;
+    QDataStream out(&information,QIODevice::WriteOnly);
+    bool b,c=false;
+    //   QString str="flag";
+    vector<QString> cards(player->getCasrdsSet());
+    QString selected_card;
+    int selected_card_index;
 
+    for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++){
+        if(c==false){
+
+        selected_card=*it;
+
+    for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++){
+        if(*it==selected_card){
+            selected_card_index=std::distance(cards.begin(),it);
+            break;
+        }
+    }
+
+    if(selected_card.contains("flag")){
+        if(is_first_one==false){
+            for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++)
+                if(it->contains(main_card)){
+                    b=true;
+                    break;
+                }
+            if(b==false){
+                //enter the card to the game
+                c=true;
+                if(User->get_client()!=nullptr){
+                    out<<'c'<<selected_card;
+                    User->get_client()->writeInformation(information);
+                }
+                else if(User->get_server()!=nullptr){
+                    User->get_server()->serverSelectCard(selected_card);
+                }
+
+                player->deleteACardFromCardsList(selected_card_index);
+                countdowntimer->stop();
+                ui->time_lcd->hide();
+                setCardsIcon();
+                ui->pushButton_1->setEnabled(false);
+                ui->pushButton_2->setEnabled(false);
+                ui->pushButton_3->setEnabled(false);
+                ui->pushButton_4->setEnabled(false);
+                ui->pushButton_5->setEnabled(false);
+                ui->pushButton_6->setEnabled(false);
+                ui->pushButton_7->setEnabled(false);
+                ui->pushButton_8->setEnabled(false);
+                ui->pushButton_9->setEnabled(false);
+                ui->pushButton_10->setEnabled(false);
+                ui->pushButton_11->setEnabled(false);
+                ui->pushButton_12->setEnabled(false);
+                ui->pushButton_13->setEnabled(false);
+                ui->pushButton_14->setEnabled(false);
+
+            }
+        }
+        else{
+            //enter the card to the game
+            c=true;
+            if(User->get_client()!=nullptr){
+                out<<'c'<<selected_card;
+                User->get_client()->writeInformation(information);
+            }
+            else if(User->get_server()!=nullptr){
+                User->get_server()->serverSelectCard(selected_card);
+            }
+            player->deleteACardFromCardsList(selected_card_index);
+            countdowntimer->stop();
+            ui->time_lcd->hide();
+            setCardsIcon();
+            ui->pushButton_1->setEnabled(false);
+            ui->pushButton_2->setEnabled(false);
+            ui->pushButton_3->setEnabled(false);
+            ui->pushButton_4->setEnabled(false);
+            ui->pushButton_5->setEnabled(false);
+            ui->pushButton_6->setEnabled(false);
+            ui->pushButton_7->setEnabled(false);
+            ui->pushButton_8->setEnabled(false);
+            ui->pushButton_9->setEnabled(false);
+            ui->pushButton_10->setEnabled(false);
+            ui->pushButton_11->setEnabled(false);
+            ui->pushButton_12->setEnabled(false);
+            ui->pushButton_13->setEnabled(false);
+            ui->pushButton_14->setEnabled(false);
+        }
+    }
+    else{
+        //enter the card to the game
+        c=true;
+        if(User->get_client()!=nullptr){
+            out<<'c'<<selected_card;
+            User->get_client()->writeInformation(information);
+        }
+        else if(User->get_server()!=nullptr){
+            User->get_server()->serverSelectCard(selected_card);
+        }
+
+        player->deleteACardFromCardsList(selected_card_index);
+        countdowntimer->stop();
+        ui->time_lcd->hide();
+        setCardsIcon();
+        ui->pushButton_1->setEnabled(false);
+        ui->pushButton_2->setEnabled(false);
+        ui->pushButton_3->setEnabled(false);
+        ui->pushButton_4->setEnabled(false);
+        ui->pushButton_5->setEnabled(false);
+        ui->pushButton_6->setEnabled(false);
+        ui->pushButton_7->setEnabled(false);
+        ui->pushButton_8->setEnabled(false);
+        ui->pushButton_9->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->pushButton_11->setEnabled(false);
+        ui->pushButton_12->setEnabled(false);
+        ui->pushButton_13->setEnabled(false);
+        ui->pushButton_14->setEnabled(false);
+    }
+    }
+    }
 }
 
 void PlayWindow::on_exchange_button_clicked()
@@ -877,7 +1033,10 @@ void PlayWindow::on_ok_button_clicked()
 
 void PlayWindow::exitSlot()
 {
+    User->get_client()=nullptr;
+    User->get_server()=nullptr;
     personalWindow->showMaximized();
+    end_of_play();
     this->close();
 }
 
@@ -886,6 +1045,10 @@ void PlayWindow::hideSkullKingWords()
     ui->SkullKingPicture->hide();
     ui->guideTextEdit->hide();
     ui->time_lcd->hide();
+    ui->lineEdit->hide();
+    ui->label_3->hide();
+    ui->label_5->hide();
+    ui->pushButton->hide();
 }
 
 void PlayWindow::setCardsIcon()
@@ -1156,7 +1319,7 @@ void PlayWindow::on_noRadioButton_2_clicked()
     ui->time_lcd->hide();
 }
 
-void PlayWindow::rotate_bottle(int index)
+void PlayWindow::rotate_bottle(int index)//***************************
 {
     Player p(players[index]);
     QString name=p.getName();
@@ -1180,63 +1343,191 @@ void PlayWindow::rotate_bottle(int index)
 
 }
 
-void PlayWindow::show_line_edit()
+void PlayWindow::setPlayingFieldCardCode(QString cardCode)
+{
+    main_card=cardCode;
+}
+
+void PlayWindow::setIsFirstOne()
+{
+    is_first_one=true;
+}
+
+void PlayWindow::newRoundStarted()
 {
     ui->lineEdit->show();
+    ui->label_3->show();
+    ui->label_5->show();
     ui->pushButton->show();
-    ui->pushButton->setEnabled(true);
+    ui->guideTextEdit->setText("Commander, how many hands do you think we will win in this round?\nEnter your desired number below.\n\nSkullKing");
+    ui->SkullKingPicture->show();
+    ui->guideTextEdit->show();
+    startcountdown(60);
 }
+
+//void PlayWindow::show_line_edit()
+//{
+//    ui->lineEdit->show();
+//    ui->pushButton->show();
+//    ui->pushButton->setEnabled(true);
+//}
 
 void PlayWindow::end_of_play()
 {
-    QMessageBox message;
+   // QMessageBox message;
     if(is_win==1){
         savedatetime(1);
-        message.setText("You win");
+      //  message.setText("You win");
     }
     else{
         savedatetime(0);
-        message.setText("You Lose");
+       // message.setText("You Lose");
     }
-    message.exec();
+    //message.exec();
 }
 
 void PlayWindow::check_card(QString selected_card)
 {
-    QString str="flag";
+    QByteArray information;
+    QDataStream out(&information,QIODevice::WriteOnly);
+    bool b;
+ //   QString str="flag";
     vector<QString> cards(player->getCasrdsSet());
+    int selected_card_index;
+
+    for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++){
+        if(*it==selected_card){
+        selected_card_index=std::distance(cards.begin(),it);
+        break;
+        }
+    }
+
     if(selected_card.contains("flag")){
-        if(is_first_one==0){
-        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
-            str=t->at(0);
-            if(str.contains(main_card)){
+        if(is_first_one==false){
+        for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++)
+            if(it->contains(main_card)){
+                b=true;
                 QMessageBox message;
-                message.setText("You not allow to choose this card");
+                message.setText("You not allow to choose this card.");
+                message.setIcon(QMessageBox::Critical);
+                message.setWindowIcon(QIcon(":/new/image/gamename.png"));
+                message.setStyleSheet("background-color: rgb(236, 197, 119)");
                 message.exec();
                 break;
             }
+        if(b==false){
+            //enter the card to the game
+            if(User->get_client()!=nullptr){
+                out<<'c'<<selected_card;
+                User->get_client()->writeInformation(information);
+            }
+            else if(User->get_server()!=nullptr){
+                User->get_server()->serverSelectCard(selected_card);
+            }
+
+            player->deleteACardFromCardsList(selected_card_index);
+            countdowntimer->stop();
+            ui->time_lcd->hide();
+            setCardsIcon();
+            ui->pushButton_1->setEnabled(false);
+            ui->pushButton_2->setEnabled(false);
+            ui->pushButton_3->setEnabled(false);
+            ui->pushButton_4->setEnabled(false);
+            ui->pushButton_5->setEnabled(false);
+            ui->pushButton_6->setEnabled(false);
+            ui->pushButton_7->setEnabled(false);
+            ui->pushButton_8->setEnabled(false);
+            ui->pushButton_9->setEnabled(false);
+            ui->pushButton_10->setEnabled(false);
+            ui->pushButton_11->setEnabled(false);
+            ui->pushButton_12->setEnabled(false);
+            ui->pushButton_13->setEnabled(false);
+            ui->pushButton_14->setEnabled(false);
+
         }
         }
         else{
-        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
-            t->at(0)==selected_card;
-            cards.erase(t);
+        //enter the card to the game
+        if(User->get_client()!=nullptr){
+            out<<'c'<<selected_card;
+            User->get_client()->writeInformation(information);
         }
+        else if(User->get_server()!=nullptr){
+            User->get_server()->serverSelectCard(selected_card);
+        }
+        player->deleteACardFromCardsList(selected_card_index);
+        countdowntimer->stop();
+        ui->time_lcd->hide();
+        setCardsIcon();
+        ui->pushButton_1->setEnabled(false);
+        ui->pushButton_2->setEnabled(false);
+        ui->pushButton_3->setEnabled(false);
+        ui->pushButton_4->setEnabled(false);
+        ui->pushButton_5->setEnabled(false);
+        ui->pushButton_6->setEnabled(false);
+        ui->pushButton_7->setEnabled(false);
+        ui->pushButton_8->setEnabled(false);
+        ui->pushButton_9->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->pushButton_11->setEnabled(false);
+        ui->pushButton_12->setEnabled(false);
+        ui->pushButton_13->setEnabled(false);
+        ui->pushButton_14->setEnabled(false);
         }
     }
     else{
-        for(vector<QString>::iterator t=cards.begin();t!=cards.end();t++){
-        t->at(0)==selected_card;
-        cards.erase(t);
+        //enter the card to the game
+        if(User->get_client()!=nullptr){
+        out<<'c'<<selected_card;
+        User->get_client()->writeInformation(information);
         }
+        else if(User->get_server()!=nullptr){
+        User->get_server()->serverSelectCard(selected_card);
+        }
+
+        player->deleteACardFromCardsList(selected_card_index);
+        countdowntimer->stop();
+        ui->time_lcd->hide();
+        setCardsIcon();
+        ui->pushButton_1->setEnabled(false);
+        ui->pushButton_2->setEnabled(false);
+        ui->pushButton_3->setEnabled(false);
+        ui->pushButton_4->setEnabled(false);
+        ui->pushButton_5->setEnabled(false);
+        ui->pushButton_6->setEnabled(false);
+        ui->pushButton_7->setEnabled(false);
+        ui->pushButton_8->setEnabled(false);
+        ui->pushButton_9->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->pushButton_11->setEnabled(false);
+        ui->pushButton_12->setEnabled(false);
+        ui->pushButton_13->setEnabled(false);
+        ui->pushButton_14->setEnabled(false);
     }
 }
 
-void PlayWindow::on_pushButton_clicked()
+void PlayWindow::sentNumberOfHandsSaidWon()
 {
-    prediction=ui->lineEdit->text().toInt();
-    ui->lineEdit->hide();
-    ui->pushButton->hide();
-    ui->pushButton->setEnabled(false);
+    int numberofHandsSaidWon;
+    if(ui->lineEdit->text().length()>0)
+        numberofHandsSaidWon=ui->lineEdit->text().toInt();
+    else numberofHandsSaidWon=0;
+
+    if(User->get_client()!=nullptr){
+        QByteArray information;
+        QDataStream out(&information,QIODevice::WriteOnly);
+        out<<'n'<<numberofHandsSaidWon;
+        User->get_client()->writeInformation(information);
+    }
+    else if(User->get_server()!=nullptr)
+        User->get_server()->setNumberOfHandsServerPlayerSaidWons(numberofHandsSaidWon);
 }
+
+//void PlayWindow::on_pushButton_clicked()
+//{
+//    prediction=ui->lineEdit->text().toInt();
+//    ui->lineEdit->hide();
+//    ui->pushButton->hide();
+//    ui->pushButton->setEnabled(false);
+//}
 

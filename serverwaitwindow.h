@@ -18,6 +18,7 @@ public:
     explicit ServerWaitWindow(QMainWindow*prewindow,QWidget *parent = nullptr);
     ~ServerWaitWindow();
     void setGuideTextEdit();
+    QMainWindow*getPreWindow();
 
 private:
     Ui::ServerWaitWindow *ui;

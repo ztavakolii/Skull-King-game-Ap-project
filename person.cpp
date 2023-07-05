@@ -230,11 +230,11 @@ void Person::set_server(ServerWaitWindow* waitwindow,QString servername, int num
     server2=new Server(waitwindow,servername,numberofclients);
 }
 
-Client* Person::get_client(){
+Client*& Person::get_client(){
     return client;
 }
 
-Server *Person::get_server()
+Server*& Person::get_server()
 {
     return server2;
 }

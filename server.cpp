@@ -50,6 +50,7 @@ Server::Server(ServerWaitWindow* waitwindow,QString servername,int maxnumberofcl
     connect(this,SIGNAL(readSignal(QByteArray*,QTcpSocket*)),this,SLOT(readFromSocket(QByteArray*,QTcpSocket*)));
     connect(this,SIGNAL(playersListChange()),waitWindow,SLOT(showConnectedClients()));
     connect(this,SIGNAL(playStartSignal()),this,SLOT(playStartSlot()));
+    connect(this,SIGNAL(playWindowShow()),this,SLOT(gameLogicControl()));
 }
 
 Server::~Server()
@@ -111,10 +112,11 @@ void Server::playStarted()
     QDataStream out(&information,QIODevice::WriteOnly);
     out<<'p';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-        writeInPlayerSocket(information,it->getSocket()); //************************ ***** write in multiple thread?
+       // writeInPlayerSocket(information,it->getSocket());
+        emit writeSignal(information,it->getSocket());
     }
     numberOfPlayers=players.size();
-    gameLogicControl();
+   // gameLogicControl();
 }
 
 void Server::serverWantsToStopPlay()
@@ -124,6 +126,7 @@ void Server::serverWantsToStopPlay()
     out<<'s'<<'t'<<User->get_name();
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         writeInPlayerSocket(information,it->getSocket());
+        //emit writeSignal(information,it->getSocket());
     }
 }
 
@@ -148,6 +151,20 @@ void Server::serverWantsToExit()
     playWindow->exitCodeReceived(User->get_name());
 }
 
+void Server::serverSelectCard(QString cardCode)
+{
+    codeOfSelectedCard=cardCode;
+    isCardSelected=true;
+    vector<QString>cards=player[0].getCasrdsSet();
+    for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++){
+        if(*it==codeOfSelectedCard){
+            int index=std::distance(cards.begin(),it);
+            players[0].deleteACardFromCardsList(index);
+            break;
+        }
+    }
+}
+
 void Server::sentExchangeRequestToClients(QByteArray information)
 {
     QString clientName,clientName2;
@@ -163,7 +180,8 @@ void Server::sentExchangeRequestToClients(QByteArray information)
         if(clientName!=User->get_name()){
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 if(it->getName()==clientName){
-                writeInPlayerSocket(sentinformation,it->getSocket());
+             //   writeInPlayerSocket(sentinformation,it->getSocket());
+                    emit writeSignal(sentinformation,it->getSocket());
                 break;
                 }
             }
@@ -177,6 +195,7 @@ void Server::sentExchangeRequestToClients(QByteArray information)
 
 void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequest)
 {
+    QString senderCardCode,receiverCardCode;
     QByteArray sentinformation;
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
     if(senderRequest!=User->get_name()){
@@ -197,9 +216,13 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
     if(it->getName()==senderRequest){
             cardIndexOfSenderRequest=rand()%(it->getCasrdsSet().size());
+            senderCardCode=it->getCasrdsSet()[cardIndexOfSenderRequest];
+            it->deleteACardFromCardsList(cardIndexOfSenderRequest);
     }
     if(it->getName()==receiverRequest){
             cardIndexOfReceiverRequest=rand()%(it->getCasrdsSet().size());
+            receiverCardCode=it->getCasrdsSet()[cardIndexOfReceiverRequest];
+            it->deleteACardFromCardsList(cardIndexOfReceiverRequest);
     }
     }
     sentinformation.clear();
@@ -207,7 +230,7 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
     if(it->getName()==senderRequest){
             // 'e' - 'x' - previous card - new card
-            out<<'e'<<'x'<<it->getCasrdsSet()[cardIndexOfSenderRequest]<<it->getCasrdsSet()[cardIndexOfReceiverRequest];
+            out<<'e'<<'x'<<senderCardCode<<receiverCardCode;
             emit writeSignal(sentinformation,it->getSocket());
             break;
     }
@@ -215,14 +238,14 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     }
     else{
     // if sender was server
-    playWindow->exchangeTwoCard(players[0].getCasrdsSet()[cardIndexOfSenderRequest],players[0].getCasrdsSet()[cardIndexOfReceiverRequest]);
+    playWindow->exchangeTwoCard(senderCardCode,receiverCardCode);
     }
     sentinformation.clear();
     if(receiverRequest!=User->get_name()){
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
     if(it->getName()==receiverRequest){
             // 'e' - 'x' - previous card - new card
-            out<<'e'<<'x'<<it->getCasrdsSet()[cardIndexOfReceiverRequest]<<it->getCasrdsSet()[cardIndexOfSenderRequest];
+            out<<'e'<<'x'<<receiverCardCode<<senderCardCode;
             emit writeSignal(sentinformation,it->getSocket());
             break;
     }
@@ -230,8 +253,14 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     }
     else{
     // if receiver was server
-    playWindow->exchangeTwoCard(players[0].getCasrdsSet()[cardIndexOfReceiverRequest],players[0].getCasrdsSet()[cardIndexOfSenderRequest]);
+    playWindow->exchangeTwoCard(receiverCardCode,senderCardCode);
     }
+
+}
+
+void Server::setNumberOfHandsServerPlayerSaidWons(int number)
+{
+    players[0].setNumberOfHandsSaidWon(number);
 }
 
 void Server::gameLogicControl()
@@ -307,6 +336,9 @@ void Server::gameLogicControl()
             else{
                 indexOfBeginnerOfHand=indexOfWinnerPreviousHand;
             }
+            sentinformation.clear();
+            out<<'b'<<'h';
+            writeInPlayerSocket(sentinformation,players[indexOfBeginnerOfHand].getSocket());
      }
      int currentTurn,preTurn; // these are indexes
      int winnerIndex;
@@ -346,6 +378,14 @@ void Server::gameLogicControl()
                 winnerIndex=indexOfBeginnerOfHand;
                 winnerCard=codeOfSelectedCard;
                 codeOfplayingFieldCard=codeOfSelectedCard.remove(QRegularExpression("\\d+"));
+
+                // send playing field card code to clients
+                sentinformation.clear();
+                out<<'f'<<codeOfplayingFieldCard;
+                for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+                    writeInPlayerSocket(sentinformation,it->getSocket());
+                }
+                playWindow->setPlayingFieldCardCode(codeOfplayingFieldCard);
             }
             {
                 if(codeOfSelectedCard.contains("skullking")||codeOfSelectedCard.contains("queen")
@@ -458,6 +498,23 @@ void Server::gameLogicControl()
     playWindow->setScoresForServerPlayer(sentinformation);
     }
     }
+    auto scorecomparator=[](Player&p1,Player&p2){
+        return p1.getScore()<p2.getScore();
+    };
+    auto maxScoreIterator=std::max_element(players.begin(),players.end(),scorecomparator);
+    int maxScoreIndex=std::distance(players.begin(),maxScoreIterator);
+    QString winnerName=player[maxScoreIndex].getName();
+
+    sentinformation.clear();
+    out<<'w'<<'y';
+    writeInPlayerSocket(sentinformation,players[maxScoreIndex].getSocket());
+
+    sentinformation.clear();
+    out<<'w'<<'w'<<winnerName;
+    for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+    writeInPlayerSocket(sentinformation,it->getSocket());
+    }
+    playWindow->showWinnerOfWholeGame(winnerName);
 }
 //card name - numeric code
 //---------------------------------------------------------------------------------------------------
@@ -619,6 +676,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
     //----------------------------------------------------------------------------------------
     // 'r' "reply exchange card"| 'p' - name of sernder of request - name of receiver of request
     //----------------------------------------------------------------------------------------
+    // 'n' "number of hands won"| number of hands that client said wons
 
     while(true){
         if(socket->waitForReadyRead(-1))
@@ -662,9 +720,9 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
                 sentinformation.clear();
             }
             { unique_lock lck3(mx2);
-            numberOfConnectedClients++;
-                if(numberOfConnectedClients==maxNumberOfClients)
-                    emit playStartSignal();
+            //numberOfConnectedClients++;
+            if(numberOfConnectedClients==maxNumberOfClients)
+                emit playStartSignal();
             }
             break;
 
@@ -731,6 +789,19 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
         case 'c':
             in>>codeOfSelectedCard;
             isCardSelected=true;
+             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+            if(it->getSocket()==socket){
+                    vector<QString>cards=it->getCasrdsSet();
+                    for(vector<QString>::iterator it2=cards.begin();it2!=cards.end();it2++){
+                        if(*it2==codeOfSelectedCard){
+                       int index=std::distance(cards.begin(),it2);
+                        it->deleteACardFromCardsList(index);
+                        break;
+                        }
+                    }
+                    break;
+            }
+            }
             break;
 
         case 'r':
@@ -751,6 +822,15 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             break;
             }
             break;
+        case 'n':
+            in>>number;
+            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
+            if(it->getSocket()==socket){
+                    it->setNumberOfHandsSaidWon(number);
+                    break;
+            }
+            }
+            break;
         }
         }
     }
@@ -768,8 +848,11 @@ void Server::readFromSocket(QByteArray *information, QTcpSocket *socket)
 
 void Server::playStartSlot()
 {
-    playStarted();
+    playWindow=new PlayWindow(waitWindow->getPreWindow());
     playWindow->showMaximized();
+    waitWindow->close();
+    playStarted();
+    emit playWindowShow();
 }
 
 void Server::acceptNewConnection()
