@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <QRegularExpression>
+#include <QSysInfo>
 
 
 extern Person* User;
@@ -50,7 +51,7 @@ Server::Server(ServerWaitWindow* waitwindow,QString servername,int maxnumberofcl
     connect(this,SIGNAL(readSignal(QByteArray*,QTcpSocket*)),this,SLOT(readFromSocket(QByteArray*,QTcpSocket*)));
     connect(this,SIGNAL(playersListChange()),waitWindow,SLOT(showConnectedClients()));
     connect(this,SIGNAL(playStartSignal()),this,SLOT(playStartSlot()));
-    connect(this,SIGNAL(playWindowShow()),this,SLOT(gameLogicControl()));
+    //connect(this,SIGNAL(playWindowShow()),this,SLOT(gameLogicControl()));
 }
 
 Server::~Server()

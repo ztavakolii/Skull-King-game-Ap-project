@@ -12,11 +12,6 @@ Game::Game(int numberOfclients, std::vector<Player> playervec)
 
 }
 
-//void Game::setNumberOfPlayers(int number)
-//{
-//    numberOfPlayers=number;
-//}
-
 void Game::sedRound(int round)
 {
     whichRound=round;
@@ -91,26 +86,13 @@ void Game::manageGame()
 {
     for(int round=1;round<=7;round++){
         whichRound=round;
-        //send clients number of round
-        // call shuffleCardsBetweenPlayers()
-        // send each client her/his cards set
         for(int hand=1;hand<=2*whichRound;hand++){
             whichHand=hand;
-                //send clients number of hand
             if(whichHand==1){
-                //  usernameOfCurrentHandStarter= players[determineFirstHandStarter()];
             }
             else{
                 usernameOfCurrentHandStarter=usernameOfPreviousHandWinner;
             }
-            // send to clients the username of handstarter then clients GUI must show starter
-            // send to starterclient a code that tells you must choose a card and enter it into the game
-            //          .
-            //          .
-            //          .
-            //          .
-            //          .
-
 
         }
     }

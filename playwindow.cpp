@@ -35,7 +35,6 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     setFixedSize(1280,700);
 
     personalWindow=personalwindow;
-   // show_line_edit();
 
     player=new Player;
 
@@ -750,7 +749,6 @@ void PlayWindow::readInformationSentByServer()
 
 void PlayWindow::placeLabelsAroundCircle(int radius,int n)
 {
-   // QPixmap p1(":/new/image/icons8-pause-button-96.png"),p2,p3,p4;
     float angle;
     if(number_of_player==2)
         angle=180;
@@ -838,8 +836,6 @@ void PlayWindow::placeLabelsAroundCircle(int radius,int n)
 
 void PlayWindow::exitCodeReceived(QString clientName)
 {
-    // write in guideTextEdit the client name ....
-    // QTimer and LCD number (25 s)
     ui->guideTextEdit->setText("Commander, a person named "+clientName+" from the enemy's army, has requested to leave the war. So the war ends and you will be transferred to your personal window in 25 seconds.\nSkullKing");
     ui->SkullKingPicture->show();
     ui->guideTextEdit->show();
