@@ -2,6 +2,8 @@
 #include "ui_personalwindow.h"
 #include "person.h"
 #include <QLineEdit>
+#include <QFile>
+#include <QTextStream>
 
 extern Person* User;
 
@@ -84,6 +86,18 @@ PersonalWindow::PersonalWindow(QMainWindow* prewindow,QWidget *parent) :
 PersonalWindow::~PersonalWindow()
 {
     delete ui;
+}
+
+void PersonalWindow::showEvent(QShowEvent *event)
+{
+    User->read_information_from_file();
+
+    ui->profileImageLabel->setPixmap(User->get_profile_picture());
+    ui->nameLineEdit->setText(" "+User->get_name());
+    ui->coinNumberLabel->setText(QString::number(User->get_coin()));
+    ui->cupNumberLabel->setText(QString::number(User->get_cup()));
+
+    QMainWindow::showEvent(event);
 }
 
 void PersonalWindow::backButtonClicked()

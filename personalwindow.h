@@ -34,6 +34,8 @@ private:
     EditProfileWindow*editProfileWindow;
     PlayWindow*playwindow;
 
+protected:
+    void showEvent(QShowEvent*event);
 
 
 private slots:

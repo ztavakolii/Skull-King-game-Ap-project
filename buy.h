@@ -72,6 +72,9 @@ private slots:
 private:
     Ui::buy *ui;
     QMainWindow *prewindow;
+
+protected:
+    void showEvent(QShowEvent*event);
 };
 
 #endif // BUY_H
