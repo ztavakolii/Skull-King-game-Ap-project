@@ -50,6 +50,10 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     ui->newPasswordTextEdit->setText("Now enter new password.");
     ui->newPasswordTextEdit->hide();
     ui->skullKing2Label->hide();
+    ui->eyeButton2->setStyleSheet("border:none");
+    ui->eyeButton2->hide();
+    ui->eyeLabel2->hide();
+    ui->label_29->hide();
 
     ui->ok2Button->setStyleSheet("border:none");
     ui->ok2Button->setEnabled(false);
@@ -68,6 +72,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     connect(ui->usernameLineEdit,SIGNAL(textChanged(QString)),this,SLOT(enableLoginButton()));
 
     connect(ui->eyeButton,SIGNAL(clicked(bool)),this,SLOT(changePasswordLineEditMode()));
+    connect(ui->eyeButton2,SIGNAL(clicked(bool)),this,SLOT(changeNewPasswordLineEditMode()));
     connect(ui->loginButton,SIGNAL(clicked(bool)),this , SLOT(showPersonalWindow()));
     connect(ui->forgetPasssWordButton,SIGNAL(clicked(bool)),this,SLOT(forgetPassword()));
     connect(ui->phoneLineEdit,SIGNAL(textChanged(QString)),this,SLOT(enablePhoneOkButton()));
@@ -94,6 +99,20 @@ void login::changePasswordLineEditMode()
         ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
         QPixmap p(":/new/image/icons8-eye-checked-50.png");
         ui->eyeLabel->setPixmap(p);
+    }
+}
+
+void login::changeNewPasswordLineEditMode()
+{
+    if(ui->newPasswordLineEdit->echoMode()==QLineEdit::Password){
+        ui->newPasswordLineEdit->setEchoMode(QLineEdit::Normal);
+        QPixmap p(":/new/image/icons8-eye-unchecked-50.png");
+        ui->eyeLabel2->setPixmap(p);
+    }
+    else if(ui->newPasswordLineEdit->echoMode()==QLineEdit::Normal){
+        ui->newPasswordLineEdit->setEchoMode(QLineEdit::Password);
+        QPixmap p(":/new/image/icons8-eye-checked-50.png");
+        ui->eyeLabel2->setPixmap(p);
     }
 }
 
@@ -161,6 +180,9 @@ void login::checkMatchingUsernameandPhoneNumber()
         ui->ok2Button->show();
         ui->ok3Label->show();
         ui->ok4Label->show();
+        ui->eyeButton2->show();
+        ui->label_29->show();
+        ui->eyeLabel2->show();
     }
     else
     {

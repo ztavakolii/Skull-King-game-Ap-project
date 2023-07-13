@@ -26,6 +26,7 @@ private:
 
 private slots:
     void changePasswordLineEditMode();
+    void changeNewPasswordLineEditMode();
     void forgetPassword();
     void showPersonalWindow();
     void enableLoginButton();

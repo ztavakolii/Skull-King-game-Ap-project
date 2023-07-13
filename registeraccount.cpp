@@ -34,7 +34,7 @@ RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QStringList countryPhoneCodes={"+98","+1","+86","+33","+49","+62","+81","+55","+61","+54","+39","+30","+34","+90","+852","+32","+964","+353","+52","+68"};
     ui->comboBox->addItems(countryPhoneCodes);
     ui->phone_l->setValidator(new QIntValidator(ui->phone_l));
-    QStringList genderes={"Female","Male"};
+    QStringList genderes={"Male","Female"};
     ui->comboBox_2->addItems(genderes);
 
     ui->guideTextEdit->setReadOnly(true);

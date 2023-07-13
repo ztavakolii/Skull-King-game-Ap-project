@@ -201,5 +201,11 @@
         <file>queen.jpg</file>
         <file>icons8-pause-button-96 (2).png</file>
         <file>icons8-play-button-96.png</file>
+        <file>icons8-phone-number-80.png</file>
+        <file>icons8-toilet-80.png</file>
+        <file>icons8-address-80.png</file>
+        <file>icons8-name-100.png</file>
+        <file>icons8-name-80.png</file>
+        <file>icons8-sign-up-80.png</file>
     </qresource>
 </RCC>
