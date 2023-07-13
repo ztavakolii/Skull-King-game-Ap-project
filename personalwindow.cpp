@@ -92,6 +92,30 @@ void PersonalWindow::showEvent(QShowEvent *event)
 {
     User->read_information_from_file();
 
+    if(User->get_gender()=="Male")
+    {
+    ui->playImageLabel->setGeometry(995,360,110,110);
+    ui->playTextLabel->setGeometry(955,410,70,30);
+    ui->playButton->setGeometry(950,350,180,130);
+    ui->playButton->setStyleSheet("border:none");
+    QPixmap p(":/new/image/pngwing.com (6).png");
+    ui->playImageLabel->setPixmap(p);
+    }
+    else if(User->get_gender()=="Female")
+    {
+    ui->playImageLabel->setGeometry(990,365,90,97);
+    ui->playTextLabel->setGeometry(1080,400,70,30);
+    ui->playButton->setGeometry(970,350,180,130);
+    ui->playButton->setStyleSheet("border:none");
+    QPixmap p(":/new/image/pngwing.com (4).png");
+    ui->playImageLabel->setPixmap(p);
+    }
+
+    if(User->get_gender()=="Male")
+    ui->nameLineEdit->setStyleSheet("background-color:rgb(0, 0, 0);color:rgb(0, 170, 255);");
+    else if(User->get_gender()=="Female")
+    ui->nameLineEdit->setStyleSheet("background-color:rgb(0, 0, 0);color:rgb(255, 85, 127);");
+
     ui->profileImageLabel->setPixmap(User->get_profile_picture());
     ui->nameLineEdit->setText(" "+User->get_name());
     ui->coinNumberLabel->setText(QString::number(User->get_coin()));
