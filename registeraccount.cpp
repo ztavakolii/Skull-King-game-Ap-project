@@ -7,6 +7,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QSoundEffect>
+#include <QCryptographicHash>
+
 using namespace std;
 
 extern Person*User;

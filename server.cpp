@@ -8,7 +8,7 @@
 #include <QRegularExpression>
 #include <QSysInfo>
 
-
+static bool closeWindowStatus=false;
 extern Person* User;
 extern PlayWindow*playWindow;
 extern Player*player;
@@ -118,6 +118,7 @@ void Server::playStarted()
     }
     numberOfPlayers=players.size();
    // gameLogicControl();
+    t2=new std::thread(&Server::gameLogicControl,this);
 }
 
 void Server::serverWantsToStopPlay()
@@ -266,6 +267,9 @@ void Server::setNumberOfHandsServerPlayerSaidWons(int number)
 
 void Server::gameLogicControl()
 {
+    if(closeWindowStatus==true)
+    return;
+
     QByteArray sentinformation;
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
 
@@ -273,7 +277,8 @@ void Server::gameLogicControl()
     // sending number of players to clients
     out<<'n'<<numberOfPlayers;
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
-     writeInPlayerSocket(sentinformation,it->getSocket());
+     //writeInPlayerSocket(sentinformation,it->getSocket());
+    emit writeSignal(sentinformation,it->getSocket());
     }
     playWindow->setNumberOfPlayers(numberOfPlayers); // for server
     }
@@ -285,19 +290,24 @@ void Server::gameLogicControl()
      out<<it->getName()<<it->getProfile()<<it->getScore();
     }
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-     writeInPlayerSocket(sentinformation,it->getSocket());
+     //writeInPlayerSocket(sentinformation,it->getSocket());
+     emit writeSignal(sentinformation,it->getSocket());
     }
     playWindow->setPlayersForserverplayer(sentinformation);
     }
 
     for(int Round=1;Round<=7;Round++){
 
+    if(closeWindowStatus==true)
+     return;
+
     {
      //sending number of round to clients
      sentinformation.clear();
      out<<'r'<<'o'<<Round;
      for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
-            writeInPlayerSocket(sentinformation,it->getSocket());
+            //writeInPlayerSocket(sentinformation,it->getSocket());
+            emit writeSignal(sentinformation,it->getSocket());
      }
      playWindow->set_round(Round);
     }
@@ -312,20 +322,24 @@ void Server::gameLogicControl()
             for(int i=0;i<2*Round;i++){
                 out<<it->getCasrdsSet()[i];
             }
-            writeInPlayerSocket(sentinformation,it->getSocket());
+            //writeInPlayerSocket(sentinformation,it->getSocket());
+            emit writeSignal(sentinformation,it->getSocket());
      }
      player->setCards(players[0].getCasrdsSet());
      playWindow->setCardsIcon();
     }
 
     for(int Hand=1;Hand<=2*Round;Hand++){
+     if(closeWindowStatus==true)
+            return;
 
      {
             // send clients number of hand
             sentinformation.clear();
             out<<'h'<<Hand;
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-                writeInPlayerSocket(sentinformation,it->getSocket());
+                //writeInPlayerSocket(sentinformation,it->getSocket());
+                emit writeSignal(sentinformation,it->getSocket());
             }
             playWindow->set_hand(Hand);
      }
@@ -339,7 +353,8 @@ void Server::gameLogicControl()
             }
             sentinformation.clear();
             out<<'b'<<'h';
-            writeInPlayerSocket(sentinformation,players[indexOfBeginnerOfHand].getSocket());
+            //writeInPlayerSocket(sentinformation,players[indexOfBeginnerOfHand].getSocket());
+            emit writeSignal(sentinformation,players[indexOfBeginnerOfHand].getSocket());
      }
      int currentTurn,preTurn; // these are indexes
      int winnerIndex;
@@ -354,7 +369,8 @@ void Server::gameLogicControl()
                 sentinformation.clear();
                 out<<'t'<<currentTurn;
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-                    writeInPlayerSocket(sentinformation,it->getSocket());
+                    //writeInPlayerSocket(sentinformation,it->getSocket());
+                    emit writeSignal(sentinformation,it->getSocket());
                 }
                 playWindow->rotate_bottle(currentTurn);
             }
@@ -362,7 +378,8 @@ void Server::gameLogicControl()
             {
                 sentinformation.clear();
                 out<<'y';
-                writeInPlayerSocket(sentinformation,players[currentTurn].getSocket());
+               // writeInPlayerSocket(sentinformation,players[currentTurn].getSocket());
+                emit writeSignal(sentinformation,players[currentTurn].getSocket());
             }
             while(isCardSelected==false);
             isCardSelected=false;
@@ -371,7 +388,8 @@ void Server::gameLogicControl()
                 sentinformation.clear();
                 out<<'s'<<'w'<<codeOfSelectedCard<<currentTurn;
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-                    writeInPlayerSocket(sentinformation,it->getSocket());
+                  //  writeInPlayerSocket(sentinformation,it->getSocket());
+                    emit writeSignal(sentinformation,it->getSocket());
                 }
                 playWindow->showCard(currentTurn,codeOfSelectedCard);
             }
@@ -384,7 +402,8 @@ void Server::gameLogicControl()
                 sentinformation.clear();
                 out<<'f'<<codeOfplayingFieldCard;
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-                    writeInPlayerSocket(sentinformation,it->getSocket());
+                   // writeInPlayerSocket(sentinformation,it->getSocket());
+                    emit writeSignal(sentinformation,it->getSocket());
                 }
                 playWindow->setPlayingFieldCardCode(codeOfplayingFieldCard);
             }
@@ -450,7 +469,8 @@ void Server::gameLogicControl()
             sentinformation.clear();
             out<<'w'<<'h'<<players[winnerIndex].getName();
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-                writeInPlayerSocket(sentinformation,it->getSocket());
+                //writeInPlayerSocket(sentinformation,it->getSocket());
+                emit writeSignal(sentinformation,it->getSocket());
             }
             playWindow->showWinnerOfCurrentHand(players[winnerIndex].getName());
     }
@@ -469,7 +489,8 @@ void Server::gameLogicControl()
                 out<<it->getScore();
             }
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-                writeInPlayerSocket(sentinformation,it->getSocket());
+               // writeInPlayerSocket(sentinformation,it->getSocket());
+                emit writeSignal(sentinformation,it->getSocket());
             }
             playWindow->setScoresForServerPlayer(sentinformation);
     }
@@ -494,7 +515,8 @@ void Server::gameLogicControl()
             out<<it->getScore();
     }
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-            writeInPlayerSocket(sentinformation,it->getSocket());
+           // writeInPlayerSocket(sentinformation,it->getSocket());
+            emit writeSignal(sentinformation,it->getSocket());
     }
     playWindow->setScoresForServerPlayer(sentinformation);
     }
@@ -508,12 +530,14 @@ void Server::gameLogicControl()
 
     sentinformation.clear();
     out<<'w'<<'y';
-    writeInPlayerSocket(sentinformation,players[maxScoreIndex].getSocket());
+   // writeInPlayerSocket(sentinformation,players[maxScoreIndex].getSocket());
+    emit writeSignal(sentinformation,players[maxScoreIndex].getSocket());
 
     sentinformation.clear();
     out<<'w'<<'w'<<winnerName;
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
-    writeInPlayerSocket(sentinformation,it->getSocket());
+    //writeInPlayerSocket(sentinformation,it->getSocket());
+    emit writeSignal(sentinformation,it->getSocket());
     }
     playWindow->showWinnerOfWholeGame(winnerName);
 }
@@ -652,6 +676,18 @@ int Server::determineBeginnerOfFirstHand()
     return maxindex;
 }
 
+void Server::closeEvent(QCloseEvent *event)
+{
+    closeWindowStatus=true;
+    for(vector<std::thread>::iterator it=readingFromPlayersSocketThreads.begin();
+         it!=readingFromPlayersSocketThreads.end();it++){
+    it->join();
+    }
+    t2->join();
+
+    QMainWindow::closeEvent(event);
+}
+
 void Server::readFromPlayersocket(QTcpSocket* socket)
 {
     char mainCode, subCode;
@@ -680,6 +716,9 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
     // 'n' "number of hands won"| number of hands that client said wons
 
     while(true){
+    if(closeWindowStatus==true)
+    break;
+
         if(socket->waitForReadyRead(-1))
         {
             QByteArray receivedInformation="";

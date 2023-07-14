@@ -43,6 +43,9 @@ private:
     void addNewClientToList(QString clientName,int clientCupNumber,QPixmap clientProfilePicture);
     void showClientListInGUI();
 
+protected:
+    void closeEvent(QCloseEvent*event);
+
 private slots:
     void backButtonClicked();
     void disconnectButtonClicked();

@@ -1,5 +1,5 @@
 #include "person.h"
-
+#include <QCryptographicHash>
 #include <QFile>
 #include <QTextStream>
 Person::Person(QString name,QString user_name,QString gender,QString password,QString phone_code,QString phone_number,QString address,int cup,int coin)
@@ -128,6 +128,8 @@ int Person::add(){
            QPixmap p(":/new/image/icons8-girl-96.png");
             profile_picture=p;
         }
+//        QByteArray hashed=QCryptographicHash::hash(password.toUtf8(),QCryptographicHash::Sha256);
+//        QString hashedPassword=QString(hashed.toHex());
 
         QFile f(file_name);
         f.open(QIODevice::WriteOnly);
@@ -155,6 +157,9 @@ int Person::match(int n){
         QDataStream in(&f);
         in>>name>>user_name>>gender>>password>>phone_code>>phone_number>>address>>cup>>coin>>profile_picture;
         f.close();
+
+//        QByteArray hashed=QCryptographicHash::hash(this->password.toUtf8(),QCryptographicHash::Sha256);
+//        QString hashedPassword=QString(hashed.toHex());
 
         if(this->password==password)//the password is true
             return 1;
@@ -215,7 +220,11 @@ void Person::write_information_in_file()
     QFile f(file_name);
     if(f.open(QIODevice::WriteOnly)){
         QDataStream out(&f);
-        out<<name<<user_name<<gender<<password<<phone_code<<phone_number<<address<<cup<<coin<<profile_picture;
+
+        QByteArray hashed=QCryptographicHash::hash(password.toUtf8(),QCryptographicHash::Sha256);
+        QString hashedPassword=QString(hashed.toHex());
+
+        out<<name<<user_name<<gender<<hashedPassword<<phone_code<<phone_number<<address<<cup<<coin<<profile_picture;
         f.close();
     }
 }

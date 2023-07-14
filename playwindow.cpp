@@ -1,4 +1,4 @@
-#include "playwindow.h"
+#include "windows.h"
 #include "ui_playwindow.h"
 #include "QTimer"
 #include "QMessageBox"
@@ -17,6 +17,7 @@
 
 using namespace std;
 
+static bool closeWindowStatus=false;
 extern QSoundEffect*clickSound;
 extern Person*User;
 Player *player; // the information of User in game like cards set ,....
@@ -597,6 +598,10 @@ void PlayWindow::readInformationSentByServer()
     //-----------------------------------------------------------------------------------------------
 
     while(true){
+
+        if(closeWindowStatus==true)
+        break;
+
         if(User->get_client()->getReceiveStatus()==true){
             QByteArray receivedInformation="";/*=User->get_client()->readInformation()*/
             emit User->get_client()->readSignal(&receivedInformation);
@@ -1419,6 +1424,13 @@ void PlayWindow::end_of_play()
        // message.setText("You Lose");
     }
     //message.exec();
+}
+
+void PlayWindow::closeEvent(QCloseEvent *event)
+{
+    closeWindowStatus=true;
+    t->join();
+    QMainWindow::closeEvent(event);
 }
 
 void PlayWindow::check_card(QString selected_card)

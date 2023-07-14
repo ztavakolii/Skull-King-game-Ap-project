@@ -73,6 +73,9 @@ private:
   //  void show_line_edit();
     void end_of_play();
 
+protected:
+    void closeEvent(QCloseEvent*event);
+
 signals:
     void second25Signal();
     void second15Signal();

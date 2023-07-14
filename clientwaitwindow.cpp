@@ -9,6 +9,7 @@
 extern Person *User;
 PlayWindow*playWindow;
 extern QSoundEffect*clickSound;
+static bool closeWindowStatus=false;
 
 using namespace std;
 
@@ -127,6 +128,9 @@ void ClientWaitWindow::readInformationSentByServer()
     //----------------------------------------------------------------------------------------------------------------
     // 'r' "reject"
     while(true){
+        if(closeWindowStatus==true)
+          break;
+
         if(User->get_client()->getReceiveStatus()==true){
           QByteArray receivedInformation="";/*=User->get_client()->readInformation()*/
 
@@ -143,6 +147,8 @@ void ClientWaitWindow::readInformationSentByServer()
                 message.exec();
                 if(message.Ok){
                     QTimer::singleShot(0,this,[this](){
+                        closeWindowStatus=true;
+
                         this->preWindow->showMaximized();
                         this->close();
                     });
@@ -197,6 +203,8 @@ void ClientWaitWindow::readInformationSentByServer()
                     message.exec();
                     if(message.Ok){
                         QTimer::singleShot(0,this,[this](){
+                            closeWindowStatus=true;
+
                             this->preWindow->showMaximized();
                             this->close();
                         });
@@ -213,6 +221,9 @@ void ClientWaitWindow::readInformationSentByServer()
                 //and those window must be closed
                 playWindow=new PlayWindow(personalWindow);
                 QTimer::singleShot(0,this,[this](){
+
+                    closeWindowStatus=true;
+
                    playWindow->showMaximized();
                     this->close();
                 });
@@ -226,6 +237,8 @@ void ClientWaitWindow::readInformationSentByServer()
 void ClientWaitWindow::backButtonClicked()
 {
     clickSound->play();
+
+    closeWindowStatus=true;
 
     if(User->get_client()->getConnectionStatus()==true)
         personalWindow->showMaximized();
@@ -246,6 +259,9 @@ void ClientWaitWindow::disconnectButtonClicked()
     User->get_client()->writeInformation(information);
     while(User->get_client()->getSendStatus()==false);
     User->get_client()->closeSocket();
+
+    closeWindowStatus=true;
+
     preWindow->showMaximized();
     this->close();
 }
@@ -470,6 +486,12 @@ void ClientWaitWindow::showClientListInGUI()
         ui->cupNumberLabel4->show();
         ui->label_6->show();
     }
+}
+
+void ClientWaitWindow::closeEvent(QCloseEvent *event)
+{
+    t->join();
+    QMainWindow::closeEvent(event);
 }
 
 void ClientWaitWindow::setSkullKingWords(QString serverName,int serverCapacity)

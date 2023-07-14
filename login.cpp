@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <QSoundEffect>
 
+
 extern Person* User;
 extern QSoundEffect*clickSound;
 
@@ -64,7 +65,7 @@ login::login(QMainWindow*previousWindow,QWidget *parent) :
     ui->ok4Label->hide();
     ui->newPasswordLineEdit->hide();
 
-    ui->statusBar->hide();
+  //  ui->statusBar->hide();
 
     ui->backButton->setIcon(QIcon(":/new/image/icons8-back-48.png"));
     ui->backButton->setStyleSheet("border:none");

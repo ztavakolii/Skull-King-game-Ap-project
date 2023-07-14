@@ -51,6 +51,7 @@ private:
     QHostAddress serverIP;
     std::vector<Player>players; //list of clients
     std::vector<std::thread> readingFromPlayersSocketThreads;
+     std::thread*t2;// thread of gameLogicControl function
     bool numberOfConnectedClientsChangeStatus;
     std::shared_mutex mx; // this is for mangement writing in newConnectionStatus
                           //by acceptNewConnection and setNewConnectionStatus functions
@@ -60,6 +61,9 @@ private:
 
     void shuffleCards(int Round);
     int determineBeginnerOfFirstHand();
+
+protected:
+    void closeEvent(QCloseEvent*event);
 
 signals:
     void writeSignal(QByteArray information,QTcpSocket*socket);
