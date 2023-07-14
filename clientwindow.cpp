@@ -3,9 +3,11 @@
 #include "person.h"
 #include <QMessageBox>
 #include <QRegularExpression>
+#include <QSoundEffect>
 
 using namespace std;
 extern Person *User;
+extern QSoundEffect*clickSound;
 
 ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -49,12 +51,15 @@ ClientWindow::~ClientWindow()
 
 void ClientWindow::backButtonClicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }
 
 void ClientWindow::connectButtonClicked()
 {
+    clickSound->play();
+
     if(ui->serverIPLineEdit->text().length()>0){
          //IP permission must be checked with regex
       QRegularExpression IPRegex("^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$");

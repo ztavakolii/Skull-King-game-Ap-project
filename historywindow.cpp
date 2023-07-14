@@ -3,8 +3,10 @@
 #include "QFile"
 #include "QTextStream"
 #include "person.h"
+#include <QSoundEffect>
 
 extern Person* User;
+extern QSoundEffect*clickSound;
 
 HistoryWindow::HistoryWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -188,6 +190,7 @@ HistoryWindow::~HistoryWindow()
 
 void HistoryWindow::on_back_button_clicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }

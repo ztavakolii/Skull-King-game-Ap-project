@@ -6,8 +6,11 @@
 #include "person.h"
 #include "QMessageBox"
 #include <QRegularExpression>
+#include <windows.h>
+#include <QSoundEffect>
 
 extern Person* User;
+extern QSoundEffect*clickSound;
 
 login::login(QMainWindow*previousWindow,QWidget *parent) :
     QMainWindow(parent),
@@ -88,8 +91,21 @@ login::~login()
     delete ui;
 }
 
+//void login::showEvent(QShowEvent *event)
+//{
+//  //  QMainWindow::showEvent(event);
+//    QString helloText="Hello my friend, the pirate war is coming. Log in, we need your command to win. Let's go, everyone is waiting for you...\n\nSkull King";
+//   // ui->helloTextEdit->setText(helloText);
+//    for(int i=0;i<helloText.length();i++){
+//        ui->helloTextEdit->setText(helloText.mid(0,i+1));
+//        Sleep(100);
+//    }
+//    QMainWindow::showEvent(event);
+//}
+
 void login::changePasswordLineEditMode()
 {
+    clickSound->play();
     if(ui->passwordLineEdit->echoMode()==QLineEdit::Password){
         ui->passwordLineEdit->setEchoMode(QLineEdit::Normal);
         QPixmap p(":/new/image/icons8-eye-unchecked-50.png");
@@ -104,6 +120,7 @@ void login::changePasswordLineEditMode()
 
 void login::changeNewPasswordLineEditMode()
 {
+    clickSound->play();
     if(ui->newPasswordLineEdit->echoMode()==QLineEdit::Password){
         ui->newPasswordLineEdit->setEchoMode(QLineEdit::Normal);
         QPixmap p(":/new/image/icons8-eye-unchecked-50.png");
@@ -118,6 +135,7 @@ void login::changeNewPasswordLineEditMode()
 
 void login::forgetPassword()
 {
+    clickSound->play();
     ui->skullKingLabel->show();
     ui->forgetPassWordTextEdit->show();
     ui->comboBox->show();
@@ -129,6 +147,7 @@ void login::forgetPassword()
 
 void login::showPersonalWindow()
 {
+    clickSound->play();
     QString s=NULL;
     Person user(s,ui->usernameLineEdit->text(),s,ui->passwordLineEdit->text(),s,s,s,0,0);
     if(user.match(1))
@@ -169,6 +188,8 @@ void login::enablePhoneOkButton()
 
 void login::checkMatchingUsernameandPhoneNumber()
 {
+    clickSound->play();
+
     QString s=NULL;
     Person user(s,ui->usernameLineEdit->text(),s,s,ui->comboBox->currentText(),ui->phoneLineEdit->text(),s,0,0);
 
@@ -204,6 +225,7 @@ void login::enableNewPasswordOkButton()
 
 void login::changePasswordAndShowPersonalWindow()
 {
+    clickSound->play();
 
     QRegularExpression passwordRegex("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$");
     QString password=ui->newPasswordLineEdit->text();
@@ -233,7 +255,8 @@ void login::changePasswordAndShowPersonalWindow()
 
 void login::backButtonClicked()
 {
-   preWindow->showMaximized();
+    clickSound->play();
+    preWindow->showMaximized();
     this->close();
 }
 

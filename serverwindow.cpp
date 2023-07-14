@@ -1,10 +1,12 @@
 #include "serverwindow.h"
 #include "ui_serverwindow.h"
 #include <QMessageBox>
+#include <QSoundEffect>
 #include "person.h"
 #include"serverwaitwindow.h"
 
 extern Person *User;
+extern QSoundEffect*clickSound;
 
 ServerWindow::ServerWindow(QMainWindow*prewindow,QMainWindow*personalwindow,QWidget *parent) :
     QMainWindow(parent),
@@ -54,12 +56,16 @@ ServerWindow::~ServerWindow()
 
 void ServerWindow::backButtonClicked()
 {
+    clickSound->play();
+
     preWindow->showMaximized();
     this->close();
 }
 
 void ServerWindow::confirmButtonClicked()
 {
+    clickSound->play();
+
     if(ui->serverNamelineEdit->text().length()==0){
         QMessageBox message;
         message.setText("You must Enter a Server name.");

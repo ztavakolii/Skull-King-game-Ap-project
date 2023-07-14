@@ -2,9 +2,11 @@
 #include "ui_serverwaitwindow.h"
 #include "person.h"
 #include <QMessageBox>
+#include <QSoundEffect>
 
 extern Person* User;
 extern PlayWindow*playWindow;
+extern QSoundEffect*clickSound;
 
 ServerWaitWindow::ServerWaitWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -91,12 +93,15 @@ QMainWindow *ServerWaitWindow::getPreWindow()
 
 void ServerWaitWindow::backButtonClicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }
 
 void ServerWaitWindow::deleteServerButtonClicked()
 {
+    clickSound->play();
+
     QMessageBox message;
     message.setText("Are you sure you want to delete your server?");
     message.setIcon(QMessageBox::Warning);
@@ -111,6 +116,8 @@ void ServerWaitWindow::deleteServerButtonClicked()
 
 void ServerWaitWindow::playButtonClicked()
 {
+    clickSound->play();
+
     //User->get_server()->playStarted();
     playWindow=new PlayWindow(preWindow);
     playWindow->showMaximized();

@@ -2,11 +2,12 @@
 #include "ui_buy.h"
 #include "QMessageBox"
 #include "person.h"
-
+#include <QSoundEffect>
 #include <QFile>
 #include <QTextStream>
 
 extern Person *User;
+extern QSoundEffect*clickSound;
 
 int arr[25];
 
@@ -246,6 +247,7 @@ buy::~buy()
 
 void buy::on_back_button_clicked()
 {
+    clickSound->play();
     prewindow->showMaximized();
     this->close();
 }
@@ -253,6 +255,8 @@ void buy::on_back_button_clicked()
 
 void buy::on_buy_2_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_26->text().toInt();
     if(User->buy(price,0)==0){
         QMessageBox message;
@@ -269,6 +273,8 @@ void buy::on_buy_2_clicked()
 
 void buy::on_buy_1_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_27->text().toInt();
     if(User->buy(price,1)==0){
         QMessageBox message;
@@ -285,6 +291,8 @@ void buy::on_buy_1_clicked()
 
 void buy::on_pushButton_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_28->text().toInt();
     if(User->buy(price,2)==0){
         QMessageBox message;
@@ -301,6 +309,8 @@ void buy::on_pushButton_clicked()
 
 void buy::on_pushButton_2_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_29->text().toInt();
     if(User->buy(price,3)==0){
         QMessageBox message;
@@ -317,6 +327,8 @@ void buy::on_pushButton_2_clicked()
 
 void buy::on_pushButton_3_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_30->text().toInt();
     if(User->buy(price,4)==0){
         QMessageBox message;
@@ -333,6 +345,8 @@ void buy::on_pushButton_3_clicked()
 
 void buy::on_pushButton_4_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_31->text().toInt();
     if(User->buy(price,5)==0){
         QMessageBox message;
@@ -349,6 +363,8 @@ void buy::on_pushButton_4_clicked()
 
 void buy::on_pushButton_5_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_32->text().toInt();
     if(User->buy(price,6)==0){
         QMessageBox message;
@@ -365,6 +381,8 @@ void buy::on_pushButton_5_clicked()
 
 void buy::on_pushButton_6_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_33->text().toInt();
     if(User->buy(price,7)==0){
         QMessageBox message;
@@ -381,6 +399,8 @@ void buy::on_pushButton_6_clicked()
 
 void buy::on_pushButton_7_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_34->text().toInt();
     if(User->buy(price,8)==0){
         QMessageBox message;
@@ -397,6 +417,8 @@ void buy::on_pushButton_7_clicked()
 
 void buy::on_pushButton_8_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_35->text().toInt();
     if(User->buy(price,9)==0){
         QMessageBox message;
@@ -413,6 +435,8 @@ void buy::on_pushButton_8_clicked()
 
 void buy::on_pushButton_9_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_36->text().toInt();
     if(User->buy(price,10)==0){
         QMessageBox message;
@@ -429,6 +453,8 @@ void buy::on_pushButton_9_clicked()
 
 void buy::on_pushButton_10_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_37->text().toInt();
     if(User->buy(price,11)==0){
         QMessageBox message;
@@ -445,6 +471,8 @@ void buy::on_pushButton_10_clicked()
 
 void buy::on_pushButton_11_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_38->text().toInt();
     if(User->buy(price,12)==0){
         QMessageBox message;
@@ -461,6 +489,8 @@ void buy::on_pushButton_11_clicked()
 
 void buy::on_pushButton_12_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_39->text().toInt();
     if(User->buy(price,13)==0){
         QMessageBox message;
@@ -477,6 +507,8 @@ void buy::on_pushButton_12_clicked()
 
 void buy::on_pushButton_13_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_40->text().toInt();
     if(User->buy(price,14)==0){
         QMessageBox message;
@@ -493,6 +525,8 @@ void buy::on_pushButton_13_clicked()
 
 void buy::on_pushButton_14_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_41->text().toInt();
     if(User->buy(price,15)==0){
         QMessageBox message;
@@ -509,6 +543,8 @@ void buy::on_pushButton_14_clicked()
 
 void buy::on_pushButton_15_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_42->text().toInt();
     if(User->buy(price,16)==0){
         QMessageBox message;
@@ -525,6 +561,8 @@ void buy::on_pushButton_15_clicked()
 
 void buy::on_pushButton_16_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_44->text().toInt();
     if(User->buy(price,17)==0){
         QMessageBox message;
@@ -541,6 +579,8 @@ void buy::on_pushButton_16_clicked()
 
 void buy::on_pushButton_17_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_45->text().toInt();
     if(User->buy(price,18)==0){
         QMessageBox message;
@@ -557,6 +597,8 @@ void buy::on_pushButton_17_clicked()
 
 void buy::on_pushButton_18_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_43->text().toInt();
     if(User->buy(price,19)==0){
         QMessageBox message;
@@ -573,6 +615,8 @@ void buy::on_pushButton_18_clicked()
 
 void buy::on_pushButton_19_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_46->text().toInt();
     if(User->buy(price,20)==0){
         QMessageBox message;
@@ -589,6 +633,8 @@ void buy::on_pushButton_19_clicked()
 
 void buy::on_pushButton_20_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_47->text().toInt();
     if(User->buy(price,21)==0){
         QMessageBox message;
@@ -605,6 +651,8 @@ void buy::on_pushButton_20_clicked()
 
 void buy::on_pushButton_21_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_48->text().toInt();
     if(User->buy(price,22)==0){
         QMessageBox message;
@@ -621,6 +669,8 @@ void buy::on_pushButton_21_clicked()
 
 void buy::on_pushButton_22_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_49->text().toInt();
     if(User->buy(price,23)==0){
         QMessageBox message;
@@ -637,6 +687,8 @@ void buy::on_pushButton_22_clicked()
 
 void buy::on_pushButton_23_clicked()
 {
+    clickSound->play();
+
     int price=ui->label_50->text().toInt();
     if(User->buy(price,24)==0){
         QMessageBox message;

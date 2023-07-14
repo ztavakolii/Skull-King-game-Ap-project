@@ -2,11 +2,14 @@
 #include "ui_clientwaitwindow.h"
 #include "person.h"
 #include <QTimer>
+#include <QSoundEffect>
 #include "playwindow.h"
 
 
 extern Person *User;
 PlayWindow*playWindow;
+extern QSoundEffect*clickSound;
+
 using namespace std;
 
 ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWidget *parent) :
@@ -222,6 +225,8 @@ void ClientWaitWindow::readInformationSentByServer()
 
 void ClientWaitWindow::backButtonClicked()
 {
+    clickSound->play();
+
     if(User->get_client()->getConnectionStatus()==true)
         personalWindow->showMaximized();
     else
@@ -233,6 +238,8 @@ void ClientWaitWindow::backButtonClicked()
 
 void ClientWaitWindow::disconnectButtonClicked()
 {
+    clickSound->play();
+
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
     out<<'d'<<User->get_name(); // d "delete" tells the server that client want to disconnect and server deleted it from its list

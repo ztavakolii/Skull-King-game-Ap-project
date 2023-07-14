@@ -1,8 +1,10 @@
 #include "serverorclientwindow.h"
 #include "ui_serverorclientwindow.h"
 #include "person.h"
+#include <QSoundEffect>
 
 extern Person* User;
+extern QSoundEffect*clickSound;
 
 ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -52,12 +54,14 @@ ServerOrClientWindow::~ServerOrClientWindow()
 
 void ServerOrClientWindow::backButtonClicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }
 
 void ServerOrClientWindow::serverButtonClicked()
 {
+    clickSound->play();
 
     serverWindow=new ServerWindow(this,preWindow);
     serverWindow->showMaximized();
@@ -66,6 +70,8 @@ void ServerOrClientWindow::serverButtonClicked()
 
 void ServerOrClientWindow::clientButtonClicked()
 {
+    clickSound->play();
+
     clientWindow=new ClientWindow(preWindow,this);
     clientWindow->showMaximized();
     this->close();

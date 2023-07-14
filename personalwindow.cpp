@@ -4,8 +4,10 @@
 #include <QLineEdit>
 #include <QFile>
 #include <QTextStream>
+#include <QSoundEffect>
 
 extern Person* User;
+extern QSoundEffect*clickSound;
 
 PersonalWindow::PersonalWindow(QMainWindow* prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -126,12 +128,14 @@ void PersonalWindow::showEvent(QShowEvent *event)
 
 void PersonalWindow::backButtonClicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }
 
 void PersonalWindow::storeButtonClicked()
 {
+    clickSound->play();
     Buy=new buy(this);
     Buy->showMaximized();
     this->close();
@@ -139,6 +143,7 @@ void PersonalWindow::storeButtonClicked()
 
 void PersonalWindow::historyButtonClicked()
 {
+    clickSound->play();
     historyWindow=new HistoryWindow(this);
     historyWindow->showMaximized();
     this->close();
@@ -146,6 +151,7 @@ void PersonalWindow::historyButtonClicked()
 
 void PersonalWindow::playButtonClicked()
 {
+    clickSound->play();
     serverOrClientWindow=new ServerOrClientWindow(this);
     serverOrClientWindow->showMaximized();
     this->close();
@@ -153,6 +159,7 @@ void PersonalWindow::playButtonClicked()
 
 void PersonalWindow::editProfileButtonClicked()
 {
+    clickSound->play();
     editProfileWindow=new EditProfileWindow(preWindow,this);
     editProfileWindow->showMaximized();
     this->close();

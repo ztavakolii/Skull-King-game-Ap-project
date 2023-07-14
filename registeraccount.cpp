@@ -6,10 +6,11 @@
 #include "QMessageBox"
 #include <QFile>
 #include <QTextStream>
+#include <QSoundEffect>
 using namespace std;
 
 extern Person*User;
-
+extern QSoundEffect*clickSound;
 
 RegisterAccount::RegisterAccount(QMainWindow *prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -50,6 +51,7 @@ RegisterAccount::~RegisterAccount()
 
 void RegisterAccount::on_eye_p_clicked()
 {
+    clickSound->play();
     if(ui->password_l->echoMode()==QLineEdit::Password){
         ui->password_l->setEchoMode(QLineEdit::Normal);
         QPixmap p(":/new/image/icons8-eye-unchecked-50.png");
@@ -65,12 +67,14 @@ void RegisterAccount::on_eye_p_clicked()
 
 void RegisterAccount::on_back_button_clicked()
 {
+    clickSound->play();
     prewindow->showMaximized();
     this->close();
 }
 
 void RegisterAccount::on_register_button_clicked(bool checked)
 {
+    clickSound->play();
     if(ui->name_l->text().length()>0&&ui->user_name_l->text().length()>0&&ui->comboBox_2->currentText().length()>0&&ui->password_l->text().length()>0&&ui->comboBox->currentText().length()>0&&ui->phone_l->text().length()){
         QRegularExpression passwordRegex("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$");
         QString password=ui->password_l->text();

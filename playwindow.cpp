@@ -12,10 +12,12 @@
 #include <QPropertyAnimation>
 #include <vector>
 #include <string>
+#include <QSoundEffect>
 
 
 using namespace std;
 
+extern QSoundEffect*clickSound;
 extern Person*User;
 Player *player; // the information of User in game like cards set ,....
 vector<Player>players;
@@ -206,6 +208,8 @@ void PlayWindow::startcountdown(int n){
 
 void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons checked
 {
+    clickSound->play();
+
     QPixmap pixmap1(":/new/image/icons8-play-button-96.png");
     QPixmap labelpixmap=ui->stop_label->pixmap();
     QImage image1=pixmap1.toImage();
@@ -245,6 +249,8 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
 
 void PlayWindow::on_exit_button_clicked()
 {
+    clickSound->play();
+
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
 
@@ -971,6 +977,8 @@ void PlayWindow::enterAnAllowedCardToTheGame()
 
 void PlayWindow::on_exchange_button_clicked()
 {
+    clickSound->play();
+
     ui->groupBox->show();
     ui->ok_button->setEnabled(true);
     if(number_of_player==2){
@@ -988,6 +996,8 @@ void PlayWindow::on_exchange_button_clicked()
 
 void PlayWindow::on_ok_button_clicked()
 {
+    clickSound->play();
+
     //send to server or clients
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
@@ -1158,6 +1168,8 @@ void PlayWindow::setCardsIcon()
 
 void PlayWindow::on_pushButton_1_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_1->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1167,6 +1179,8 @@ void PlayWindow::on_pushButton_1_clicked()
 
 void PlayWindow::on_pushButton_2_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_2->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1176,6 +1190,8 @@ void PlayWindow::on_pushButton_2_clicked()
 
 void PlayWindow::on_pushButton_3_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_3->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1185,6 +1201,8 @@ void PlayWindow::on_pushButton_3_clicked()
 
 void PlayWindow::on_pushButton_4_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_4->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1194,6 +1212,8 @@ void PlayWindow::on_pushButton_4_clicked()
 
 void PlayWindow::on_pushButton_5_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_5->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1203,6 +1223,8 @@ void PlayWindow::on_pushButton_5_clicked()
 
 void PlayWindow::on_pushButton_6_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_6->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1212,6 +1234,8 @@ void PlayWindow::on_pushButton_6_clicked()
 
 void PlayWindow::on_pushButton_7_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_7->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1221,6 +1245,8 @@ void PlayWindow::on_pushButton_7_clicked()
 
 void PlayWindow::on_pushButton_8_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_8->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1230,6 +1256,8 @@ void PlayWindow::on_pushButton_8_clicked()
 
 void PlayWindow::on_pushButton_9_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_9->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1239,6 +1267,8 @@ void PlayWindow::on_pushButton_9_clicked()
 
 void PlayWindow::on_pushButton_10_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_10->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1248,6 +1278,8 @@ void PlayWindow::on_pushButton_10_clicked()
 
 void PlayWindow::on_pushButton_11_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_11->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1258,6 +1290,8 @@ void PlayWindow::on_pushButton_11_clicked()
 
 void PlayWindow::on_pushButton_12_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_12->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1268,6 +1302,8 @@ void PlayWindow::on_pushButton_12_clicked()
 
 void PlayWindow::on_pushButton_13_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_13->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1278,6 +1314,8 @@ void PlayWindow::on_pushButton_13_clicked()
 
 void PlayWindow::on_pushButton_14_clicked()
 {
+    clickSound->play();
+
     QString cardCode = ui->pushButton_14->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1287,6 +1325,7 @@ void PlayWindow::on_pushButton_14_clicked()
 
 void PlayWindow::on_yesRadioButton_clicked()
 {
+
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
     // 'r' - 'p' - name of sender of request - name of receiver of request

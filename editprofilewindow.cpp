@@ -3,9 +3,11 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QSoundEffect>
 #include "person.h"
 
 extern Person* User;
+extern QSoundEffect*clickSound;
 
 EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
@@ -83,6 +85,7 @@ EditProfileWindow::EditProfileWindow(QMainWindow*register_loginwindow,QMainWindo
     connect(ui->deleteAccountButton,SIGNAL(clicked(bool)),this,SLOT(deleteAccountButtonClicked()));
 
     connect(ui->editProfileImageButton,&QPushButton::clicked,[&](){
+        clickSound->play();
         QString imagePath=QFileDialog::getOpenFileName(nullptr,"Select Image","C:/","Images (*.png *.jpg)");
         if(!imagePath.isEmpty()){
             QPixmap newProfilePicture(imagePath);
@@ -100,12 +103,14 @@ EditProfileWindow::~EditProfileWindow()
 
 void EditProfileWindow::backButtonClicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }
 
 void EditProfileWindow::changePasswordLineEditMode()
 {
+    clickSound->play();
     if(ui->passwordLineEdit->echoMode()==QLineEdit::Password){
         ui->passwordLineEdit->setEchoMode(QLineEdit::Normal);
         QPixmap p(":/new/image/icons8-eye-unchecked-50.png");
@@ -120,6 +125,8 @@ void EditProfileWindow::changePasswordLineEditMode()
 
 void EditProfileWindow::deleteAccountButtonClicked()
 {
+    clickSound->play();
+
     QMessageBox message;
     message.setText("By deleting your account, all your information and game history will be deleted. Are you sure about deleting your account?");
     message.setWindowIcon(QIcon(":/new/image/gamename.png"));
@@ -139,6 +146,8 @@ void EditProfileWindow::deleteAccountButtonClicked()
 }
 void EditProfileWindow::editButtonClicked()
 {
+    clickSound->play();
+
     QRegularExpression passwordRegex("^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$");
     QString password=ui->passwordLineEdit->text();
     QRegularExpressionMatch Match=passwordRegex.match(password);
@@ -219,6 +228,8 @@ void EditProfileWindow::editButtonClicked()
 
 void EditProfileWindow::cancelButtonClicked()
 {
+    clickSound->play();
+
     ui->addressTextEdit->setText(User->get_address());
     ui->countryPhoneCodesComboBox->setCurrentText(User->get_phone_code());
     ui->genderComboBox->setCurrentText(User->get_gender());
