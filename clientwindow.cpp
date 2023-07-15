@@ -42,6 +42,19 @@ ClientWindow::ClientWindow(QMainWindow*personalwindow,QMainWindow*prewindow,QWid
     ui->connectButton->setStyleSheet("border:none");
     connect(ui->connectButton,SIGNAL(clicked(bool)),this,SLOT(connectButtonClicked()));
 
+    if(User->get_gender()=="Male"){
+        QPixmap p(":/new/image/jpgtopngconverter-com (1a).png");
+        p=p.scaled(QSize(131,200));
+        ui->pirateLabel->setGeometry(330,400,131,200);
+        ui->pirateLabel->setPixmap(p);
+    }
+    else if(User->get_gender()=="Female"){
+        QPixmap p(":/new/image/jpgtopngconverter-com (2b).png");
+        p=p.scaled(QSize(151,171));
+        ui->pirateLabel->setGeometry(340,450,151,171);
+        ui->pirateLabel->setPixmap(p);
+    }
+
 }
 
 ClientWindow::~ClientWindow()

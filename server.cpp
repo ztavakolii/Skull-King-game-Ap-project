@@ -570,6 +570,8 @@ void Server::shuffleCards(int Round)
     vector<int>numericCodes;
     vector<QString>cards;
 
+    srand(time(NULL));
+
     if(numberOfPlayers==4){
     while(true){
     int generatedNumber=rand()%56;
@@ -663,6 +665,8 @@ void Server::shuffleCards(int Round)
 
 int Server::determineBeginnerOfFirstHand()
 {
+    srand(time(NULL));
+
     std::vector<int> randomnumbers;
     while(true){
     int generated=rand()%8;

@@ -2,8 +2,6 @@
 
 #include <QApplication>
 #include "person.h"
-#include <ctime>
-#include <cstdlib>
 #include <QSoundEffect>
 #include <QMediaPlayer>
 
@@ -13,7 +11,6 @@ QSoundEffect*clickSound;
 
 int main(int argc, char *argv[])
 {
-    std::srand(std::time(NULL));
 
     QApplication a(argc, argv);
     User=new Person("","","","","","","",0,0);
