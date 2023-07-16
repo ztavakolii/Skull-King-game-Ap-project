@@ -157,14 +157,6 @@ void ClientWaitWindow::readInformationSentByServer()
 
             case 'b':
                 in>>serverName>>serverCapacity>>numberOfConnectedClients;
-//                {
-//                    QString s="Commander, now we have to wait until the number of clients connected to "
-//                                +serverName+" server reaches "+QString::number(serverCapacity)
-//                                +". After that, the war begins.\n\nSkull King";
-//                ui->guideTextEdit->setText(s);
-//                }
-            //   ui->guideTextEdit->setText("Commander, now we have to wait until enough people join the server.\n\nSkullKing");
-        //        setSkullKingWords(serverName,serverCapacity);
                 emit setguideTextEdit(serverName,serverCapacity);
                 for(int i=0;i<numberOfConnectedClients;i++){
                     in>>clientName>>clientCupNumber>>clientProfilePicture;

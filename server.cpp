@@ -271,10 +271,10 @@ void Server::gameLogicControl()
     return;
 
     QByteArray sentinformation;
-    QDataStream out(&sentinformation,QIODevice::WriteOnly);
 
     {
     // sending number of players to clients
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
     out<<'n'<<numberOfPlayers;
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
      //writeInPlayerSocket(sentinformation,it->getSocket());
@@ -285,6 +285,7 @@ void Server::gameLogicControl()
 
     {//sending list of players to clients
     sentinformation.clear();
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
     out<<'l';
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
      out<<it->getName()<<it->getProfile()<<it->getScore();
@@ -304,6 +305,7 @@ void Server::gameLogicControl()
     {
      //sending number of round to clients
      sentinformation.clear();
+     QDataStream out(&sentinformation,QIODevice::WriteOnly);
      out<<'r'<<'o'<<Round;
      for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
             //writeInPlayerSocket(sentinformation,it->getSocket());
@@ -318,6 +320,7 @@ void Server::gameLogicControl()
      // send players
      for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
             sentinformation.clear();
+            QDataStream out(&sentinformation,QIODevice::WriteOnly);
             out<<'c';
             for(int i=0;i<2*Round;i++){
                 out<<it->getCasrdsSet()[i];
@@ -336,6 +339,7 @@ void Server::gameLogicControl()
      {
             // send clients number of hand
             sentinformation.clear();
+            QDataStream out(&sentinformation,QIODevice::WriteOnly);
             out<<'h'<<Hand;
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 //writeInPlayerSocket(sentinformation,it->getSocket());
@@ -351,10 +355,16 @@ void Server::gameLogicControl()
             else{
                 indexOfBeginnerOfHand=indexOfWinnerPreviousHand;
             }
+            {
+            if(indexOfBeginnerOfHand!=0){
             sentinformation.clear();
+            QDataStream out(&sentinformation,QIODevice::WriteOnly);
             out<<'b'<<'h';
             //writeInPlayerSocket(sentinformation,players[indexOfBeginnerOfHand].getSocket());
             emit writeSignal(sentinformation,players[indexOfBeginnerOfHand].getSocket());
+            }
+            else playWindow->setIsFirstOne();
+            }
      }
      int currentTurn,preTurn; // these are indexes
      int winnerIndex;
@@ -367,6 +377,7 @@ void Server::gameLogicControl()
                 currentTurn=(preTurn+1 < numberOfPlayers ? preTurn+1 : preTurn+1-numberOfPlayers);
             {//send next turn to clients
                 sentinformation.clear();
+                QDataStream out(&sentinformation,QIODevice::WriteOnly);
                 out<<'t'<<currentTurn;
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     //writeInPlayerSocket(sentinformation,it->getSocket());
@@ -376,16 +387,21 @@ void Server::gameLogicControl()
             }
 
             {
+                if(currentTurn!=0){
                 sentinformation.clear();
+                QDataStream out(&sentinformation,QIODevice::WriteOnly);
                 out<<'y';
                // writeInPlayerSocket(sentinformation,players[currentTurn].getSocket());
                 emit writeSignal(sentinformation,players[currentTurn].getSocket());
+                }
+                else playWindow->youCodeReceived();
             }
             while(isCardSelected==false);
             isCardSelected=false;
             cardsOfHand.push_back(codeOfSelectedCard);
             {//send code of selected card to clients
                 sentinformation.clear();
+                QDataStream out(&sentinformation,QIODevice::WriteOnly);
                 out<<'s'<<'w'<<codeOfSelectedCard<<currentTurn;
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                   //  writeInPlayerSocket(sentinformation,it->getSocket());
@@ -397,15 +413,17 @@ void Server::gameLogicControl()
                 winnerIndex=indexOfBeginnerOfHand;
                 winnerCard=codeOfSelectedCard;
                 codeOfplayingFieldCard=codeOfSelectedCard.remove(QRegularExpression("\\d+"));
-
+                {
                 // send playing field card code to clients
                 sentinformation.clear();
+                QDataStream out(&sentinformation,QIODevice::WriteOnly);
                 out<<'f'<<codeOfplayingFieldCard;
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                    // writeInPlayerSocket(sentinformation,it->getSocket());
                     emit writeSignal(sentinformation,it->getSocket());
                 }
                 playWindow->setPlayingFieldCardCode(codeOfplayingFieldCard);
+                }
             }
             {
                 if(codeOfSelectedCard.contains("skullking")||codeOfSelectedCard.contains("queen")
@@ -467,6 +485,7 @@ void Server::gameLogicControl()
     }
     {// sending name of current hand winner to clients;
             sentinformation.clear();
+            QDataStream out(&sentinformation,QIODevice::WriteOnly);
             out<<'w'<<'h'<<players[winnerIndex].getName();
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 //writeInPlayerSocket(sentinformation,it->getSocket());
@@ -484,6 +503,7 @@ void Server::gameLogicControl()
 
     {//sending scores to clients
             sentinformation.clear();
+            QDataStream out(&sentinformation,QIODevice::WriteOnly);
             out<<'s'<<'c';
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
                 out<<it->getScore();
@@ -510,6 +530,7 @@ void Server::gameLogicControl()
     }
     {//sending scores to clients
     sentinformation.clear();
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
     out<<'s'<<'c';
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
             out<<it->getScore();
@@ -527,9 +548,10 @@ void Server::gameLogicControl()
     auto maxScoreIterator=std::max_element(players.begin(),players.end(),scorecomparator);
     int maxScoreIndex=std::distance(players.begin(),maxScoreIterator);
     QString winnerName=player[maxScoreIndex].getName();
-
+    {
     if(maxScoreIndex!=0){
     sentinformation.clear();
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
     out<<'w'<<'y';
    // writeInPlayerSocket(sentinformation,players[maxScoreIndex].getSocket());
     emit writeSignal(sentinformation,players[maxScoreIndex].getSocket());
@@ -537,14 +559,18 @@ void Server::gameLogicControl()
     else if(maxScoreIndex==0){ //server player wins
     playWindow->serverplayerWins();
     }
+    }
 
+    {
     sentinformation.clear();
+    QDataStream out(&sentinformation,QIODevice::WriteOnly);
     out<<'w'<<'w'<<winnerName;
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
     //writeInPlayerSocket(sentinformation,it->getSocket());
     emit writeSignal(sentinformation,it->getSocket());
     }
     playWindow->showWinnerOfWholeGame(winnerName);
+}
 }
 //card name - numeric code
 //---------------------------------------------------------------------------------------------------
