@@ -430,8 +430,8 @@
    <widget class="QLCDNumber" name="time_lcd">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>30</y>
+      <x>990</x>
+      <y>40</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -1237,6 +1237,25 @@
      <string/>
     </property>
     <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>20</y>
+      <width>131</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/pngwing.com (7).png</pixmap>
+    </property>
+    <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>

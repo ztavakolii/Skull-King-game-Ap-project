@@ -41,6 +41,7 @@ public:
     void setPlayingFieldCardCode(QString cardCode);
     void setIsFirstOne();
     void newRoundStarted();
+    void serverplayerWins();
 
 public slots:
     void on_stop_button_clicked();

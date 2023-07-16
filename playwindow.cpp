@@ -735,6 +735,7 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'y':
                     User->set_coin(User->get_coin()+(number_of_player*50));
+                    User->set_cup(User->get_cup()+15);
                     is_win=1;
                     User->edit();
                     break;
@@ -1403,6 +1404,14 @@ void PlayWindow::newRoundStarted()
     ui->SkullKingPicture->show();
     ui->guideTextEdit->show();
     startcountdown(60);
+}
+
+void PlayWindow::serverplayerWins()
+{
+    User->set_coin(User->get_coin()+(number_of_player*50));
+    User->set_cup(User->get_cup()+15);
+    is_win=1;
+    User->edit();
 }
 
 //void PlayWindow::show_line_edit()

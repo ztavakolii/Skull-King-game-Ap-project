@@ -528,10 +528,15 @@ void Server::gameLogicControl()
     int maxScoreIndex=std::distance(players.begin(),maxScoreIterator);
     QString winnerName=player[maxScoreIndex].getName();
 
+    if(maxScoreIndex!=0){
     sentinformation.clear();
     out<<'w'<<'y';
    // writeInPlayerSocket(sentinformation,players[maxScoreIndex].getSocket());
     emit writeSignal(sentinformation,players[maxScoreIndex].getSocket());
+    }
+    else if(maxScoreIndex==0){ //server player wins
+    playWindow->serverplayerWins();
+    }
 
     sentinformation.clear();
     out<<'w'<<'w'<<winnerName;
