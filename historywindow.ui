@@ -74,8 +74,8 @@
    <widget class="QLabel" name="profileImageLabel">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>40</y>
+      <x>190</x>
+      <y>30</y>
       <width>61</width>
       <height>61</height>
      </rect>
@@ -2039,6 +2039,25 @@
       <bool>true</bool>
      </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="profileFrame">
+    <property name="geometry">
+     <rect>
+      <x>175</x>
+      <y>18</y>
+      <width>91</width>
+      <height>86</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/01M58PICetHnIA58PICBeeMV8_PIC2018.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
  </widget>

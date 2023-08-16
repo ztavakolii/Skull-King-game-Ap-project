@@ -273,25 +273,6 @@ color: rgb(0, 170, 255);
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="editProfileButton">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>140</y>
-      <width>41</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Click me to edit your profile</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
@@ -415,6 +396,63 @@ color: rgb(0, 170, 255);
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="profileFrame">
+    <property name="geometry">
+     <rect>
+      <x>69</x>
+      <y>35</y>
+      <width>215</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/01M58PICetHnIA58PICBeeMV8_PIC2018.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nameFrame">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>187</y>
+      <width>231</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/01M58PICetHnIA58PICBeeMV8_PIC2018.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="editProfileButton">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>137</y>
+      <width>45</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Click me, if you want to change your personal information</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
