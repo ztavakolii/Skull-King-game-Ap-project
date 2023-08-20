@@ -79,5 +79,4 @@ RESOURCES += \
    sounds.qrc
 
 DISTFILES += \
-    CubicPixel-lgEmy.otf \
     pixeto-pixeline-svg-400.otf
