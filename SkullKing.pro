@@ -77,3 +77,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
    Images.qrc \
    sounds.qrc
+
+DISTFILES += \
+    CubicPixel-lgEmy.otf \
+    pixeto-pixeline-svg-400.otf

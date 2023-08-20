@@ -11,6 +11,7 @@
 #include <QLabel>
 #include <QPropertyAnimation>
 #include <vector>
+#include <QList>
 #include <string>
 #include <QSoundEffect>
 
@@ -156,6 +157,10 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     connect(this,SIGNAL(second30Signal()),this,SLOT(enterAnAllowedCardToTheGame()));
     connect(ui->pushButton,SIGNAL(clicked(bool)),this,SLOT(sentNumberOfHandsSaidWon()));
     connect(this,SIGNAL(second60Signal()),this,SLOT(sentNumberOfHandsSaidWon()));
+    connect(this,SIGNAL(showCardSignal(int,QString)),this ,SLOT(showCard(int,QString)));
+    connect(this,SIGNAL(stopCodeReceivedSignal(bool,QString)),this,SLOT(stopCodeReceived(bool,QString)));
+    connect(this,SIGNAL(youCodeReceivedSignal()),this,SLOT(youCodeReceived()));
+
 
 }
 
@@ -322,7 +327,7 @@ void PlayWindow::set_hand(int numberofhand)
 
 void PlayWindow::showCard(int index, QString cardCode)
 {
-    QString cardPictureAddress=":/new/image"+cardCode+".png";
+    QString cardPictureAddress=":/new/image"+cardCode+".jpg";
     QPixmap p(cardPictureAddress);
     p=p.scaled(39,47);
     if(index==0){
@@ -606,7 +611,10 @@ void PlayWindow::readInformationSentByServer()
             QByteArray receivedInformation="";/*=User->get_client()->readInformation()*/
             emit User->get_client()->readSignal(&receivedInformation);
             while(receivedInformation=="");
-            QDataStream in(&receivedInformation,QIODevice::ReadOnly);
+            //QDataStream in(&receivedInformation,QIODevice::ReadOnly);
+            QList<QByteArray>parts=receivedInformation.split(' ');
+            for(QList<QByteArray>::iterator it=parts.begin();it!=parts.end();it++){
+                QDataStream in(&(*it),QIODevice::ReadOnly);
             in>>mainCode;
 
             switch(mainCode){
@@ -636,12 +644,14 @@ void PlayWindow::readInformationSentByServer()
                 switch(subCode){
                 case 't':
                     in>>clientName;
-                    stopCodeReceived(false,clientName);
+                    //stopCodeReceived(false,clientName);
+                    emit stopCodeReceivedSignal(false,clientName);
                     break;
 
                 case 'w':
                     in>>cardCode>>index;
-                    showCard(index,cardCode);
+                    //showCard(index,cardCode);
+                    emit showCardSignal(index,cardCode);
                     break;
 
                 case 'c':
@@ -690,10 +700,10 @@ void PlayWindow::readInformationSentByServer()
                 for(int i=0;i<number_of_player;i++){
                     Player newPlayer;
                     in>>clientName;
-                    in>>clientProfilePicture;
+                  //  in>>clientProfilePicture;
                     in>>clientScore;
                     newPlayer.setName(clientName);
-                    newPlayer.setProfile(clientProfilePicture);
+                  //  newPlayer.setProfile(clientProfilePicture);
                     newPlayer.setScore(clientScore);
                     players.push_back(newPlayer);
                 }
@@ -717,7 +727,8 @@ void PlayWindow::readInformationSentByServer()
                 break;
 
             case 'y':
-                youCodeReceived();
+                //youCodeReceived();
+                emit youCodeReceivedSignal();
                 break;
 
             case 'w':
@@ -754,6 +765,7 @@ void PlayWindow::readInformationSentByServer()
                     break;
                 }
                 break;
+            }
             }
         }
     }
@@ -1071,72 +1083,72 @@ void PlayWindow::setCardsIcon()
         QIcon icon(cardAddress);
         if(i==0){
             ui->pushButton_1->setIcon(icon);
-            ui->pushButton_1->setIconSize(QSize(50,70));
+            ui->pushButton_1->setIconSize(QSize(71,101));
             ui->pushButton_1->show();
         }
         else if(i==1){
             ui->pushButton_2->setIcon(icon);
-            ui->pushButton_2->setIconSize(QSize(50,70));
+            ui->pushButton_2->setIconSize(QSize(71,101));
             ui->pushButton_2->show();
         }
         else if(i==2){
             ui->pushButton_3->setIcon(icon);
-            ui->pushButton_3->setIconSize(QSize(50,70));
+            ui->pushButton_3->setIconSize(QSize(71,101));
             ui->pushButton_3->show();
         }
         else if(i==3){
             ui->pushButton_4->setIcon(icon);
-            ui->pushButton_4->setIconSize(QSize(50,70));
+            ui->pushButton_4->setIconSize(QSize(71,101));
             ui->pushButton_4->show();
         }
         else if(i==4){
             ui->pushButton_5->setIcon(icon);
-            ui->pushButton_5->setIconSize(QSize(50,70));
+            ui->pushButton_5->setIconSize(QSize(71,101));
             ui->pushButton_5->show();
         }
         else if(i==5){
             ui->pushButton_6->setIcon(icon);
-            ui->pushButton_6->setIconSize(QSize(50,70));
+            ui->pushButton_6->setIconSize(QSize(71,101));
             ui->pushButton_6->show();
         }
         else if(i==6){
             ui->pushButton_7->setIcon(icon);
-            ui->pushButton_7->setIconSize(QSize(50,70));
+            ui->pushButton_7->setIconSize(QSize(71,101));
             ui->pushButton_7->show();
         }
         else if(i==7){
             ui->pushButton_8->setIcon(icon);
-            ui->pushButton_8->setIconSize(QSize(50,70));
+            ui->pushButton_8->setIconSize(QSize(71,101));
             ui->pushButton_8->show();
         }
         else if(i==8){
             ui->pushButton_9->setIcon(icon);
-            ui->pushButton_9->setIconSize(QSize(50,70));
+            ui->pushButton_9->setIconSize(QSize(71,101));
             ui->pushButton_9->show();
         }
         else if(i==9){
             ui->pushButton_10->setIcon(icon);
-            ui->pushButton_10->setIconSize(QSize(50,70));
+            ui->pushButton_10->setIconSize(QSize(71,101));
             ui->pushButton_10->show();
         }
         else if(i==10){
             ui->pushButton_11->setIcon(icon);
-            ui->pushButton_11->setIconSize(QSize(50,70));
+            ui->pushButton_11->setIconSize(QSize(71,101));
             ui->pushButton_11->show();
         }
         else if(i==11){
             ui->pushButton_12->setIcon(icon);
-            ui->pushButton_12->setIconSize(QSize(50,70));
+            ui->pushButton_12->setIconSize(QSize(71,101));
             ui->pushButton_12->show();
         }
         else if(i==12){
             ui->pushButton_13->setIcon(icon);
-            ui->pushButton_13->setIconSize(QSize(50,70));
+            ui->pushButton_13->setIconSize(QSize(71,101));
             ui->pushButton_13->show();
         }
         else if(i==13){
             ui->pushButton_14->setIcon(icon);
-            ui->pushButton_14->setIconSize(QSize(50,70));
+            ui->pushButton_14->setIconSize(QSize(71,101));
             ui->pushButton_14->show();
         }
     }
@@ -1380,8 +1392,6 @@ void PlayWindow::rotate_bottle(int index)//***************************
         ui->bottle4->show();
         ui->bottle3->hide();
     }
-
-
 }
 
 void PlayWindow::setPlayingFieldCardCode(QString cardCode)

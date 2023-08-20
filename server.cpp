@@ -125,7 +125,7 @@ void Server::serverWantsToStopPlay()
 {
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
-    out<<'s'<<'t'<<User->get_name();
+    out<<'s'<<'t'<<User->get_name()<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         writeInPlayerSocket(information,it->getSocket());
         //emit writeSignal(information,it->getSocket());
@@ -136,7 +136,7 @@ void Server::serverWantsToResumePlay()
 {
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
-    out<<'r'<<'s';
+    out<<'r'<<'s'<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         writeInPlayerSocket(information,it->getSocket());
     }
@@ -146,7 +146,7 @@ void Server::serverWantsToExit()
 {
     QByteArray information;
     QDataStream out(&information,QIODevice::WriteOnly);
-    out<<'e'<<'t'<<User->get_name();
+    out<<'e'<<'t'<<User->get_name()<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
         writeInPlayerSocket(information,it->getSocket());
     }
@@ -176,7 +176,7 @@ void Server::sentExchangeRequestToClients(QByteArray information)
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
     in>>clientName>>number;
     clientName2=clientName;
-    out<<'e'<<'c'<<clientName;
+    out<<'e'<<'c'<<clientName<<' ';
     for(int i=0;i<number;i++){
         in>>clientName;
         if(clientName!=User->get_name()){
@@ -201,7 +201,7 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     QByteArray sentinformation;
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
     if(senderRequest!=User->get_name()){
-    out<<'r'<<'p'<<receiverRequest;
+        out<<'r'<<'p'<<receiverRequest<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
             if(it->getName()==senderRequest){
                 emit writeSignal(sentinformation,it->getSocket());
@@ -232,7 +232,7 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
     if(it->getName()==senderRequest){
             // 'e' - 'x' - previous card - new card
-            out<<'e'<<'x'<<senderCardCode<<receiverCardCode;
+                out<<'e'<<'x'<<senderCardCode<<receiverCardCode<<' ';
             emit writeSignal(sentinformation,it->getSocket());
             break;
     }
@@ -247,7 +247,7 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
     if(it->getName()==receiverRequest){
             // 'e' - 'x' - previous card - new card
-            out<<'e'<<'x'<<receiverCardCode<<senderCardCode;
+            out<<'e'<<'x'<<receiverCardCode<<senderCardCode<<' ';
             emit writeSignal(sentinformation,it->getSocket());
             break;
     }
@@ -275,7 +275,7 @@ void Server::gameLogicControl()
     {
     // sending number of players to clients
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
-    out<<'n'<<numberOfPlayers;
+    out<<'n'<<numberOfPlayers<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
      //writeInPlayerSocket(sentinformation,it->getSocket());
     emit writeSignal(sentinformation,it->getSocket());
@@ -288,8 +288,9 @@ void Server::gameLogicControl()
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
     out<<'l';
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
-     out<<it->getName()<<it->getProfile()<<it->getScore();
+     out<<it->getName()/*<<it->getProfile()*/<<it->getScore();
     }
+    out<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
      //writeInPlayerSocket(sentinformation,it->getSocket());
      emit writeSignal(sentinformation,it->getSocket());
@@ -306,7 +307,7 @@ void Server::gameLogicControl()
      //sending number of round to clients
      sentinformation.clear();
      QDataStream out(&sentinformation,QIODevice::WriteOnly);
-     out<<'r'<<'o'<<Round;
+     out<<'r'<<'o'<<Round<<' ';
      for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
             //writeInPlayerSocket(sentinformation,it->getSocket());
             emit writeSignal(sentinformation,it->getSocket());
@@ -325,6 +326,7 @@ void Server::gameLogicControl()
             for(int i=0;i<2*Round;i++){
                 out<<it->getCasrdsSet()[i];
             }
+            out<<' ';
             //writeInPlayerSocket(sentinformation,it->getSocket());
             emit writeSignal(sentinformation,it->getSocket());
      }
@@ -340,7 +342,7 @@ void Server::gameLogicControl()
             // send clients number of hand
             sentinformation.clear();
             QDataStream out(&sentinformation,QIODevice::WriteOnly);
-            out<<'h'<<Hand;
+            out<<'h'<<Hand<<' ';
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 //writeInPlayerSocket(sentinformation,it->getSocket());
                 emit writeSignal(sentinformation,it->getSocket());
@@ -359,7 +361,7 @@ void Server::gameLogicControl()
             if(indexOfBeginnerOfHand!=0){
             sentinformation.clear();
             QDataStream out(&sentinformation,QIODevice::WriteOnly);
-            out<<'b'<<'h';
+            out<<'b'<<'h'<<' ';
             //writeInPlayerSocket(sentinformation,players[indexOfBeginnerOfHand].getSocket());
             emit writeSignal(sentinformation,players[indexOfBeginnerOfHand].getSocket());
             }
@@ -378,7 +380,7 @@ void Server::gameLogicControl()
             {//send next turn to clients
                 sentinformation.clear();
                 QDataStream out(&sentinformation,QIODevice::WriteOnly);
-                out<<'t'<<currentTurn;
+                out<<'t'<<currentTurn<<' ';
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     //writeInPlayerSocket(sentinformation,it->getSocket());
                     emit writeSignal(sentinformation,it->getSocket());
@@ -390,7 +392,7 @@ void Server::gameLogicControl()
                 if(currentTurn!=0){
                 sentinformation.clear();
                 QDataStream out(&sentinformation,QIODevice::WriteOnly);
-                out<<'y';
+                out<<'y'<<' ';
                // writeInPlayerSocket(sentinformation,players[currentTurn].getSocket());
                 emit writeSignal(sentinformation,players[currentTurn].getSocket());
                 }
@@ -402,12 +404,12 @@ void Server::gameLogicControl()
             {//send code of selected card to clients
                 sentinformation.clear();
                 QDataStream out(&sentinformation,QIODevice::WriteOnly);
-                out<<'s'<<'w'<<codeOfSelectedCard<<currentTurn;
+                out<<'s'<<'w'<<codeOfSelectedCard<<currentTurn<<' ';
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                   //  writeInPlayerSocket(sentinformation,it->getSocket());
                     emit writeSignal(sentinformation,it->getSocket());
                 }
-                playWindow->showCard(currentTurn,codeOfSelectedCard);
+                emit playWindow->showCardSignal(currentTurn,codeOfSelectedCard);
             }
             if(i==0){
                 winnerIndex=indexOfBeginnerOfHand;
@@ -417,7 +419,7 @@ void Server::gameLogicControl()
                 // send playing field card code to clients
                 sentinformation.clear();
                 QDataStream out(&sentinformation,QIODevice::WriteOnly);
-                out<<'f'<<codeOfplayingFieldCard;
+                out<<'f'<<codeOfplayingFieldCard<<' ';
                 for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                    // writeInPlayerSocket(sentinformation,it->getSocket());
                     emit writeSignal(sentinformation,it->getSocket());
@@ -486,7 +488,7 @@ void Server::gameLogicControl()
     {// sending name of current hand winner to clients;
             sentinformation.clear();
             QDataStream out(&sentinformation,QIODevice::WriteOnly);
-            out<<'w'<<'h'<<players[winnerIndex].getName();
+            out<<'w'<<'h'<<players[winnerIndex].getName()<<' ';
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                 //writeInPlayerSocket(sentinformation,it->getSocket());
                 emit writeSignal(sentinformation,it->getSocket());
@@ -508,6 +510,7 @@ void Server::gameLogicControl()
             for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
                 out<<it->getScore();
             }
+            out<<' ';
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                // writeInPlayerSocket(sentinformation,it->getSocket());
                 emit writeSignal(sentinformation,it->getSocket());
@@ -535,6 +538,7 @@ void Server::gameLogicControl()
     for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
             out<<it->getScore();
     }
+    out<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
            // writeInPlayerSocket(sentinformation,it->getSocket());
             emit writeSignal(sentinformation,it->getSocket());
@@ -552,7 +556,7 @@ void Server::gameLogicControl()
     if(maxScoreIndex!=0){
     sentinformation.clear();
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
-    out<<'w'<<'y';
+    out<<'w'<<'y'<<' ';
    // writeInPlayerSocket(sentinformation,players[maxScoreIndex].getSocket());
     emit writeSignal(sentinformation,players[maxScoreIndex].getSocket());
     }
@@ -564,7 +568,7 @@ void Server::gameLogicControl()
     {
     sentinformation.clear();
     QDataStream out(&sentinformation,QIODevice::WriteOnly);
-    out<<'w'<<'w'<<winnerName;
+    out<<'w'<<'w'<<winnerName<<' ';
     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
     //writeInPlayerSocket(sentinformation,it->getSocket());
     emit writeSignal(sentinformation,it->getSocket());
@@ -596,7 +600,7 @@ void Server::shuffleCards(int Round)
     "treasure5","treasure6","treasure7","treasure8","flag1","flag2","flag3","flag4","flag5","flag6","flag7",
         "flag8","skullking","skullking","skullking","queen","queen","queen","pirate","pirate","pirate","pirate"
     ,"parrot9","parrot10","parrot11","map9","map10","map11","treasure9","treasure10","treasure11",
-                                   "falg9","falg10","falg11","skullking","queen"};
+                                   "flag9","flag10","flag11","skullking","queen"};
 
     vector<int>numericCodes;
     vector<QString>cards;
@@ -738,7 +742,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
     //----------------------------------------------------------------------------------------
     // 'e' "exit"               | 't' - The name of the player who want to exit
     //----------------------------------------------------------------------------------------
-    // 's' "stop"               |'t' - The name of player who want to stop play
+    // 's' "stop"               | 't' - The name of player who want to stop play
     //----------------------------------------------------------------------------------------
     // 'r' "resume"             | 's'
     //----------------------------------------------------------------------------------------
@@ -830,7 +834,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             case 't':
             in>>clientName;
             sentinformation.clear();
-            out<<'e'<<'t'<<clientName;
+            out<<'e'<<'t'<<clientName<<' ';
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     emit writeSignal(sentinformation,it->getSocket());
             }
@@ -849,7 +853,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             case 't':
             in>>clientName;
             sentinformation.clear();
-            out<<'s'<<'t'<<clientName;
+            out<<'s'<<'t'<<clientName<<' ';
            for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     if(it->getName()!=clientName){
                         emit writeSignal(sentinformation,it->getSocket());
@@ -884,7 +888,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             switch(subCode){
             case 's':
             sentinformation.clear();
-            out<<'r'<<'s';
+            out<<'r'<<'s'<<' ';
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     emit writeSignal(sentinformation,it->getSocket());
             }

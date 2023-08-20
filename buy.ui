@@ -1965,6 +1965,9 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>back</string>
+   </property>
    <property name="text">
     <string/>
    </property>

@@ -468,8 +468,9 @@
     </property>
     <property name="font">
      <font>
+      <family>Pixeto</family>
       <pointsize>12</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -506,8 +507,9 @@
     </property>
     <property name="font">
      <font>
+      <family>Pixeto</family>
       <pointsize>12</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -637,7 +639,7 @@
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -694,7 +696,7 @@
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -769,6 +771,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Pixeto</family>
       <pointsize>7</pointsize>
       <bold>true</bold>
      </font>
@@ -816,8 +819,8 @@ color: rgb(0, 170, 255);
     </property>
     <property name="font">
      <font>
-      <pointsize>7</pointsize>
-      <bold>true</bold>
+      <pointsize>8</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -840,7 +843,7 @@ background-color: rgb(0, 0, 0);</string>
     <property name="font">
      <font>
       <pointsize>8</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -869,7 +872,7 @@ color: rgb(0, 170, 255);</string>
     <property name="font">
      <font>
       <pointsize>8</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -972,8 +975,8 @@ background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>7</pointsize>
-      <bold>true</bold>
+      <pointsize>8</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -996,7 +999,7 @@ background-color: rgb(0, 0, 0);</string>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -1151,8 +1154,9 @@ background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="font">
      <font>
+      <family>Pixeto</family>
       <pointsize>11</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -1174,8 +1178,9 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
+      <family>Pixeto</family>
       <pointsize>11</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">

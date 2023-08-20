@@ -20,6 +20,8 @@ class PlayWindow : public QMainWindow
 public:
     explicit PlayWindow(QMainWindow*personalwindow,QWidget *parent = nullptr);
     ~PlayWindow();
+
+public slots:
     void startcountdown(int);
     void savedatetime(int);
     void setNumberOfPlayers(int number);
@@ -42,8 +44,6 @@ public:
     void setIsFirstOne();
     void newRoundStarted();
     void serverplayerWins();
-
-public slots:
     void on_stop_button_clicked();
     void on_exit_button_clicked();
     void f();
@@ -84,6 +84,9 @@ signals:
     void second30Signal();
     void aCardWasselected(QString cardCode);
     void second60Signal();
+    void showCardSignal(int index, QString cardCode);
+    void stopCodeReceivedSignal(bool b,QString name);
+    void youCodeReceivedSignal();
 private slots:
     void on_pushButton_1_clicked();
     void on_pushButton_2_clicked();

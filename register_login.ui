@@ -663,8 +663,9 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <family>Pixeto</family>
+      <pointsize>14</pointsize>
+      <bold>false</bold>
       <kerning>false</kerning>
      </font>
     </property>
@@ -704,8 +705,9 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <family>Pixeto</family>
+      <pointsize>14</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">
@@ -729,8 +731,9 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <family>Pixeto</family>
+      <pointsize>14</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="toolTip">

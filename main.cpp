@@ -4,6 +4,7 @@
 #include "person.h"
 #include <QSoundEffect>
 #include <QMediaPlayer>
+#include <QFont>
 
 Person* User;
 QSoundEffect*backgroundSound;
@@ -28,5 +29,7 @@ int main(int argc, char *argv[])
     clickSound->setSource(QUrl::fromLocalFile(":/voices/clickSound.wav"));
     clickSound->setVolume(1.0);
 
+    QFont defaultFont("Pixeto");
+    a.setFont(defaultFont);
     return a.exec();
 }
