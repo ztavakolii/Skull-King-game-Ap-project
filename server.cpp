@@ -385,7 +385,7 @@ void Server::gameLogicControl()
                     //writeInPlayerSocket(sentinformation,it->getSocket());
                     emit writeSignal(sentinformation,it->getSocket());
                 }
-                playWindow->rotate_bottle(currentTurn);
+                playWindow->showTurn(currentTurn);
             }
 
             {

@@ -71,30 +71,24 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->pushButton->setGeometry(285,293,41,25);
     ui->pushButton->hide();
 
-    QPixmap picture(":/new/image/icons8-pause-button-96.png");
-    ui->stop_label->setPixmap(picture);
+   // QPixmap picture(":/new/image/icons8-pause-button-96.png");
+   // ui->stop_label->setPixmap(picture);
 
     ui->time_lcd->hide();
-    ui->bottle->hide();
-    ui->bottle2->hide();
-    ui->bottle3->hide();
-    ui->bottle4->hide();
-    ui->bottle5->hide();
-    ui->bottle6->hide();
-    ui->bottle7->hide();
     ui->lineEdit->hide();
     ui->pushButton->hide();
 
     ui->groupBox->hide();
-    ui->pic1->hide();
-    ui->pic2->hide();
-    ui->pic3->hide();
-    ui->pic4->hide();
-    ui->card1->hide();
-    ui->card2->hide();
-    ui->card3->hide();
-    ui->card4->hide();
     ui->ok_button->setEnabled(false);
+
+    ui->player1GroupBox->hide();
+    ui->player2GroupBox->hide();
+    ui->player3GroupBox->hide();
+    ui->player4GroupBox->hide();
+    ui->arrow1->hide();
+    ui->arrow2->hide();
+    ui->arrow3->hide();
+    ui->arrow4->hide();
 
     ui->stop_button->setStyleSheet("border:none");
     QPixmap pixmap1(":/new/image/icons8-play-button-96.png");
@@ -105,8 +99,8 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     savedatetime(0);//save date time in file
 
      // round and hand labels in begining of play must be hide and when play starts, we must show them
-    set_hand(1);
-    set_round(1);
+    //set_hand(1);
+   // set_round(1);
 
     User->set_coin(User->get_coin()-50);//take 50 coin
     User->edit();
@@ -508,20 +502,20 @@ void PlayWindow::setPlayersForserverplayer(QByteArray information)
     QDataStream in(&information,QIODevice::ReadOnly);
     int code,clientScore;
     QString clientName;
-    QPixmap clientProfilePicture;
+  //  QPixmap clientProfilePicture;
     in>>code;
     for(int i=0;i<number_of_player;i++){
         Player newPlayer;
         in>>clientName;
-        in>>clientProfilePicture;
+      //  in>>clientProfilePicture;
         in>>clientScore;
         newPlayer.setName(clientName);
-        newPlayer.setProfile(clientProfilePicture);
+     //   newPlayer.setProfile(clientProfilePicture);
         newPlayer.setScore(clientScore);
         players.push_back(newPlayer);
     }
-    placeLabelsAroundCircle(200,1); // for profile and name
-    placeLabelsAroundCircle(200,2); // for cards
+  //  placeLabelsAroundCircle(200,1); // for profile and name
+   // placeLabelsAroundCircle(200,2); // for cards
 }
 
 void PlayWindow::setScoresForServerPlayer(QByteArray information)
@@ -536,21 +530,29 @@ void PlayWindow::setScoresForServerPlayer(QByteArray information)
         players[i].setScore(score);
     }
     setPlayersScore();
-
 }
 
-//void PlayWindow::handle_loop(int loop)//for stop loop of the game
-//{
-//    if(loop==1)//start the stop loop
-//        eventLoop.exec();
-//    else//stop the loop
-//        eventLoop.quit();
-//}
+void PlayWindow::showTurn(int index)
+{
+    ui->arrow1->hide();
+    ui->arrow2->hide();
+    ui->arrow3->hide();
+    ui->arrow4->hide();
+
+    if(index == 0)
+        ui->arrow1->show();
+    else if(index == 1)
+        ui->arrow2->show();
+    else if(index == 2)
+        ui->arrow3->show();
+    else ui->arrow4->show();
+}
+
 
 void PlayWindow::readInformationSentByServer()
 {
     QString clientName,card,cardCode,preCard,newCard;
-    QPixmap clientProfilePicture;
+  //  QPixmap clientProfilePicture;
     vector<QString>cards;
 
     int number,clientScore,numberOfRound,numberOfHand,index,score;
@@ -707,8 +709,9 @@ void PlayWindow::readInformationSentByServer()
                     newPlayer.setScore(clientScore);
                     players.push_back(newPlayer);
                 }
-                placeLabelsAroundCircle(200,1); // for profile and name
-                placeLabelsAroundCircle(200,2); // for cards
+                listOfplayersReceived();
+              //  placeLabelsAroundCircle(200,1); // for profile and name
+               // placeLabelsAroundCircle(200,2); // for cards
                 break;
 
             case 'c':
@@ -723,7 +726,8 @@ void PlayWindow::readInformationSentByServer()
 
             case 't':
                 in>>index;
-                rotate_bottle(index);
+                showTurn(index);
+               // rotate_bottle(index);
                 break;
 
             case 'y':
@@ -771,91 +775,117 @@ void PlayWindow::readInformationSentByServer()
     }
 }
 
-void PlayWindow::placeLabelsAroundCircle(int radius,int n)
+void PlayWindow::listOfplayersReceived()
 {
-    float angle;
-    if(number_of_player==2)
-        angle=180;
-    else if(number_of_player==3)
-        angle=120;
-    else if(number_of_player==4)
-        angle=90;
     for(int i=0;i<number_of_player;i++){
-        int x=radius*qCos(qDegreesToRadians(angle*i));
-        int y=radius*qSin(qDegreesToRadians(angle*i));
-        if(n==1){
-            if(i==0){
-                ui->pic1->move(x+630,y+250);
-                ui->pic1->setPixmap(players[i].getProfile());
-                ui->pic1->show();
-
-                ui->nameLabel1->move(x+610,y+340);
-                ui->nameLabel1->setText(players[i].getName());
-                ui->nameLabel1->show();
-
-                ui->scoreLabel1->move(x+630,y+220);
-                ui->scoreLabel1->show();
-
-            }
-            else if(i==1){
-                ui->pic2->move(x+630,y+250);
-                ui->pic2->setPixmap(players[i].getProfile());
-                ui->pic2->show();
-
-                ui->nameLabel2->move(x+610,y+340);
-                ui->nameLabel2->setText(players[i].getName());
-                ui->nameLabel2->show();
-
-                ui->scoreLabel2->move(x+630,y+220);
-                ui->scoreLabel2->show();
-
-            }
-            else if(i==2){
-                ui->pic3->move(x+630,y+250);
-                ui->pic3->setPixmap(players[i].getProfile());
-                ui->pic3->show();
-
-                ui->nameLabel3->move(x+610,y+340);
-                ui->nameLabel3->setText(players[i].getName());
-                ui->nameLabel3->show();
-
-                ui->scoreLabel3->move(x+630,y+220);
-                ui->scoreLabel3->show();
-
-            }
-            else if(i==3){
-                ui->pic4->move(x+630,y+250);
-                ui->pic4->setPixmap(players[i].getProfile());
-                ui->pic4->show();
-
-                ui->nameLabel4->move(x+610,y+340);
-                ui->nameLabel4->setText(players[i].getName());
-                ui->nameLabel4->show();
-
-                ui->scoreLabel4->move(x+630,y+220);
-                ui->scoreLabel4->show();
-            }
+        if(i==0){
+            ui->player1GroupBox->setTitle(players[i].getName());
+            ui->scoreLabel1->setText(QString::number(players[i].getScore()));
+            ui->player1GroupBox->show();
         }
-        else if(n==2){
-            if(i==0){
-                ui->card1->move(x+650,y+215);
-                ui->card1->show();
-            }
-            else if(i==1){
-                ui->card2->move(x+650,y+215);
-                ui->card2->show();
-            }
-            else if(i==2){
-                ui->card3->move(x+650,y+215);
-                ui->card3->show();
-            }
-            else if(i==3){
-                ui->card4->move(x+650,y+215);
-                ui->card4->show();
-            }
+        else if(i==1){
+            ui->player2GroupBox->setTitle(players[i].getName());
+            ui->scoreLabel2->setText(QString::number(players[i].getScore()));
+            ui->player2GroupBox->show();
+        }
+        else if(i==2){
+            ui->player3GroupBox->setTitle(players[i].getName());
+            ui->scoreLabel3->setText(QString::number(players[i].getScore()));
+            ui->player3GroupBox->show();
+        }
+        else{
+            ui->player4GroupBox->setTitle(players[i].getName());
+            ui->scoreLabel4->setText(QString::number(players[i].getScore()));
+            ui->player4GroupBox->show();
         }
     }
 }
+
+//void PlayWindow::placeLabelsAroundCircle(int radius,int n)
+//{
+//    float angle;
+//    if(number_of_player==2)
+//        angle=180;
+//    else if(number_of_player==3)
+//        angle=120;
+//    else if(number_of_player==4)
+//        angle=90;
+//    for(int i=0;i<number_of_player;i++){
+//        int x=radius*qCos(qDegreesToRadians(angle*i));
+//        int y=radius*qSin(qDegreesToRadians(angle*i));
+//        if(n==1){
+//            if(i==0){
+//                ui->pic1->move(x+630,y+250);
+//                ui->pic1->setPixmap(players[i].getProfile());
+//                ui->pic1->show();
+
+//                ui->nameLabel1->move(x+610,y+340);
+//                ui->nameLabel1->setText(players[i].getName());
+//                ui->nameLabel1->show();
+
+//                ui->scoreLabel1->move(x+630,y+220);
+//                ui->scoreLabel1->show();
+
+//            }
+//            else if(i==1){
+//                ui->pic2->move(x+630,y+250);
+//                ui->pic2->setPixmap(players[i].getProfile());
+//                ui->pic2->show();
+
+//                ui->nameLabel2->move(x+610,y+340);
+//                ui->nameLabel2->setText(players[i].getName());
+//                ui->nameLabel2->show();
+
+//                ui->scoreLabel2->move(x+630,y+220);
+//                ui->scoreLabel2->show();
+
+//            }
+//            else if(i==2){
+//                ui->pic3->move(x+630,y+250);
+//                ui->pic3->setPixmap(players[i].getProfile());
+//                ui->pic3->show();
+
+//                ui->nameLabel3->move(x+610,y+340);
+//                ui->nameLabel3->setText(players[i].getName());
+//                ui->nameLabel3->show();
+
+//                ui->scoreLabel3->move(x+630,y+220);
+//                ui->scoreLabel3->show();
+
+//            }
+//            else if(i==3){
+//                ui->pic4->move(x+630,y+250);
+//                ui->pic4->setPixmap(players[i].getProfile());
+//                ui->pic4->show();
+
+//                ui->nameLabel4->move(x+610,y+340);
+//                ui->nameLabel4->setText(players[i].getName());
+//                ui->nameLabel4->show();
+
+//                ui->scoreLabel4->move(x+630,y+220);
+//                ui->scoreLabel4->show();
+//            }
+//        }
+//        else if(n==2){
+//            if(i==0){
+//                ui->card1->move(x+650,y+215);
+//                ui->card1->show();
+//            }
+//            else if(i==1){
+//                ui->card2->move(x+650,y+215);
+//                ui->card2->show();
+//            }
+//            else if(i==2){
+//                ui->card3->move(x+650,y+215);
+//                ui->card3->show();
+//            }
+//            else if(i==3){
+//                ui->card4->move(x+650,y+215);
+//                ui->card4->show();
+//            }
+//        }
+//    }
+//}
 
 
 void PlayWindow::exitCodeReceived(QString clientName)
@@ -1372,27 +1402,27 @@ void PlayWindow::on_noRadioButton_2_clicked()
     ui->time_lcd->hide();
 }
 
-void PlayWindow::rotate_bottle(int index)//***************************
-{
-    Player p(players[index]);
-    QString name=p.getName();
-    if(ui->nameLabel1->text()==name){
-        ui->bottle->show();
-        ui->bottle4->hide();
-    }
-    else if(ui->nameLabel2->text()==name){
-        ui->bottle2->show();
-        ui->bottle->hide();
-    }
-    else if(ui->nameLabel3->text()==name){
-        ui->bottle3->show();
-        ui->bottle2->hide();
-    }
-    else if(ui->nameLabel4->text()==name){
-        ui->bottle4->show();
-        ui->bottle3->hide();
-    }
-}
+//void PlayWindow::rotate_bottle(int index)//***************************
+//{
+//    Player p(players[index]);
+//    QString name=p.getName();
+//    if(ui->nameLabel1->text()==name){
+//        ui->bottle->show();
+//        ui->bottle4->hide();
+//    }
+//    else if(ui->nameLabel2->text()==name){
+//        ui->bottle2->show();
+//        ui->bottle->hide();
+//    }
+//    else if(ui->nameLabel3->text()==name){
+//        ui->bottle3->show();
+//        ui->bottle2->hide();
+//    }
+//    else if(ui->nameLabel4->text()==name){
+//        ui->bottle4->show();
+//        ui->bottle3->hide();
+//    }
+//}
 
 void PlayWindow::setPlayingFieldCardCode(QString cardCode)
 {

@@ -39,7 +39,8 @@ public slots:
     void exchangeTwoCard(QString preCard,QString newCard);
     void setPlayersForserverplayer(QByteArray);
     void setScoresForServerPlayer(QByteArray);
-    void rotate_bottle(int);
+   // void rotate_bottle(int);
+    void showTurn(int index);
     void setPlayingFieldCardCode(QString cardCode);
     void setIsFirstOne();
     void newRoundStarted();
@@ -70,7 +71,8 @@ private:
 
     void readInformationSentByServer();//for clients
     void start_hand();
-    void placeLabelsAroundCircle(int,int);
+  //  void placeLabelsAroundCircle(int,int);
+    void listOfplayersReceived();
   //  void show_line_edit();
     void end_of_play();
 
