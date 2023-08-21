@@ -157,7 +157,7 @@ void Server::serverSelectCard(QString cardCode)
 {
     codeOfSelectedCard=cardCode;
     isCardSelected=true;
-    vector<QString>cards=player[0].getCasrdsSet();
+    vector<QString>cards=player->getCasrdsSet();
     for(vector<QString>::iterator it=cards.begin();it!=cards.end();it++){
         if(*it==codeOfSelectedCard){
             int index=std::distance(cards.begin(),it);
@@ -484,6 +484,7 @@ void Server::gameLogicControl()
                 }
                 }
             }
+            preTurn = currentTurn; //********** posibility of error ************
     }
     {// sending name of current hand winner to clients;
             sentinformation.clear();

@@ -50,30 +50,6 @@ HistoryWindow::HistoryWindow(QMainWindow*prewindow,QWidget *parent) :
     ui->round6Button->setStyleSheet("border:none");
     ui->round7Button->setStyleSheet("border:none");
 
-
-
-//    ui->back_button->setStyleSheet("border:none");
-//    ui->pushButton->setStyleSheet("border:none");
-//    ui->pushButton_2->setStyleSheet("border:none");
-//    ui->pushButton_3->setStyleSheet("border:none");
-//    ui->pushButton_4->setStyleSheet("border:none");
-//    ui->pushButton_5->setStyleSheet("border:none");
-//    ui->pushButton_6->setStyleSheet("border:none");
-//    ui->pushButton_7->setStyleSheet("border:none");
-//    ui->pushButton_8->setStyleSheet("border:none");
-//    ui->pushButton_9->setStyleSheet("border:none");
-//    ui->pushButton_10->setStyleSheet("border:none");
-//    ui->pushButton->setEnabled(false);
-//    ui->pushButton_2->setEnabled(false);
-//    ui->pushButton_3->setEnabled(false);
-//    ui->pushButton_4->setEnabled(false);
-//    ui->pushButton_5->setEnabled(false);
-//    ui->pushButton_6->setEnabled(false);
-//    ui->pushButton_7->setEnabled(false);
-//    ui->pushButton_8->setEnabled(false);
-//    ui->pushButton_9->setEnabled(false);
-//    ui->pushButton_10->setEnabled(false);
-
     preWindow=prewindow;
 
     QString arr[10],x,condition[10];
@@ -222,12 +198,6 @@ HistoryWindow::~HistoryWindow()
     delete ui;
 }
 
-//void HistoryWindow::on_back_button_clicked()
-//{
-//    clickSound->play();
-//    preWindow->showMaximized();
-//    this->close();
-//}
 
 void HistoryWindow::backButtonClicked()
 {

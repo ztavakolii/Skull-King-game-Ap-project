@@ -146,6 +146,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
 
     connect(this,SIGNAL(second25Signal()),this,SLOT(exitSlot()));
     connect(this,SIGNAL(second15Signal()),this,SLOT(hideSkullKingWords()));
+    connect(this,SIGNAL(second20Signal()),this,SLOT(hideSkullKingWords()));
     connect(this,SIGNAL(second45Signal()),this,SLOT(hideSkullKingWords()));
     connect(this,SIGNAL(aCardWasselected(QString)),this,SLOT(check_card(QString)));
     connect(this,SIGNAL(second30Signal()),this,SLOT(enterAnAllowedCardToTheGame()));
@@ -299,6 +300,8 @@ void PlayWindow::f()
         emit second30Signal();
         if(initialvalueofremainingtime==60)
         emit second60Signal();
+        if(initialvalueofremainingtime==20)
+        emit second20Signal();
         QPixmap p(":/new/image/icons8-play-button-96.png");
         ui->stop_label->setPixmap(p);
 
@@ -322,8 +325,9 @@ void PlayWindow::set_hand(int numberofhand)
 void PlayWindow::showCard(int index, QString cardCode)
 {
     QString cardPictureAddress=":/new/image"+cardCode+".jpg";
+
     QPixmap p(cardPictureAddress);
-    p=p.scaled(39,47);
+    //p=p.scaled(39,47);
     if(index==0){
         ui->card1->setPixmap(p);
     }
@@ -331,10 +335,10 @@ void PlayWindow::showCard(int index, QString cardCode)
         ui->card2->setPixmap(p);
     }
     else if(index==2){
-        ui->card2->setPixmap(p);
+        ui->card3->setPixmap(p);
     }
     else if(index==3){
-        ui->card2->setPixmap(p);
+        ui->card4->setPixmap(p);
     }
 }
 
@@ -500,7 +504,8 @@ void PlayWindow::exchangeTwoCard(QString preCard, QString newCard)
 void PlayWindow::setPlayersForserverplayer(QByteArray information)
 {
     QDataStream in(&information,QIODevice::ReadOnly);
-    int code,clientScore;
+    int clientScore;
+    char code;
     QString clientName;
   //  QPixmap clientProfilePicture;
     in>>code;
@@ -516,6 +521,7 @@ void PlayWindow::setPlayersForserverplayer(QByteArray information)
     }
   //  placeLabelsAroundCircle(200,1); // for profile and name
    // placeLabelsAroundCircle(200,2); // for cards
+    listOfplayersReceived();
 }
 
 void PlayWindow::setScoresForServerPlayer(QByteArray information)
@@ -1110,74 +1116,76 @@ void PlayWindow::setCardsIcon()
     vector<QString>cards=player->getCasrdsSet();
     for(int i=0;i<cards.size();i++){
         QString cardAddress(":/new/image/"+cards[i]+".jpg");
-        QIcon icon(cardAddress);
+        QPixmap p(cardAddress);
+       // QIcon icon(cardAddress);
+        QIcon iicon(p);
         if(i==0){
-            ui->pushButton_1->setIcon(icon);
+            ui->pushButton_1->setIcon(iicon);
             ui->pushButton_1->setIconSize(QSize(71,101));
             ui->pushButton_1->show();
         }
         else if(i==1){
-            ui->pushButton_2->setIcon(icon);
+            ui->pushButton_2->setIcon(iicon);
             ui->pushButton_2->setIconSize(QSize(71,101));
             ui->pushButton_2->show();
         }
         else if(i==2){
-            ui->pushButton_3->setIcon(icon);
+            ui->pushButton_3->setIcon(iicon);
             ui->pushButton_3->setIconSize(QSize(71,101));
             ui->pushButton_3->show();
         }
         else if(i==3){
-            ui->pushButton_4->setIcon(icon);
+            ui->pushButton_4->setIcon(iicon);
             ui->pushButton_4->setIconSize(QSize(71,101));
             ui->pushButton_4->show();
         }
         else if(i==4){
-            ui->pushButton_5->setIcon(icon);
+            ui->pushButton_5->setIcon(iicon);
             ui->pushButton_5->setIconSize(QSize(71,101));
             ui->pushButton_5->show();
         }
         else if(i==5){
-            ui->pushButton_6->setIcon(icon);
+            ui->pushButton_6->setIcon(iicon);
             ui->pushButton_6->setIconSize(QSize(71,101));
             ui->pushButton_6->show();
         }
         else if(i==6){
-            ui->pushButton_7->setIcon(icon);
+            ui->pushButton_7->setIcon(iicon);
             ui->pushButton_7->setIconSize(QSize(71,101));
             ui->pushButton_7->show();
         }
         else if(i==7){
-            ui->pushButton_8->setIcon(icon);
+            ui->pushButton_8->setIcon(iicon);
             ui->pushButton_8->setIconSize(QSize(71,101));
             ui->pushButton_8->show();
         }
         else if(i==8){
-            ui->pushButton_9->setIcon(icon);
+            ui->pushButton_9->setIcon(iicon);
             ui->pushButton_9->setIconSize(QSize(71,101));
             ui->pushButton_9->show();
         }
         else if(i==9){
-            ui->pushButton_10->setIcon(icon);
+            ui->pushButton_10->setIcon(iicon);
             ui->pushButton_10->setIconSize(QSize(71,101));
             ui->pushButton_10->show();
         }
         else if(i==10){
-            ui->pushButton_11->setIcon(icon);
+            ui->pushButton_11->setIcon(iicon);
             ui->pushButton_11->setIconSize(QSize(71,101));
             ui->pushButton_11->show();
         }
         else if(i==11){
-            ui->pushButton_12->setIcon(icon);
+            ui->pushButton_12->setIcon(iicon);
             ui->pushButton_12->setIconSize(QSize(71,101));
             ui->pushButton_12->show();
         }
         else if(i==12){
-            ui->pushButton_13->setIcon(icon);
+            ui->pushButton_13->setIcon(iicon);
             ui->pushButton_13->setIconSize(QSize(71,101));
             ui->pushButton_13->show();
         }
         else if(i==13){
-            ui->pushButton_14->setIcon(icon);
+            ui->pushButton_14->setIcon(iicon);
             ui->pushButton_14->setIconSize(QSize(71,101));
             ui->pushButton_14->show();
         }
@@ -1217,7 +1225,7 @@ void PlayWindow::setCardsIcon()
 void PlayWindow::on_pushButton_1_clicked()
 {
     clickSound->play();
-
+    QIcon ico=ui->pushButton_1->icon();
     QString cardCode = ui->pushButton_1->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1228,7 +1236,7 @@ void PlayWindow::on_pushButton_1_clicked()
 void PlayWindow::on_pushButton_2_clicked()
 {
     clickSound->play();
-
+    QIcon ico=ui->pushButton_2->icon();
     QString cardCode = ui->pushButton_2->icon().name();
     cardCode.remove(":/new/image/");
     cardCode.remove(".jpg");
@@ -1478,7 +1486,7 @@ void PlayWindow::end_of_play()
 void PlayWindow::closeEvent(QCloseEvent *event)
 {
     closeWindowStatus=true;
-    t->join();
+    t->join(); // ********** posibility of error ************
     QMainWindow::closeEvent(event);
 }
 

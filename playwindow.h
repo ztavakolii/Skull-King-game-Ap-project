@@ -80,6 +80,7 @@ protected:
     void closeEvent(QCloseEvent*event);
 
 signals:
+    void second20Signal();
     void second25Signal();
     void second15Signal();
     void second45Signal();
