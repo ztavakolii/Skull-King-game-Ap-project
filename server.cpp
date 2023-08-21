@@ -918,6 +918,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
 void Server::writeInPlayerSocket(QByteArray information, QTcpSocket *socket)
 {
     socket->write(information);
+    socket->waitForBytesWritten(-1);
 }
 
 void Server::readFromSocket(QByteArray *information, QTcpSocket *socket)

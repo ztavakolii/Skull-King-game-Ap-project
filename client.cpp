@@ -62,6 +62,7 @@ void Client::socketWriteBytes()
 
 void Client::writeInformation(QByteArray&information){
     socket->write(information);
+    socket->waitForBytesWritten(-1);
 }
 
 void Client::readInformation(QByteArray*information)
