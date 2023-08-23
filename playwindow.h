@@ -108,6 +108,10 @@ private slots:
     void on_yesRadioButton_clicked();
     void on_noRadioButton_2_clicked();
   //  void on_pushButton_clicked();
+
+protected:
+    void showEvent(QShowEvent*event);
+
 };
 
 #endif // PLAYWINDOW_H

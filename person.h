@@ -19,6 +19,7 @@ public:
     QString get_phone_number();
     QString get_address();
     QPixmap get_profile_picture();
+    QPixmap get_playWindowBackground();
     Client*&get_client();
     Server*&get_server();
     int get_cup();
@@ -35,8 +36,9 @@ public:
     void set_cup(int);
     void set_coin(int);
     void set_profile_picture(QPixmap profile);
+    void set_playWindowBackground(QPixmap background);
     void game(bool,bool);//the person is in the game
-    int add();//add the information of person in to files
+    int add(bool);//add the information of person in to files
     int match(int);//chack that the information is true or not
     void edit_password(QString);//change the password
     void edit();//edit information in file
@@ -45,7 +47,7 @@ public:
     void set_client(QMainWindow*clientwindow,QMainWindow*personalwindow,QHostAddress serverIP);
     void set_server(ServerWaitWindow* waitwindow,QString servername,int numberofclients);
     void remove();//remove the file
-    int buy(int,int);//for buy some item
+    int buy(int,int,int);//for buy some item
 
 
 
@@ -54,6 +56,7 @@ private:
     int coin,cup;
     bool in_game,server;
     QPixmap profile_picture;
+    QPixmap playWindowBackground;
     Client*client;
     Server*server2;
 };

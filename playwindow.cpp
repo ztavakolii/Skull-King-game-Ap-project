@@ -1410,6 +1410,13 @@ void PlayWindow::on_noRadioButton_2_clicked()
     ui->time_lcd->hide();
 }
 
+void PlayWindow::showEvent(QShowEvent *event)
+{
+    User->read_information_from_file();
+    ui->back_ground->setPixmap(User->get_playWindowBackground());
+    QMainWindow::showEvent(event);
+}
+
 //void PlayWindow::rotate_bottle(int index)//***************************
 //{
 //    Player p(players[index]);

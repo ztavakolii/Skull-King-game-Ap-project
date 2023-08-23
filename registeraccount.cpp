@@ -100,7 +100,7 @@ void RegisterAccount::on_register_button_clicked(bool checked)
         }
         else{
             Person user(ui->name_l->text(),ui->user_name_l->text(),ui->comboBox_2->currentText(),ui->password_l->text(),ui->comboBox->currentText(),ui->phone_l->text(),ui->address_t->toPlainText(),0,1000);
-            if(user.add()==0)//repetitious user_name
+            if(user.add(true)==0)//repetitious user_name
             {
                 QMessageBox message;
                 message.setText("The account with this username has already exists!");
@@ -118,8 +118,8 @@ void RegisterAccount::on_register_button_clicked(bool checked)
                 QFile b(f_name);
                 b.open(QIODevice::WriteOnly);
                 QDataStream out1(&b);
-                for(int i=0;i<25;i++)
-                    out1<<"0";
+                for(int i=0;i<18;i++)
+                    out1<<0;
                 b.close();
 
                 QString file_name=User->get_user_name()+"_history";//build a file for history
