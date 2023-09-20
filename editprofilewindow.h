@@ -24,7 +24,6 @@ private slots:
     void backButtonClicked();
     void changePasswordLineEditMode();
     void deleteAccountButtonClicked();
-    void confirmDeleteAccountClicked();
     void editButtonClicked();
     void cancelButtonClicked();
 };

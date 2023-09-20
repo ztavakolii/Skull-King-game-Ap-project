@@ -24,8 +24,12 @@ private:
     PersonalWindow*personalWindow;
     QMainWindow*preWindow;
 
+protected:
+//    void showEvent(QShowEvent *event);
+
 private slots:
     void changePasswordLineEditMode();
+    void changeNewPasswordLineEditMode();
     void forgetPassword();
     void showPersonalWindow();
     void enableLoginButton();

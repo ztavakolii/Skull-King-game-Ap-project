@@ -79,14 +79,14 @@
      <rect>
       <x>70</x>
       <y>165</y>
-      <width>331</width>
+      <width>311</width>
       <height>91</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>8</pointsize>
-      <bold>true</bold>
+      <pointsize>9</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">

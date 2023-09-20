@@ -38,7 +38,7 @@
      <rect>
       <x>145</x>
       <y>60</y>
-      <width>190</width>
+      <width>191</width>
       <height>121</height>
      </rect>
     </property>
@@ -57,23 +57,7 @@
     <property name="text">
      <string/>
     </property>
-   </widget>
-   <widget class="QPushButton" name="editProfileImageButton">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>150</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Click me to change your profile photo</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
+    <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>
@@ -88,8 +72,8 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -114,7 +98,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <bold>true</bold>
+      <pointsize>11</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -136,7 +121,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <bold>true</bold>
+      <pointsize>8</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -161,7 +147,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <bold>true</bold>
+      <pointsize>11</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -186,7 +173,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <bold>true</bold>
+      <pointsize>11</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -211,7 +199,8 @@ background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="font">
      <font>
-      <bold>true</bold>
+      <pointsize>11</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -252,8 +241,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -277,8 +266,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -302,8 +291,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -327,8 +316,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -352,8 +341,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -377,8 +366,8 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -632,7 +621,7 @@ color: rgb(0, 170, 255);</string>
    <widget class="QLabel" name="label_16">
     <property name="geometry">
      <rect>
-      <x>368</x>
+      <x>377</x>
       <y>65</y>
       <width>121</width>
       <height>41</height>
@@ -675,12 +664,50 @@ color: rgb(0, 170, 255);</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
-      <bold>true</bold>
+      <pointsize>13</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(0, 0, 0);</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="profileFrame">
+    <property name="geometry">
+     <rect>
+      <x>106</x>
+      <y>33</y>
+      <width>271</width>
+      <height>175</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="Images.qrc">:/new/image/01M58PICetHnIA58PICBeeMV8_PIC2018.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="editProfileImageButton">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>150</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Click me to change your profile photo</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

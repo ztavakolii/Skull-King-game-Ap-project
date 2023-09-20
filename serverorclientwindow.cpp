@@ -1,22 +1,23 @@
 #include "serverorclientwindow.h"
 #include "ui_serverorclientwindow.h"
 #include "person.h"
+#include <QSoundEffect>
 
-extern Person User;
+extern Person* User;
+extern QSoundEffect*clickSound;
 
 ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ServerOrClientWindow)
 {
     ui->setupUi(this);
+    setFixedSize(1280,700);
+
     preWindow=prewindow;
 
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
     this->setWindowTitle("Server or Client?");
-
-//    serverWindow=new Server(this);
-    clientWindow=new Client(this);
 
     ui->background->showFullScreen();
 
@@ -25,11 +26,11 @@ ServerOrClientWindow::ServerOrClientWindow(QMainWindow*prewindow,QWidget *parent
     ui->backButton->setIconSize(QSize(40,40));
     connect(ui->backButton,SIGNAL(clicked(bool)),this,SLOT(backButtonClicked()));
 
-    if(User.get_gender()=="Male")
+    if(User->get_gender()=="Male")
     {
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(0, 170, 255);");
     }
-    else if(User.get_gender()=="Female")
+    else if(User->get_gender()=="Female")
     {
         ui->guideTextEdit->setStyleSheet("background-color: rgb(0, 0, 0);color: rgb(255, 85, 127);");
     }
@@ -53,19 +54,25 @@ ServerOrClientWindow::~ServerOrClientWindow()
 
 void ServerOrClientWindow::backButtonClicked()
 {
+    clickSound->play();
     preWindow->showMaximized();
     this->close();
 }
 
 void ServerOrClientWindow::serverButtonClicked()
 {
-   serverWindow= new Server(this);
+    clickSound->play();
+
+    serverWindow=new ServerWindow(this,preWindow);
     serverWindow->showMaximized();
     this->close();
 }
 
 void ServerOrClientWindow::clientButtonClicked()
 {
+    clickSound->play();
+
+    clientWindow=new ClientWindow(preWindow,this);
     clientWindow->showMaximized();
     this->close();
 }

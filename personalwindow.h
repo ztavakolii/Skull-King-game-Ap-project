@@ -8,6 +8,7 @@
 #include "historywindow.h"
 #include"serverorclientwindow.h"
 #include "editprofilewindow.h"
+#include "buy.h"
 
 namespace Ui {
 class PersonalWindow;
@@ -27,11 +28,14 @@ private:
  //   QFrame*profileFrame;
   //  QLabel*profileLabel;
 
-    // we need a pointer to store window
+    buy*Buy;
     HistoryWindow*historyWindow;
     ServerOrClientWindow*serverOrClientWindow;
     EditProfileWindow*editProfileWindow;
+    PlayWindow*playwindow;
 
+protected:
+    void showEvent(QShowEvent*event);
 
 
 private slots:
@@ -40,7 +44,6 @@ private slots:
     void historyButtonClicked();
     void playButtonClicked();
     void editProfileButtonClicked();
-
 
 };
 #endif // PERSONALWINDOW_H

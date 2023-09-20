@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 
-#include "server.h"
-#include "client.h"
+#include "serverwindow.h"
+#include "clientwindow.h"
 
 namespace Ui {
 class ServerOrClientWindow;
@@ -21,8 +21,8 @@ public:
 private:
     Ui::ServerOrClientWindow *ui;
     QMainWindow*preWindow;
-    Server*serverWindow;
-    Client*clientWindow;
+    ServerWindow*serverWindow;
+    ClientWindow*clientWindow;
 
 private slots:
     void backButtonClicked();

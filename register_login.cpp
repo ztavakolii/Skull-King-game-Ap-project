@@ -1,12 +1,16 @@
 #include "register_login.h"
 #include "ui_register_login.h"
+#include <QSoundEffect>
 
+extern QSoundEffect*clickSound;
 
 register_login::register_login(QApplication*a,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::register_login)
 {
     ui->setupUi(this);
+    setFixedSize(1280,700);
+
     showMaximized();
     QIcon windowsIcon(":/new/image/gamename.png");
     this->setWindowIcon(windowsIcon);
@@ -40,6 +44,7 @@ register_login::~register_login()
 
 void register_login::showLoginWindow()
 {
+    clickSound->play();
     loginWindow=new login(this);
     loginWindow->showMaximized();
     this->close();
@@ -47,6 +52,7 @@ void register_login::showLoginWindow()
 
 void register_login::showRegisterAccountWindow()
 {
+    clickSound->play();
     registerAccountWindow=new RegisterAccount(this);
     registerAccountWindow->showMaximized();
     this->close();
