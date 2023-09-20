@@ -553,6 +553,9 @@ color: rgb(85, 170, 0);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
     <property name="text">
      <string/>
     </property>
