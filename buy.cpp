@@ -265,462 +265,6 @@ buy::~buy()
     delete ui;
 }
 
-//void buy::on_back_button_clicked()
-//{
-//    clickSound->play();
-//    prewindow->showMaximized();
-//    this->close();
-//}
-
-
-//void buy::on_buy_2_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_26->text().toInt();
-//    if(User->buy(price,0)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock->hide();
-//}
-
-
-//void buy::on_buy_1_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_27->text().toInt();
-//    if(User->buy(price,1)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_2->hide();
-//}
-
-
-//void buy::on_pushButton_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_28->text().toInt();
-//    if(User->buy(price,2)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_3->hide();
-//}
-
-
-//void buy::on_pushButton_2_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_29->text().toInt();
-//    if(User->buy(price,3)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_4->hide();
-//}
-
-
-//void buy::on_pushButton_3_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_30->text().toInt();
-//    if(User->buy(price,4)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_5->hide();
-//}
-
-
-//void buy::on_pushButton_4_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_31->text().toInt();
-//    if(User->buy(price,5)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_6->hide();
-//}
-
-
-//void buy::on_pushButton_5_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_32->text().toInt();
-//    if(User->buy(price,6)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_7->hide();
-//}
-
-
-//void buy::on_pushButton_6_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_33->text().toInt();
-//    if(User->buy(price,7)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_8->hide();
-//}
-
-
-//void buy::on_pushButton_7_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_34->text().toInt();
-//    if(User->buy(price,8)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_9->hide();
-//}
-
-
-//void buy::on_pushButton_8_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_35->text().toInt();
-//    if(User->buy(price,9)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_10->hide();
-//}
-
-
-//void buy::on_pushButton_9_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_36->text().toInt();
-//    if(User->buy(price,10)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_11->hide();
-//}
-
-
-//void buy::on_pushButton_10_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_37->text().toInt();
-//    if(User->buy(price,11)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_12->hide();
-//}
-
-
-//void buy::on_pushButton_11_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_38->text().toInt();
-//    if(User->buy(price,12)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_13->hide();
-//}
-
-
-//void buy::on_pushButton_12_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_39->text().toInt();
-//    if(User->buy(price,13)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_14->hide();
-//}
-
-
-//void buy::on_pushButton_13_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_40->text().toInt();
-//    if(User->buy(price,14)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_15->hide();
-//}
-
-
-//void buy::on_pushButton_14_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_41->text().toInt();
-//    if(User->buy(price,15)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_16->hide();
-//}
-
-
-//void buy::on_pushButton_15_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_42->text().toInt();
-//    if(User->buy(price,16)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_17->hide();
-//}
-
-
-//void buy::on_pushButton_16_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_44->text().toInt();
-//    if(User->buy(price,17)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_18->hide();
-//}
-
-
-//void buy::on_pushButton_17_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_45->text().toInt();
-//    if(User->buy(price,18)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_19->hide();
-//}
-
-
-//void buy::on_pushButton_18_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_43->text().toInt();
-//    if(User->buy(price,19)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_20->hide();
-//}
-
-
-//void buy::on_pushButton_19_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_46->text().toInt();
-//    if(User->buy(price,20)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_21->hide();
-//}
-
-
-//void buy::on_pushButton_20_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_47->text().toInt();
-//    if(User->buy(price,21)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_22->hide();
-//}
-
-
-//void buy::on_pushButton_21_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_48->text().toInt();
-//    if(User->buy(price,22)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_23->hide();
-//}
-
-
-//void buy::on_pushButton_22_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_49->text().toInt();
-//    if(User->buy(price,23)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_24->hide();
-//}
-
-
-//void buy::on_pushButton_23_clicked()
-//{
-//    clickSound->play();
-
-//    int price=ui->label_50->text().toInt();
-//    if(User->buy(price,24)==0){
-//        QMessageBox message;
-//        message.setText("You do not have enough coins to buy this item!");
-//        message.setIcon(QMessageBox::Critical);
-//        message.setWindowIcon(QIcon(":/new/image/gamename.png"));
-//        message.setStyleSheet("background-color: rgb(236, 197, 119)");
-//        message.exec();
-//    }
-//    else
-//        ui->lock_25->hide();
-//}
 
 void buy::showEvent(QShowEvent *event)
 {
@@ -917,55 +461,6 @@ void buy::showEvent(QShowEvent *event)
         ui->choose_18->hide();
         ui->article_18->setEnabled(true);
     }
-//    if(arr[18]){//item19
-//        ui->lock_19->hide();
-//        ui->pushButton_17->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_17->setEnabled(true);
-
-//    if(arr[19]){//item20
-//        ui->lock_20->hide();
-//        ui->pushButton_18->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_18->setEnabled(true);
-
-//    if(arr[20]){//item21
-//        ui->lock_21->hide();
-//        ui->pushButton_19->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_19->setEnabled(true);
-
-//    if(arr[21]){//item22
-//        ui->lock_22->hide();
-//        ui->pushButton_20->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_20->setEnabled(true);
-
-//    if(arr[22]){//item23
-//        ui->lock_23->hide();
-//        ui->pushButton_21->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_21->setEnabled(true);
-
-//    if(arr[23]){//item24
-//        ui->lock_24->hide();
-//        ui->pushButton_22->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_22->setEnabled(true);
-
-//    if(arr[24]){//item25
-//        ui->lock_25->hide();
-//        ui->pushButton_23->setEnabled(false);
-//    }
-//    else
-//        ui->pushButton_23->setEnabled(true);
-
     QWidget::showEvent(event);
 }
 
@@ -1345,7 +840,7 @@ void buy::on_article_13_clicked()
         int price=ui->price_13->text().toInt();
         if(User->buy(price,13,2)==0){
             QMessageBox message;
-            message.setText("You do not have enough coins to buy this item!");
+            message.setText("You do not have enough cups to buy this item!");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");
@@ -1366,7 +861,7 @@ void buy::on_article_14_clicked()
         int price=ui->price_14->text().toInt();
         if(User->buy(price,14,2)==0){
             QMessageBox message;
-            message.setText("You do not have enough coins to buy this item!");
+            message.setText("You do not have enough cups to buy this item!");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");
@@ -1387,7 +882,7 @@ void buy::on_article_15_clicked()
         int price=ui->price_15->text().toInt();
         if(User->buy(price,15,2)==0){
             QMessageBox message;
-            message.setText("You do not have enough coins to buy this item!");
+            message.setText("You do not have enough cups to buy this item!");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");
@@ -1408,7 +903,7 @@ void buy::on_article_16_clicked()
         int price=ui->price_16->text().toInt();
         if(User->buy(price,16,2)==0){
             QMessageBox message;
-            message.setText("You do not have enough coins to buy this item!");
+            message.setText("You do not have enough cups to buy this item!");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");
@@ -1429,7 +924,7 @@ void buy::on_article_17_clicked()
         int price=ui->price_17->text().toInt();
         if(User->buy(price,17,2)==0){
             QMessageBox message;
-            message.setText("You do not have enough coins to buy this item!");
+            message.setText("You do not have enough cups to buy this item!");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");
@@ -1450,7 +945,7 @@ void buy::on_article_18_clicked()
         int price=ui->price_18->text().toInt();
         if(User->buy(price,18,2)==0){
             QMessageBox message;
-            message.setText("You do not have enough coins to buy this item!");
+            message.setText("You do not have enough cups to buy this item!");
             message.setIcon(QMessageBox::Critical);
             message.setWindowIcon(QIcon(":/new/image/gamename.png"));
             message.setStyleSheet("background-color: rgb(236, 197, 119)");
