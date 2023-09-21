@@ -747,6 +747,9 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
     <property name="text">
      <string/>
     </property>

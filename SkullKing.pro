@@ -18,6 +18,7 @@ SOURCES += \
     editprofilewindow.cpp \
     buy.cpp \
     game.cpp \
+    historyinformation.cpp \
     historywindow.cpp \
     login.cpp \
     main.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     editprofilewindow.h \
     buy.h \
     game.h \
+    historyinformation.h \
     historywindow.h \
     login.h \
     person.h \
