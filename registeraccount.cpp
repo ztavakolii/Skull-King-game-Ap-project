@@ -126,8 +126,9 @@ void RegisterAccount::on_register_button_clicked(bool checked)
                 QFile h(file_name);
                 h.open(QIODevice::WriteOnly);
                 QDataStream out(&h);
-                for(int i=0;i<20;i++)
-                    out<<"";
+                out<<0;
+//                for(int i=0;i<20;i++)
+//                    out<<"";
                 h.close();
 
                 personalwindow=new PersonalWindow(prewindow);

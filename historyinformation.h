@@ -6,9 +6,9 @@
 #include <vector>
 
 struct Hand{
-    bool isWinTheHand;
-    QString winnerCard;
-    QString yourCard;
+    bool isWinTheHand=false;
+    QString winnerCard="";
+    QString yourCard="";
 };
 
 class HistoryInformation
@@ -18,6 +18,7 @@ class HistoryInformation
 
 public:
     HistoryInformation();
+    void setDate(QString s);
     void setIsWinThePlay(bool b);
     void setRound1(std::vector<Hand> round1);
     void setRound2(std::vector<Hand> round2);
@@ -27,6 +28,7 @@ public:
     void setRound6(std::vector<Hand> round6);
     void setRound7(std::vector<Hand> round7);
 
+    QString getDate();
     bool getIsWinThePlay();
     std::vector<Hand>getRound1();
     std::vector<Hand>getRound2();
@@ -37,6 +39,7 @@ public:
     std::vector<Hand>getRound7();
 
 private:
+    QString date;
     bool isWinThePlay;
     std::vector<Hand> round1;
     std::vector<Hand> round2;

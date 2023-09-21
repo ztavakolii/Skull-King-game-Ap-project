@@ -2,6 +2,7 @@
 #define HISTORYWINDOW_H
 
 #include <QMainWindow>
+#include "historyinformation.h"
 
 namespace Ui {
 class HistoryWindow;
@@ -55,6 +56,12 @@ private slots:
 private:
     Ui::HistoryWindow *ui;
     QMainWindow*preWindow;
+    HistoryInformation*plays;
+    int indexOfSelectedPlay;
+
+protected:
+    void showEvent(QShowEvent*event);
+
 };
 
 #endif // HISTORYWINDOW_H

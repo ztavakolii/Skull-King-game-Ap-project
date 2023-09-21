@@ -1,5 +1,17 @@
 #include "historyinformation.h"
 
+
+HistoryInformation::HistoryInformation()
+{
+    date="";
+    isWinThePlay=false;
+}
+
+void HistoryInformation::setDate(QString s)
+{
+    date=s;
+}
+
 void HistoryInformation::setIsWinThePlay(bool b)
 {
     isWinThePlay=b;
@@ -38,6 +50,11 @@ void HistoryInformation::setRound6(std::vector<Hand> round6)
 void HistoryInformation::setRound7(std::vector<Hand> round7)
 {
     this->round7=round7;
+}
+
+QString HistoryInformation::getDate()
+{
+    return date;
 }
 
 bool HistoryInformation::getIsWinThePlay()
@@ -81,7 +98,7 @@ std::vector<Hand> HistoryInformation::getRound7()
 }
 
 QDataStream&operator>>(QDataStream&in,HistoryInformation historyInformationObject){
-    in>>historyInformationObject.isWinThePlay>>historyInformationObject.round1[0].isWinTheHand>>historyInformationObject.round1[0].winnerCard
+    in>>historyInformationObject.date>>historyInformationObject.isWinThePlay>>historyInformationObject.round1[0].isWinTheHand>>historyInformationObject.round1[0].winnerCard
         >>historyInformationObject.round1[0].yourCard>>historyInformationObject.round1[1].isWinTheHand>>historyInformationObject.round1[1].winnerCard
         >>historyInformationObject.round1[1].yourCard>>historyInformationObject.round2[0].isWinTheHand>>historyInformationObject.round2[0].winnerCard
         >>historyInformationObject.round2[0].yourCard>>historyInformationObject.round2[1].isWinTheHand>>historyInformationObject.round2[1].winnerCard
@@ -144,7 +161,7 @@ QDataStream&operator>>(QDataStream&in,HistoryInformation historyInformationObjec
 
 QDataStream&operator<<(QDataStream&out,HistoryInformation historyInformationObject){
 
-        out<<historyInformationObject.isWinThePlay<<historyInformationObject.round1[0].isWinTheHand<<historyInformationObject.round1[0].winnerCard
+        out<<historyInformationObject.date<<historyInformationObject.isWinThePlay<<historyInformationObject.round1[0].isWinTheHand<<historyInformationObject.round1[0].winnerCard
             <<historyInformationObject.round1[0].yourCard<<historyInformationObject.round1[1].isWinTheHand<<historyInformationObject.round1[1].winnerCard
             <<historyInformationObject.round1[1].yourCard<<historyInformationObject.round2[0].isWinTheHand<<historyInformationObject.round2[0].winnerCard
             <<historyInformationObject.round2[0].yourCard<<historyInformationObject.round2[1].isWinTheHand<<historyInformationObject.round2[1].winnerCard
