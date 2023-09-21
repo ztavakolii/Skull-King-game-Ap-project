@@ -3,11 +3,9 @@
         <file>gamename.png</file>
         <file>40.png</file>
         <file>34.png</file>
-        <file>alec3.png</file>
         <file>alec6.png</file>
         <file>alec5.png</file>
         <file>alec9.png</file>
-        <file>alec8.png</file>
         <file>alec14.png</file>
         <file>alectuary.png</file>
         <file>alec10.png</file>
@@ -32,21 +30,13 @@
         <file>fish-skeleton.png</file>
         <file>envelope.png</file>
         <file>elec2.png</file>
-        <file>gem5.png</file>
-        <file>gem3.png</file>
-        <file>gem4.png</file>
-        <file>gem2.png</file>
         <file>book1.png</file>
         <file>book2.png</file>
         <file>skull.png</file>
-        <file>skull1.png</file>
-        <file>skull2.png</file>
         <file>skull3.png</file>
-        <file>background.jpg</file>
         <file>scroll2.png</file>
         <file>btn1.png</file>
         <file>btn2.png</file>
-        <file>btn3.png</file>
         <file>btn4.png</file>
         <file>btn5.png</file>
         <file>porcini.png</file>
@@ -56,7 +46,6 @@
         <file>28.png</file>
         <file>20.png</file>
         <file>anchovies.png</file>
-        <file>coin.png</file>
         <file>gemGreen.png</file>
         <file>gemRed.png</file>
         <file>gemBlue.png</file>
@@ -95,7 +84,6 @@
         <file>pngwing.com (3).png</file>
         <file>pngwing.com (24).png</file>
         <file>111.jpg</file>
-        <file>jpgtopngconverter-com (24).jpg</file>
         <file>jpgtopngconverter-com (23).jpg</file>
         <file>icons8-boy-96.png</file>
         <file>icons8-girl-96.png</file>
@@ -116,16 +104,10 @@
         <file>Portrait_36-boy.png</file>
         <file>Portrait_47-knight.png</file>
         <file>icons8-kuroo-480.png</file>
-        <file>pngwing.com (21).png</file>
         <file>pngwing.com (7).png</file>
-        <file>bottle.png</file>
-        <file>pngwing.com (21) - Copy.png</file>
-        <file>pngwing.com (21) - Copy - Copy.png</file>
         <file>pngwing.com (13).jpg</file>
         <file>BG_Pirate's_Legacy_3200x1800.png</file>
-        <file>icons8-green-square-96.png</file>
         <file>BG_Pirate's_Legacy_3200x1800.png</file>
-        <file>icons8-green-square-96.png</file>
         <file>flag1.jpg</file>
         <file>flag2.jpg</file>
         <file>flag3.jpg</file>
@@ -218,7 +200,6 @@
         <file>icons8-circled-4-100.png</file>
         <file>icons8-unlike-100.png</file>
         <file>01M58PICetHnIA58PICBeeMV8_PIC2018.png</file>
-        <file>3292df614ae47f5f90d9d2b2c3e0745549ffc996 (1).gif</file>
         <file>icons8-play-button-96.png.png</file>
         <file>icons8-pause-button-96 (2).png.png</file>
         <file>icons8-exit-48 (1).png</file>
@@ -231,11 +212,12 @@
         <file>icons8-choose-58.png</file>
         <file>112.jpg</file>
         <file>jpgtopngconverter-com (9).jpg</file>
-        <file>jpgtopngconverter-com (15).jpg</file>
         <file>jpgtopngconverter-com (16).jpg</file>
         <file>jpgtopngconverter-com (2).jpg</file>
         <file>jpgtopngconverter-com (25).jpg</file>
         <file>615.jpg</file>
         <file>icons8-arrow-64.png</file>
+        <file>red-ruby.png</file>
+        <file>pepple-stone.png</file>
     </qresource>
 </RCC>
