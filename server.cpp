@@ -331,7 +331,7 @@ void Server::gameLogicControl()
             emit writeSignal(sentinformation,it->getSocket());
      }
      player->setCards(players[0].getCasrdsSet());
-     playWindow->setCardsIcon();
+     emit playWindow->setCardsIconSignal();
     }
 
     for(int Hand=1;Hand<=2*Round;Hand++){
@@ -396,7 +396,7 @@ void Server::gameLogicControl()
                // writeInPlayerSocket(sentinformation,players[currentTurn].getSocket());
                 emit writeSignal(sentinformation,players[currentTurn].getSocket());
                 }
-                else playWindow->youCodeReceived();
+                else emit playWindow->youCodeReceivedSignal();
             }
             while(isCardSelected==false);
             isCardSelected=false;

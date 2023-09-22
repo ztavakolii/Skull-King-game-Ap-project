@@ -90,6 +90,7 @@ signals:
     void showCardSignal(int index, QString cardCode);
     void stopCodeReceivedSignal(bool b,QString name);
     void youCodeReceivedSignal();
+    void setCardsIconSignal();
 private slots:
     void on_pushButton_1_clicked();
     void on_pushButton_2_clicked();

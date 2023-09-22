@@ -155,7 +155,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     connect(this,SIGNAL(showCardSignal(int,QString)),this ,SLOT(showCard(int,QString)));
     connect(this,SIGNAL(stopCodeReceivedSignal(bool,QString)),this,SLOT(stopCodeReceived(bool,QString)));
     connect(this,SIGNAL(youCodeReceivedSignal()),this,SLOT(youCodeReceived()));
-
+    connect(this,SIGNAL(setCardsIconSignal()),this,SLOT(setCardsIcon()));
 
 }
 
@@ -727,7 +727,8 @@ void PlayWindow::readInformationSentByServer()
                 }
                 player->setCards(cards);
                 //Showing that the cards go from the center of the circle to the people and
-                setCardsIcon();   //matching the person cards with push button cards
+               // setCardsIcon();   //matching the person cards with push button cards
+                emit setCardsIconSignal();
                 break;
 
             case 't':
@@ -1044,6 +1045,23 @@ void PlayWindow::on_exchange_button_clicked()
     else if(number_of_player==3){
         ui->player3->hide();
         ui->checkBox3->hide();
+    }
+    vector<Player>playersListWithoutThisPlayer;
+    for(vector<Player>::iterator it=players.begin();it!=players.end();it++){
+        if(it->getName()!=User->get_name()){
+    playersListWithoutThisPlayer.push_back(*it);
+        }
+    }
+    for(int i=0;i<playersListWithoutThisPlayer.size();i++){
+        if(i==0){
+    ui->player1->setText(playersListWithoutThisPlayer[i].getName());
+        }
+        if(i==1){
+    ui->player2->setText(playersListWithoutThisPlayer[i].getName());
+        }
+        if(i==2){
+    ui->player3->setText(playersListWithoutThisPlayer[i].getName());
+        }
     }
 }
 
