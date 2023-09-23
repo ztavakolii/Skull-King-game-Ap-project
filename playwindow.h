@@ -91,6 +91,14 @@ signals:
     void stopCodeReceivedSignal(bool b,QString name);
     void youCodeReceivedSignal();
     void setCardsIconSignal();
+    void exitCodeReceivedSignal(QString);
+    void showExchangeRequestSignal(QString);
+    void showWinnerOfCurrentHandSignal(QString);
+    void showWinnerOfWholeGameSignal(QString);
+    void exchangeReplyReceivedSignal(QString);
+    void newRoundStartedSignal();
+
+
 private slots:
     void on_pushButton_1_clicked();
     void on_pushButton_2_clicked();

@@ -91,7 +91,7 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     ui->arrow4->hide();
 
     ui->stop_button->setStyleSheet("border:none");
-    QPixmap pixmap1(":/new/image/icons8-play-button-96.png");
+    QPixmap pixmap1(":/new/image/icons8-play-button-96.png.png");
     ui->stop_label->setPixmap(pixmap1);
     ui->exit_button->setStyleSheet("border:none");
      ui->exchange_button->setStyleSheet("border:none");
@@ -156,6 +156,13 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     connect(this,SIGNAL(stopCodeReceivedSignal(bool,QString)),this,SLOT(stopCodeReceived(bool,QString)));
     connect(this,SIGNAL(youCodeReceivedSignal()),this,SLOT(youCodeReceived()));
     connect(this,SIGNAL(setCardsIconSignal()),this,SLOT(setCardsIcon()));
+    connect(this,SIGNAL(exitCodeReceivedSignal(QString)),this,SLOT(exitCodeReceived(QString)));
+    connect(this,SIGNAL(showExchangeRequestSignal(QString)),this,SLOT(showExchangeRequest(QString)));
+    connect(this,SIGNAL(showWinnerOfCurrentHandSignal(QString)),this,SLOT(showWinnerOfCurrentHand(QString)));
+    connect(this,SIGNAL(showWinnerOfWholeGameSignal(QString)),this,SLOT(showWinnerOfWholeGame(QString)));
+    connect(this,SIGNAL(exchangeReplyReceivedSignal(QString)),this,SLOT(exchangeReplyReceived(QString)));
+    connect(this,SIGNAL(newRoundStartedSignal()),this,SLOT(newRoundStarted()));
+
 
 }
 
@@ -211,7 +218,7 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
 {
     clickSound->play();
 
-    QPixmap pixmap1(":/new/image/icons8-play-button-96.png");
+    QPixmap pixmap1(":/new/image/icons8-play-button-96.png.png");
     QPixmap labelpixmap=ui->stop_label->pixmap();
     QImage image1=pixmap1.toImage();
     QImage image=labelpixmap.toImage();
@@ -226,7 +233,7 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
         else if(User->get_server()!=nullptr){
             User->get_server()->serverWantsToStopPlay();
         }
-        QPixmap p(":/new/image/icons8-pause-button-96 (2).png");
+        QPixmap p(":/new/image/icons8-pause-button-96 (2).png.png");
         ui->stop_label->setPixmap(p);
         stopCodeReceived(true,User->get_name());
     }
@@ -243,7 +250,7 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
         ::count++;
         if(::count==2)
             ui->stop_button->setEnabled(false);
-        QPixmap p(":/new/image/icons8-play-button-96.png");
+        QPixmap p(":/new/image/icons8-play-button-96.png.png");
         ui->stop_label->setPixmap(p);
     }
 }
@@ -382,7 +389,7 @@ void PlayWindow::stopCodeReceived(bool b,QString name)
         ui->stop_button->setEnabled(false);
     }
 
-    QPixmap p(":/new/image/icons8-pause-button-96 (2).png");
+    QPixmap p(":/new/image/icons8-pause-button-96 (2).png.png");
     ui->stop_label->setPixmap(p);
 
     ui->guideTextEdit->setText(name+" has requested to stop fighting. The war will start in less than 20 seconds.\nSkullKing");
@@ -416,7 +423,7 @@ void PlayWindow::stopCodeReceived(bool b,QString name)
 
 void PlayWindow::resumeCodeReceived()
 {
-    QPixmap p(":/new/image/icons8-play-button-96.png");
+    QPixmap p(":/new/image/icons8-play-button-96.png.png");
     ui->stop_label->setPixmap(p);
 
     ui->SkullKingPicture->hide();
@@ -425,6 +432,7 @@ void PlayWindow::resumeCodeReceived()
     ui->time_lcd->hide();
 
     ui->pushButton_1->setEnabled(false);
+
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
@@ -631,13 +639,13 @@ void PlayWindow::readInformationSentByServer()
                 switch(subCode){
                 case 't':
                     in>>clientName;
-                    exitCodeReceived(clientName);
+                   emit exitCodeReceivedSignal(clientName);
                     break;
 
                 case 'c':
                     in>>clientName;
                     name=clientName;
-                    showExchangeRequest(clientName);
+                    emit showExchangeRequestSignal(clientName);
                     break;
 
                 case 'x':
@@ -670,7 +678,7 @@ void PlayWindow::readInformationSentByServer()
                     setPlayersScore();
                     break;
                 case 'r':
-                    newRoundStarted();
+                    emit newRoundStartedSignal();
                     break;
                 }
                 break;
@@ -689,7 +697,7 @@ void PlayWindow::readInformationSentByServer()
 
                 case 'p':
                     in>>clientName;
-                    exchangeReplyReceived(clientName);
+                    emit exchangeReplyReceivedSignal(clientName);
                     break;
                 }
                 break;
@@ -747,12 +755,12 @@ void PlayWindow::readInformationSentByServer()
                 switch(subCode){
                 case 'h':
                     in>>clientName;
-                    showWinnerOfCurrentHand(clientName);
+                  emit showWinnerOfCurrentHandSignal(clientName);
                     break;
 
                 case 'w':
                     in>>clientName;
-                    showWinnerOfWholeGame(clientName);
+                    emit showWinnerOfWholeGameSignal(clientName);
                     break;
 
                 case 'y':

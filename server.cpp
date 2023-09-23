@@ -190,7 +190,7 @@ void Server::sentExchangeRequestToClients(QByteArray information)
         }
         else{ // an exchange request for server player
             // show exchange request for server in GUI and receive respons
-            playWindow->showExchangeRequest(clientName2);
+            emit playWindow->showExchangeRequestSignal(clientName2);
         }
     }
 }
@@ -210,7 +210,7 @@ void Server::exchangeTwoCardRandomly(QString senderRequest, QString receiverRequ
     }
     }
     else{
-    playWindow->exchangeReplyReceived(receiverRequest);
+    emit playWindow->exchangeReplyReceivedSignal(receiverRequest);
     }
 
     int cardIndexOfSenderRequest;
@@ -302,6 +302,18 @@ void Server::gameLogicControl()
 
     if(closeWindowStatus==true)
      return;
+
+
+    { // sending newRound started message to clients
+     sentinformation.clear();
+     QDataStream out(&sentinformation,QIODevice::WriteOnly);
+     out<<'s'<<'r'<<' ';
+     for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){ // for clients
+            //writeInPlayerSocket(sentinformation,it->getSocket());
+            emit writeSignal(sentinformation,it->getSocket());
+     }
+     emit playWindow->newRoundStartedSignal();
+    }
 
     {
      //sending number of round to clients
@@ -494,7 +506,7 @@ void Server::gameLogicControl()
                 //writeInPlayerSocket(sentinformation,it->getSocket());
                 emit writeSignal(sentinformation,it->getSocket());
             }
-            playWindow->showWinnerOfCurrentHand(players[winnerIndex].getName());
+           emit playWindow->showWinnerOfCurrentHandSignal(players[winnerIndex].getName());
     }
 
     players[winnerIndex].setScore(players[winnerIndex].getScore()+
@@ -574,7 +586,7 @@ void Server::gameLogicControl()
     //writeInPlayerSocket(sentinformation,it->getSocket());
     emit writeSignal(sentinformation,it->getSocket());
     }
-    playWindow->showWinnerOfWholeGame(winnerName);
+   emit playWindow->showWinnerOfWholeGameSignal(winnerName);
 }
 }
 //card name - numeric code
@@ -839,7 +851,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
             for(vector<Player>::iterator it=players.begin()+1;it!=players.end();it++){
                     emit writeSignal(sentinformation,it->getSocket());
             }
-            playWindow->exitCodeReceived(clientName);
+            emit playWindow->exitCodeReceivedSignal(clientName);
             break;
 
             case 'c':
@@ -860,7 +872,7 @@ void Server::readFromPlayersocket(QTcpSocket* socket)
                         emit writeSignal(sentinformation,it->getSocket());
                     }
             }
-           playWindow->stopCodeReceived(false,clientName);
+           emit playWindow->stopCodeReceivedSignal(false,clientName);
             break;
             }
 
