@@ -62,13 +62,13 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     }
     ui->guideTextEdit->hide();
     ui->SkullKingPicture->hide();
-    ui->lineEdit->setGeometry(200,290,71,31);
+    ui->lineEdit->setGeometry(40,290,71,31);
     ui->lineEdit->hide();
-    ui->label_3->setGeometry(280,270,51,71);
+    ui->label_3->setGeometry(120,270,51,71);
     ui->label_3->hide();
-    ui->label_5->setGeometry(296,293,31,21);
+    ui->label_5->setGeometry(136,293,31,21);
     ui->label_5->hide();
-    ui->pushButton->setGeometry(285,293,41,25);
+    ui->pushButton->setGeometry(125,293,41,25);
     ui->pushButton->hide();
 
    // QPixmap picture(":/new/image/icons8-pause-button-96.png");
@@ -105,10 +105,10 @@ PlayWindow::PlayWindow(QMainWindow*personalwindow,QWidget *parent) :
     User->set_coin(User->get_coin()-50);//take 50 coin
     User->edit();
 
-    if(User->get_client()!=nullptr){
-        t=new std::thread(&PlayWindow::readInformationSentByServer,this);
-    }
-    else t=nullptr;
+//    if(User->get_client()!=nullptr){
+//        t=new std::thread(&PlayWindow::readInformationSentByServer,this);
+//    }
+//    else t=nullptr;
 
     ui->pushButton_1->setStyleSheet("border:none");
     ui->pushButton_2->setStyleSheet("border:none");
@@ -252,6 +252,7 @@ void PlayWindow::on_stop_button_clicked() // activating and inactivating buttons
             ui->stop_button->setEnabled(false);
         QPixmap p(":/new/image/icons8-play-button-96.png.png");
         ui->stop_label->setPixmap(p);
+        ui->stop_label->show();
     }
 }
 
@@ -735,8 +736,8 @@ void PlayWindow::readInformationSentByServer()
                 }
                 player->setCards(cards);
                 //Showing that the cards go from the center of the circle to the people and
-               // setCardsIcon();   //matching the person cards with push button cards
-                emit setCardsIconSignal();
+                setCardsIcon();   //matching the person cards with push button cards
+                //emit setCardsIconSignal();
                 break;
 
             case 't':
@@ -1440,6 +1441,12 @@ void PlayWindow::showEvent(QShowEvent *event)
 {
     User->read_information_from_file();
     ui->back_ground->setPixmap(User->get_playWindowBackground());
+
+    if(User->get_client()!=nullptr){
+                t=new std::thread(&PlayWindow::readInformationSentByServer,this);
+            }
+            else t=nullptr;
+
     QMainWindow::showEvent(event);
 }
 

@@ -82,6 +82,8 @@ ClientWaitWindow::ClientWaitWindow(QMainWindow*personalwindow,QMainWindow*prewin
     ui->guideTextEdit->setReadOnly(true);
     b=false;
     connect(this,SIGNAL(setguideTextEdit(QString,int)),this,SLOT(setSkullKingWords(QString,int)));
+
+    playWindow=new PlayWindow(personalWindow);
 }
 
 ClientWaitWindow::~ClientWaitWindow()
@@ -211,7 +213,7 @@ void ClientWaitWindow::readInformationSentByServer()
                 // I must show play window and close other windows.
                 //note that when server sent 'p' client may be in other windows
                 //and those window must be closed
-                playWindow=new PlayWindow(personalWindow);
+                //playWindow=new PlayWindow(personalWindow);
                 QTimer::singleShot(0,this,[this](){
 
                     closeWindowStatus=true;
