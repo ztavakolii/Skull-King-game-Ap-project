@@ -433,7 +433,6 @@ void PlayWindow::resumeCodeReceived()
     ui->time_lcd->hide();
 
     ui->pushButton_1->setEnabled(false);
-
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
@@ -817,93 +816,6 @@ void PlayWindow::listOfplayersReceived()
     }
 }
 
-//void PlayWindow::placeLabelsAroundCircle(int radius,int n)
-//{
-//    float angle;
-//    if(number_of_player==2)
-//        angle=180;
-//    else if(number_of_player==3)
-//        angle=120;
-//    else if(number_of_player==4)
-//        angle=90;
-//    for(int i=0;i<number_of_player;i++){
-//        int x=radius*qCos(qDegreesToRadians(angle*i));
-//        int y=radius*qSin(qDegreesToRadians(angle*i));
-//        if(n==1){
-//            if(i==0){
-//                ui->pic1->move(x+630,y+250);
-//                ui->pic1->setPixmap(players[i].getProfile());
-//                ui->pic1->show();
-
-//                ui->nameLabel1->move(x+610,y+340);
-//                ui->nameLabel1->setText(players[i].getName());
-//                ui->nameLabel1->show();
-
-//                ui->scoreLabel1->move(x+630,y+220);
-//                ui->scoreLabel1->show();
-
-//            }
-//            else if(i==1){
-//                ui->pic2->move(x+630,y+250);
-//                ui->pic2->setPixmap(players[i].getProfile());
-//                ui->pic2->show();
-
-//                ui->nameLabel2->move(x+610,y+340);
-//                ui->nameLabel2->setText(players[i].getName());
-//                ui->nameLabel2->show();
-
-//                ui->scoreLabel2->move(x+630,y+220);
-//                ui->scoreLabel2->show();
-
-//            }
-//            else if(i==2){
-//                ui->pic3->move(x+630,y+250);
-//                ui->pic3->setPixmap(players[i].getProfile());
-//                ui->pic3->show();
-
-//                ui->nameLabel3->move(x+610,y+340);
-//                ui->nameLabel3->setText(players[i].getName());
-//                ui->nameLabel3->show();
-
-//                ui->scoreLabel3->move(x+630,y+220);
-//                ui->scoreLabel3->show();
-
-//            }
-//            else if(i==3){
-//                ui->pic4->move(x+630,y+250);
-//                ui->pic4->setPixmap(players[i].getProfile());
-//                ui->pic4->show();
-
-//                ui->nameLabel4->move(x+610,y+340);
-//                ui->nameLabel4->setText(players[i].getName());
-//                ui->nameLabel4->show();
-
-//                ui->scoreLabel4->move(x+630,y+220);
-//                ui->scoreLabel4->show();
-//            }
-//        }
-//        else if(n==2){
-//            if(i==0){
-//                ui->card1->move(x+650,y+215);
-//                ui->card1->show();
-//            }
-//            else if(i==1){
-//                ui->card2->move(x+650,y+215);
-//                ui->card2->show();
-//            }
-//            else if(i==2){
-//                ui->card3->move(x+650,y+215);
-//                ui->card3->show();
-//            }
-//            else if(i==3){
-//                ui->card4->move(x+650,y+215);
-//                ui->card4->show();
-//            }
-//        }
-//    }
-//}
-
-
 void PlayWindow::exitCodeReceived(QString clientName)
 {
     ui->guideTextEdit->setText("Commander, a person named "+clientName+" from the enemy's army, has requested to leave the war. So the war ends and you will be transferred to your personal window in 25 seconds.\nSkullKing");
@@ -1143,9 +1055,9 @@ void PlayWindow::setCardsIcon()
     vector<QString>cards=player->getCasrdsSet();
     for(int i=0;i<cards.size();i++){
         QString cardAddress(":/new/image/"+cards[i]+".jpg");
-        QPixmap p(cardAddress);
+        //QPixmap p(cardAddress);
        // QIcon icon(cardAddress);
-        QIcon iicon(p);
+        QIcon iicon=QIcon::fromTheme(cardAddress);
         if(i==0){
             ui->pushButton_1->setIcon(iicon);
             ui->pushButton_1->setIconSize(QSize(71,101));
@@ -1303,7 +1215,6 @@ void PlayWindow::on_pushButton_5_clicked()
     emit aCardWasselected(cardCode);
 }
 
-
 void PlayWindow::on_pushButton_6_clicked()
 {
     clickSound->play();
@@ -1445,32 +1356,10 @@ void PlayWindow::showEvent(QShowEvent *event)
     if(User->get_client()!=nullptr){
                 t=new std::thread(&PlayWindow::readInformationSentByServer,this);
             }
-            else t=nullptr;
+    else t=nullptr;
 
     QMainWindow::showEvent(event);
 }
-
-//void PlayWindow::rotate_bottle(int index)//***************************
-//{
-//    Player p(players[index]);
-//    QString name=p.getName();
-//    if(ui->nameLabel1->text()==name){
-//        ui->bottle->show();
-//        ui->bottle4->hide();
-//    }
-//    else if(ui->nameLabel2->text()==name){
-//        ui->bottle2->show();
-//        ui->bottle->hide();
-//    }
-//    else if(ui->nameLabel3->text()==name){
-//        ui->bottle3->show();
-//        ui->bottle2->hide();
-//    }
-//    else if(ui->nameLabel4->text()==name){
-//        ui->bottle4->show();
-//        ui->bottle3->hide();
-//    }
-//}
 
 void PlayWindow::setPlayingFieldCardCode(QString cardCode)
 {
@@ -1652,6 +1541,16 @@ void PlayWindow::check_card(QString selected_card)
 
 void PlayWindow::sentNumberOfHandsSaidWon()
 {
+
+    ui->time_lcd->hide();
+    ui->lineEdit->hide();
+    ui->label_3->hide();
+    ui->label_5->hide();
+    ui->pushButton->hide();
+    ui->guideTextEdit->hide();
+    ui->SkullKingPicture->hide();
+
+
     int numberofHandsSaidWon;
     if(ui->lineEdit->text().length()>0)
         numberofHandsSaidWon=ui->lineEdit->text().toInt();
@@ -1667,11 +1566,8 @@ void PlayWindow::sentNumberOfHandsSaidWon()
         User->get_server()->setNumberOfHandsServerPlayerSaidWons(numberofHandsSaidWon);
 }
 
-//void PlayWindow::on_pushButton_clicked()
-//{
-//    prediction=ui->lineEdit->text().toInt();
-//    ui->lineEdit->hide();
-//    ui->pushButton->hide();
-//    ui->pushButton->setEnabled(false);
-//}
+void PlayWindow::on_pushButton_clicked()
+{
+    sentNumberOfHandsSaidWon();
+}
 

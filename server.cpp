@@ -3,6 +3,7 @@
 #include <QHostInfo>
 #include "person.h"
 #include <ctime>
+#include <windows.h>
 #include <cstdlib>
 #include <algorithm>
 #include <QRegularExpression>
@@ -314,6 +315,8 @@ void Server::gameLogicControl()
      }
      emit playWindow->newRoundStartedSignal();
     }
+
+    Sleep(60000);//Sleep while clients enter their number of hands that win
 
     {
      //sending number of round to clients
