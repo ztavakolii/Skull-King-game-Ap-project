@@ -116,7 +116,7 @@ private slots:
     void on_pushButton_14_clicked();
     void on_yesRadioButton_clicked();
     void on_noRadioButton_2_clicked();
-    void on_pushButton_clicked();
+    //void on_pushButton_clicked();
 
 protected:
     void showEvent(QShowEvent*event);

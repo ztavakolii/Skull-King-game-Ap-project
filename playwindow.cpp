@@ -332,7 +332,7 @@ void PlayWindow::set_hand(int numberofhand)
 
 void PlayWindow::showCard(int index, QString cardCode)
 {
-    QString cardPictureAddress=":/new/image"+cardCode+".jpg";
+    QString cardPictureAddress=":/new/image/"+cardCode+".jpg";
 
     QPixmap p(cardPictureAddress);
     //p=p.scaled(39,47);
@@ -1048,6 +1048,8 @@ void PlayWindow::hideSkullKingWords()
     ui->label_3->hide();
     ui->label_5->hide();
     ui->pushButton->hide();
+    ui->yesRadioButton->hide();
+    ui->noRadioButton_2->hide();
 }
 
 void PlayWindow::setCardsIcon()
@@ -1377,6 +1379,7 @@ void PlayWindow::newRoundStarted()
     ui->label_3->show();
     ui->label_5->show();
     ui->pushButton->show();
+    ui->pushButton->setEnabled(true);
     ui->guideTextEdit->setText("Commander, how many hands do you think we will win in this round?\nEnter your desired number below.\n\nSkullKing");
     ui->SkullKingPicture->show();
     ui->guideTextEdit->show();
@@ -1566,8 +1569,8 @@ void PlayWindow::sentNumberOfHandsSaidWon()
         User->get_server()->setNumberOfHandsServerPlayerSaidWons(numberofHandsSaidWon);
 }
 
-void PlayWindow::on_pushButton_clicked()
-{
-    sentNumberOfHandsSaidWon();
-}
+//void PlayWindow::on_pushButton_clicked()
+//{
+//    sentNumberOfHandsSaidWon();
+//}
 
